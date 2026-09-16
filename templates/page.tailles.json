@@ -1,0 +1,49 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "aura-page-tailles",
+      "settings": {
+        "eyebrow": "Guide des tailles",
+        "heading": "Trouvez votre taille en 30 secondes.",
+        "lead": "La plupart des infirmières prennent leur pointure habituelle. En cas de doute, le tableau ci-dessous précise tout.",
+        "step1_title": "Prenez votre pointure habituelle",
+        "step1_body": "Celle de vos chaussures de tous les jours. Pas besoin de mètre ruban : votre pointure suffit.",
+        "step2_title": "Repérez votre taille dans le tableau",
+        "step2_body": "Trouvez votre pointure dans la colonne EU ci-dessous : la ligne vous donne votre taille (S/M, L/XL ou XXL).",
+        "step3_title": "Entre deux tailles ? Prenez la plus grande.",
+        "step3_body": "Une taille plus large épouse mieux la jambe, évite les marques, et garde toute son efficacité.",
+        "image": "shopify://shop_images/Line_art_illustration_size_guide_202606181404.jpg",
+        "image_label": "Comment mesurer — schéma à venir",
+        "table_cap_l": "Aura — guide des tailles",
+        "table_cap_r": "Pointures EU 35–48",
+        "table": "<table>\n<thead><tr>\n<th>Taille</th>\n<th>Pointure (EU)</th>\n<th>Largeur cheville*</th>\n<th>Longueur jambe</th>\n<th>Longueur pied*</th>\n</tr></thead>\n<tbody>\n<tr>\n<td>S/M</td>\n<td>35–39</td>\n<td>11 cm</td>\n<td>32 cm</td>\n<td>16,5 cm</td>\n</tr>\n<tr>\n<td>L/XL</td>\n<td>40–44</td>\n<td>12 cm</td>\n<td>33 cm</td>\n<td>18,5 cm</td>\n</tr>\n<tr>\n<td>XXL</td>\n<td>45–48</td>\n<td>13 cm</td>\n<td>35 cm</td>\n<td>20,5 cm</td>\n</tr>\n</tbody>\n</table><p>*Mesures du bas posé à plat — la maille s'étire. Hauteur du bord : 2,5 cm.</p>",
+        "tips_eyebrow": "Deux repères",
+        "tips_heading": "Bien ajustée, jamais serrée.",
+        "tip_title": "Ça doit tenir, jamais couper",
+        "tip_body": "Une compression graduée serre plus à la cheville qu'au mollet : ferme au réveil, oubliée ensuite. Si elle marque fort dès la première heure, prenez la taille au-dessus.",
+        "note_title": "Toujours hésitante ?",
+        "note_body": "Écrivez-nous avec votre pointure : on vous répond avec la taille exacte. Et si elle ne convient pas, l'échange est gratuit pendant 30 jours.",
+        "note_link": "Nous écrire →",
+        "note_url": "/pages/contact",
+        "close_eyebrow": "Prête ?",
+        "close_heading": "Votre taille vous attend.",
+        "close_lead": "S/M à XXL, trois coloris, et trente jours pour juger sur une vraie garde.",
+        "cta_label": "Choisir ma taille",
+        "cta_url": "/products/aura-chaussettes-de-compression",
+        "cta_note": "Échange gratuit si la taille ne convient pas."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,0 +1,762 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura Featured Product / Product buy box (FR)
+  ----------------------------------------------------------------------------
+  @description
+    Hollow-style product section, phone-first: gallery (badge + thumbs) then a
+    single buy column — title + rating + benefit icons + colour/size selectors
+    + vertical pack/quantity rows + add-to-cart + guarantee + free-gift strip +
+    detail accordions. Dual-purpose: editor-picked product on the homepage,
+    page `product` on a product template. Styles in assets/aura-v2.css (.product).
+  @blocks
+    - color / size / pack
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+{%- liquid
+  # Dual-purpose: on the homepage use the editor-picked product; on a product
+  # template fall back to the page-context `product` (so this buy box is the PDP).
+  if section.settings.featured_product != blank
+    assign p = all_products[section.settings.featured_product]
+  elsif product != blank and product.id != blank
+    assign p = product
+  endif
+  assign colors = section.blocks | where: 'type', 'color'
+  assign sizes  = section.blocks | where: 'type', 'size'
+  assign packs  = section.blocks | where: 'type', 'pack'
+  assign first_color = colors.first
+  if p != blank
+    assign cur = p.selected_or_first_available_variant
+    # Per-colour gallery: the first product image whose ALT contains the current
+    # colour name (merchant tags media "Bordeaux — pose 1", "Noir — pose 2", …).
+    assign gallery_main = p.featured_image
+    assign init_color = cur.option1 | downcase
+    for img in p.images
+      assign ad = img.alt | downcase
+      if ad contains init_color
+        assign gallery_main = img
+        break
+      endif
+    endfor
+  endif
+-%}
+
+{%- if section.settings.featured_product == blank and product != blank and product.id != blank -%}
+  {%- comment -%} replace masks the admin product title until it's renamed; the URL handle (aura-chaussettes-de-compression) doesn't match this pattern so links stay intact {%- endcomment -%}
+  <script type="application/ld+json">{{ product | structured_data | replace: 'Bas de contention', 'Chaussettes de compression' }}</script>
+{%- endif -%}
+
+<section class="product" id="product" data-section="featured-product">
+  <div class="product-grid">
+
+    {%- comment -%} ── GALLERY: image + benefit-icon column + thumbnail rail ── {%- endcomment -%}
+    <div class="gallery">
+      <div class="gallery-stage">
+        <div class="gallery-main" id="gallery-main">
+          {%- if section.settings.badge_label != blank -%}<div class="gallery-badge">{{ section.settings.badge_label | escape }}</div>{%- endif -%}
+          {%- if p != blank and p.featured_image -%}
+            <img id="gallery-img" class="ph" src="{{ gallery_main | image_url: width: 1200 }}" srcset="{{ gallery_main | image_url: width: 600 }} 600w, {{ gallery_main | image_url: width: 900 }} 900w, {{ gallery_main | image_url: width: 1200 }} 1200w, {{ gallery_main | image_url: width: 1600 }} 1600w" sizes="(min-width: 750px) 600px, 100vw" alt="{{ p.title | replace: 'Bas de contention', 'Chaussettes de compression' | escape }}" width="1200" height="1200" loading="eager" fetchpriority="high" decoding="async" style="object-fit:cover;width:100%;height:100%;">
+          {%- else -%}
+            <div class="ph" id="gallery-ph" style="--swatch:{% if first_color %}{{ first_color.settings.hex }}{% else %}#F4EFE7{% endif %}"><span class="ph-label" id="gallery-label">{% if p != blank %}{{ p.title | replace: 'Bas de contention', 'Chaussettes de compression' | escape }}{% else %}Aura{% endif %}</span></div>
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="gallery-thumbrow">
+        <button type="button" class="thumb-arrow" id="thumb-prev" aria-label="Précédent"><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M8.5 2.5l-5 4.5 5 4.5"/></svg></button>
+        <div class="gallery-thumbs" id="gallery-thumbs">
+          {%- if p != blank and p.images.size > 0 -%}
+            {%- comment -%} Server-render the CURRENT colour's images (alt-text match); JS
+                swaps the rail when another swatch is picked. {%- endcomment -%}
+            {%- assign tcount = 0 -%}
+            {%- for img in p.images -%}
+              {%- assign ad = img.alt | downcase -%}
+              {%- if ad contains init_color -%}
+                <button type="button" class="gallery-thumb{% if tcount == 0 %} active{% endif %}" data-img="{{ img | image_url: width: 1200 }}" data-srcset="{{ img | image_url: width: 600 }} 600w, {{ img | image_url: width: 900 }} 900w, {{ img | image_url: width: 1200 }} 1200w, {{ img | image_url: width: 1600 }} 1600w" aria-label="Voir l'image {{ tcount | plus: 1 }}"><span class="ph" style="background-image:url({{ img | image_url: width: 200 }});background-size:cover;"></span></button>
+                {%- assign tcount = tcount | plus: 1 -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- comment -%} Fallback: no alt-tagged images matched → show all (max 8). {%- endcomment -%}
+            {%- if tcount == 0 -%}
+              {%- for img in p.images limit: 8 -%}
+                <button type="button" class="gallery-thumb{% if forloop.first %} active{% endif %}" data-img="{{ img | image_url: width: 1200 }}" data-srcset="{{ img | image_url: width: 600 }} 600w, {{ img | image_url: width: 900 }} 900w, {{ img | image_url: width: 1200 }} 1200w, {{ img | image_url: width: 1600 }} 1600w" aria-label="Voir l'image {{ forloop.index }}"><span class="ph" style="background-image:url({{ img | image_url: width: 200 }});background-size:cover;"></span></button>
+              {%- endfor -%}
+            {%- endif -%}
+          {%- else -%}
+            {%- for c in colors -%}
+              <button type="button" class="gallery-thumb{% if forloop.first %} active{% endif %}" data-color="{{ c.settings.hex }}" data-name="{{ c.settings.name | escape }}"><span class="ph" style="--swatch:{{ c.settings.hex }}"><span class="ph-mini">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span></span></button>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+        <button type="button" class="thumb-arrow" id="thumb-next" aria-label="Suivant"><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5.5 2.5l5 4.5-5 4.5"/></svg></button>
+      </div>
+
+      {%- comment -%} Colour → [images] map (alt-text match), consumed by the gallery JS. {%- endcomment -%}
+      {%- if p != blank -%}
+        <script type="application/json" data-aura-gallery>
+          {
+          {%- for opt in p.options_with_values -%}{%- if opt.name == 'Couleur' -%}
+            {%- for val in opt.values -%}
+              {{ val | json }}:[
+              {%- assign vd = val | downcase -%}{%- assign firstimg = true -%}
+              {%- for img in p.images -%}{%- assign ad = img.alt | downcase -%}{%- if ad contains vd -%}
+                {%- assign u6 = img | image_url: width: 600 -%}{%- assign u9 = img | image_url: width: 900 -%}{%- assign u12 = img | image_url: width: 1200 -%}{%- assign u16 = img | image_url: width: 1600 -%}{%- capture ss -%}{{ u6 }} 600w, {{ u9 }} 900w, {{ u12 }} 1200w, {{ u16 }} 1600w{%- endcapture -%}
+                {%- unless firstimg %},{% endunless %}{"s":{{ img | image_url: width: 200 | json }},"b":{{ u12 | json }},"ss":{{ ss | json }}}{%- assign firstimg = false -%}
+              {%- endif -%}{%- endfor -%}
+              ]{%- unless forloop.last %},{% endunless -%}
+            {%- endfor -%}
+          {%- endif -%}{%- endfor -%}
+          }
+        </script>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ── BUY COLUMN ── {%- endcomment -%}
+    <div class="buy buy-body">
+      {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+      <h1 class="buy-title">{% if p != blank %}{{ p.title | replace: 'Bas de contention', 'Chaussettes de compression' }}{% else %}{{ section.settings.headline }}{% endif %}</h1>
+      {%- if p != blank and section.settings.headline != blank -%}<p class="buy-subtitle">{{ section.settings.headline }}</p>{%- endif -%}
+
+      <div class="reviews-line">
+        <span class="stars">★★★★<span class="star-off">★</span></span>
+        <strong style="color:var(--navy)">{{ section.settings.rating | escape }}</strong>
+        <a href="#reviews">{{ section.settings.reviews_count | escape }}</a>
+      </div>
+      {%- if section.settings.price_from != blank -%}
+        <p class="buy-price-anchor">À partir de <strong>{{ section.settings.price_from | escape }}</strong> / paire</p>
+      {%- endif -%}
+      {%- if section.settings.offer_badge != blank -%}<div class="buy-offer">{{ section.settings.offer_badge | escape }}</div>{%- endif -%}
+
+      {%- if p != blank -%}
+        <form action="{{ routes.cart_add_url }}" method="post" id="aura-buy-{{ section.id }}" data-aura-buy>
+          <input type="hidden" name="id" value="" data-aura-variant>
+          <input type="hidden" name="quantity" value="3" data-aura-qty>
+          {%- comment -%} Bundle picker bridge: data-size = current pack size (0 = single),
+              value = resolved [{id,quantity}] JSON once the customer confirms their pairs.
+              Read by assets/aura-cart.js to decide single vs multi-item /cart/add. {%- endcomment -%}
+          <input type="hidden" data-aura-bundle data-size="0" value="">
+
+          {%- for opt in p.options_with_values -%}{%- if opt.name == 'Couleur' -%}
+            <div class="buy-row">
+              <div class="label"><span>Couleur — <span data-aura-colorname style="text-transform:none;letter-spacing:0;color:var(--muted);font-weight:500">{{ cur.option1 | escape }}</span></span><span class="secondary">{{ opt.values.size }} coloris</span></div>
+              <div class="swatches" data-aura-swatches role="radiogroup" aria-label="Couleur">
+                {%- for val in opt.values -%}
+                  {%- assign cname = val | downcase -%}{%- assign chex = '#EBE3D5' -%}
+                  {%- comment -%} Real range: Bordeaux / Noir / Gris. The old names stay
+                      mapped only so the site renders sanely until the admin variants
+                      are renamed — delete them once admin is clean. {%- endcomment -%}
+                  {%- if cname == 'bordeaux' or cname == 'burgundy' %}{% assign chex = '#6E2C36' %}{% elsif cname == 'noir' or cname == 'black' %}{% assign chex = '#16181D' %}{% elsif cname == 'gris' or cname == 'grey' or cname == 'gray' %}{% assign chex = '#A8A6A3' %}{% elsif cname == 'cream' %}{% assign chex = '#F4EFE7' %}{% elsif cname == 'marine' %}{% assign chex = '#0E1B33' %}{% elsif cname == 'argile' %}{% assign chex = '#C8A689' %}{% elsif cname == 'corail' %}{% assign chex = '#E89379' %}{% endif -%}
+                  <button type="button" class="swatch{% if val == cur.option1 %} active{% endif %}" role="radio" aria-checked="{% if val == cur.option1 %}true{% else %}false{% endif %}" data-color-value="{{ val | escape }}" data-hex="{{ chex }}" style="--c:{{ chex }}" aria-label="Couleur {{ val | escape }}"></button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}{%- endfor -%}
+
+          {%- for opt in p.options_with_values -%}{%- if opt.name == 'Taille' -%}
+            <div class="buy-row" data-aura-size-row>
+              <div class="label"><span>Taille</span><span class="secondary"><button type="button" class="link-like" data-size-guide-open aria-haspopup="dialog">Guide des tailles →</button></span></div>
+              <div class="sizes" data-aura-sizes role="radiogroup" aria-label="Taille" aria-required="true">
+                {%- for val in opt.values -%}
+                  {%- assign eulabel = '' -%}
+                  {%- comment -%} 3 real sizes: S/M, L/XL, XXL. Old XS/S/M/L kept mapped only so the buy box renders sanely until the admin variants are renamed — delete the legacy names once admin is clean. {%- endcomment -%}{%- if val == 'S/M' or val == 'XS' or val == 'S' %}{% assign eulabel = 'EU 35–39' %}{% elsif val == 'L/XL' or val == 'M' %}{% assign eulabel = 'EU 40–44' %}{% elsif val == 'XXL' or val == 'L' %}{% assign eulabel = 'EU 45–48' %}{% endif -%}
+                  <button type="button" class="size" role="radio" aria-checked="false" data-size-value="{{ val | escape }}" aria-label="Taille {{ val | escape }}, {{ eulabel }}"><span class="sz">{{ val | escape }}</span><span class="eu">{{ eulabel }}</span></button>
+                {%- endfor -%}
+              </div>
+              <p class="size-hint" data-aura-size-hint hidden role="alert">Choisissez votre taille.</p>
+              {%- if section.settings.size_note != blank -%}<p class="size-note">{{ section.settings.size_note | escape }}</p>{%- endif -%}
+            </div>
+          {%- endif -%}{%- endfor -%}
+
+          <div class="buy-row">
+            <div class="label"><span>Quantité{%- if section.settings.savings_badge != blank %} <span class="pack-save-chip">jusqu'à {{ section.settings.savings_badge | escape }}</span>{% endif -%}</span></div>
+            <div class="packs packs--rows" data-aura-packs role="radiogroup" aria-label="Quantité">
+              {%- for pk in packs -%}
+                <button type="button" class="pack{% if pk.settings.active %} active{% endif %}" role="radio" aria-checked="{% if pk.settings.active %}true{% else %}false{% endif %}" aria-label="Pack de {{ pk.settings.qty }} {{ pk.settings.unit | escape }}" data-pack-qty="{{ pk.settings.qty }}" data-pack-disc="{{ pk.settings.discount_pct | default: 0 }}">
+                  {%- if pk.settings.ribbon != blank -%}<span class="ribbon ribbon--{{ pk.settings.ribbon_kind | default: 'popular' }}">{{ pk.settings.ribbon | escape }}</span>{%- endif -%}
+                  <span class="pack-radio" aria-hidden="true"></span>
+                  <span class="pack-info">
+                    <span class="pack-qty">{{ pk.settings.qty }} {{ pk.settings.unit | escape }}{%- if pk.settings.tag != blank %} <span class="pack-tag">{{ pk.settings.tag | escape }}</span>{% endif -%}</span>
+                    {%- if pk.settings.per != blank -%}<span class="pack-per">{{ pk.settings.per | escape }}</span>{%- endif -%}
+                    {%- if pk.settings.perk != blank -%}<span class="pack-perk">{{ pk.settings.perk | escape }}</span>{%- endif -%}
+                  </span>
+                  <span class="pack-pricing">
+                    <span class="pack-price"><span data-pack-price>—</span> <s class="was" data-pack-was></s></span>
+                    <span class="save" data-pack-save></span>
+                  </span>
+                </button>
+              {%- endfor -%}
+            </div>
+            {%- comment -%} Inline per-pair picker: revealed in-flow when a multi-pair
+              tier is active (no modal). Rows are cloned from the template below and
+              pre-filled with the buy-box choice. {%- endcomment -%}
+            <div class="bundle-inline" data-bundle-inline hidden>
+              <div class="bundle-inline-head"><span class="bih-title">Composez vos paires</span><span class="bih-note" data-bundle-note></span></div>
+              <div class="bundle-pairs" data-bundle-pairs></div>
+            </div>
+          </div>
+
+          <script type="application/json" data-aura-variants>
+            [{% for v in p.variants %}{%- assign vimg = v.image | default: p.featured_image -%}{"id":{{ v.id }},"c":{{ v.option1 | json }},"s":{{ v.option2 | json }},"price":{{ v.price }},"available":{{ v.available }},"img":{{ vimg | image_url: width: 1200 | json }}}{% unless forloop.last %},{% endunless %}{% endfor %}]
+          </script>
+
+          {%- comment -%} Primary CTA — immediately after the quantity cards {%- endcomment -%}
+          <div class="buy-cta-row">
+            <button type="submit" class="btn btn-primary" data-aura-atc>{{ section.settings.cta_label | default: 'Ajouter au panier' | escape }} — <span data-aura-total>{{ cur.price | money }}</span></button>
+          </div>
+        </form>
+      {%- else -%}
+        <div class="buy-row">
+          <div class="label"><span>Couleur — <span id="color-name" style="text-transform:none;letter-spacing:0;color:var(--muted);font-weight:500">{{ first_color.settings.name | escape }}</span></span><span class="secondary">{{ colors.size }} coloris</span></div>
+          <div class="swatches" id="swatches">{%- for c in colors -%}<button class="swatch{% if forloop.first %} active{% endif %}" data-name="{{ c.settings.name | escape }}" data-color="{{ c.settings.hex }}" style="--c:{{ c.settings.hex }}"></button>{%- endfor -%}</div>
+        </div>
+        <div class="buy-row">
+          <div class="label"><span>Taille</span><span class="secondary"><a href="#">Guide des tailles →</a></span></div>
+          <div class="sizes" id="sizes">{%- for s in sizes -%}<button class="size{% if s.settings.active %} active{% endif %}"><span class="sz">{{ s.settings.sz | escape }}</span><span class="eu">{{ s.settings.eu | escape }}</span></button>{%- endfor -%}</div>
+        </div>
+        <div class="buy-row">
+          <div class="label"><span>Quantité</span></div>
+          <div class="packs packs--rows" id="packs">
+            {%- for pk in packs -%}
+              <button class="pack{% if pk.settings.active %} active{% endif %}" data-qty="{{ pk.settings.qty }}" data-price="{{ pk.settings.price }}">
+                {%- if pk.settings.ribbon != blank -%}<span class="ribbon">{{ pk.settings.ribbon | escape }}</span>{%- endif -%}
+                <span class="pack-radio" aria-hidden="true"></span>
+                <span class="pack-info"><span class="pack-qty">{{ pk.settings.qty }} {{ pk.settings.unit | escape }}</span>{%- if pk.settings.per != blank -%}<span class="pack-per">{{ pk.settings.per | escape }}</span>{%- endif -%}{%- if pk.settings.perk != blank -%}<span class="pack-perk">{{ pk.settings.perk | escape }}</span>{%- endif -%}</span>
+                <span class="pack-pricing"><span class="pack-price">{{ pk.settings.price }} €</span>{%- if pk.settings.save != blank -%}<span class="save">{{ pk.settings.save | escape }}</span>{%- endif -%}</span>
+              </button>
+            {%- endfor -%}
+          </div>
+        </div>
+        <div class="buy-cta-row"><button class="btn btn-primary" id="add-to-cart">{{ section.settings.cta_label | default: 'Ajouter au panier' | escape }} — <span id="atc-price">{{ section.settings.default_price | escape }}</span></button></div>
+      {%- endif -%}
+
+      {%- if section.settings.ship_left != blank or section.settings.ship_right != blank -%}
+        <div class="ship-strip">
+          {%- if section.settings.ship_left != blank -%}<span class="ship-item"><span class="ship-dot"></span>{{ section.settings.ship_left | escape }}</span>{%- endif -%}
+          {%- comment -%} JS rewrites this to a concrete date range ("Livré entre mer. 12 et ven. 14 juin");
+              the static setting text is the no-JS fallback. {%- endcomment -%}
+          {%- if section.settings.ship_right != blank -%}<span class="ship-item" data-aura-delivery data-min="{{ section.settings.ship_min_days | default: 5 }}" data-max="{{ section.settings.ship_max_days | default: 7 }}">{{ section.settings.ship_right | escape }}</span>{%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.guarantee_text != blank -%}
+        <div class="guarantee-block">
+          <div class="guarantee-seal">
+            <img src="{{ 'aura-guarantee-seal.svg' | asset_url }}" alt="Garantie {{ section.settings.guarantee_days | default: '30' | escape }} jours satisfait ou remboursé" width="72" height="72" loading="lazy" decoding="async">
+          </div>
+          <div class="guarantee-copy">
+            <div class="guarantee-title">{{ section.settings.guarantee_text | escape }}</div>
+            {%- if section.settings.guarantee_body != blank -%}<p class="guarantee-body">{{ section.settings.guarantee_body | escape }}</p>{%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Promo card only on the homepage teaser — on the PDP it duplicates the offer badge + pack tiers, so it's dropped. {%- endcomment -%}
+      {%- if section.settings.featured_product != blank and section.settings.promo_heading != blank or section.settings.featured_product != blank and section.settings.promo_strong != blank -%}
+        <div class="promo-card">
+          <div class="promo-copy">
+            {%- if section.settings.promo_heading != blank -%}<div class="promo-h">{{ section.settings.promo_heading | escape }}</div>{%- endif -%}
+            {%- if section.settings.promo_strong != blank -%}<div class="promo-strong">{{ section.settings.promo_strong | escape }}</div>{%- endif -%}
+            {%- if section.settings.promo_sub != blank -%}<div class="promo-sub">{{ section.settings.promo_sub | escape }}</div>{%- endif -%}
+          </div>
+          {%- if section.settings.promo_image != blank -%}<div class="promo-media"><img src="{{ section.settings.promo_image | image_url: width: 480 }}" alt="" width="480" height="360" loading="lazy" style="object-fit:contain;width:100%;height:100%;"></div>{%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Product-detail accordions moved to their own section (aura-product-details), placed below the proof/education sections. {%- endcomment -%}
+
+    </div>
+  </div>
+
+  {%- if section.settings.size_guide != blank -%}
+    <div class="sg-modal" id="sg-{{ section.id }}" hidden>
+      <div class="sg-backdrop" data-size-guide-close></div>
+      <div class="sg-dialog" role="dialog" aria-modal="true" aria-label="{{ section.settings.size_guide_title | default: 'Guide des tailles' | escape }}">
+        <button type="button" class="sg-close" data-size-guide-close aria-label="Fermer le guide des tailles">&times;</button>
+        <h3 class="sg-title">{{ section.settings.size_guide_title | default: 'Guide des tailles' | escape }}</h3>
+        <div class="sg-body">{{ section.settings.size_guide }}</div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} ── BUNDLE PICKER — pick a colour + size for each pair in a multi-pair
+      pack. Revealed INLINE under the quantity tiers (no modal) when a 4-/6-pair tier
+      is active; each pair resolves to a variant id and the live [{id,quantity}] set
+      is written into [data-aura-bundle] for aura-cart.js to add as one multi-item
+      /cart/add. The Shopify "Buy X get Y" automatic discount then frees the right
+      pairs at checkout. The row template below is cloned N times by the JS. ── {%- endcomment -%}
+  {%- if p != blank -%}
+    <template data-aura-pair-template>
+      <div class="bundle-pair" role="group">
+        <span class="bp-label">Paire</span>
+        <div class="swatches bp-swatches" role="radiogroup" aria-label="Couleur">
+          {%- for opt in p.options_with_values -%}{%- if opt.name == 'Couleur' -%}{%- for val in opt.values -%}
+            {%- assign cname = val | downcase -%}{%- assign chex = '#EBE3D5' -%}
+            {%- if cname == 'bordeaux' or cname == 'burgundy' %}{% assign chex = '#6E2C36' %}{% elsif cname == 'noir' or cname == 'black' %}{% assign chex = '#16181D' %}{% elsif cname == 'gris' or cname == 'grey' or cname == 'gray' %}{% assign chex = '#A8A6A3' %}{% elsif cname == 'cream' %}{% assign chex = '#F4EFE7' %}{% elsif cname == 'marine' %}{% assign chex = '#0E1B33' %}{% elsif cname == 'argile' %}{% assign chex = '#C8A689' %}{% elsif cname == 'corail' %}{% assign chex = '#E89379' %}{% endif -%}
+            <button type="button" class="swatch" role="radio" aria-checked="false" data-color-value="{{ val | escape }}" data-hex="{{ chex }}" style="--c:{{ chex }}" aria-label="Couleur {{ val | escape }}"></button>
+          {%- endfor -%}{%- endif -%}{%- endfor -%}
+        </div>
+        <div class="sizes bp-sizes" role="radiogroup" aria-label="Taille">
+          {%- for opt in p.options_with_values -%}{%- if opt.name == 'Taille' -%}{%- for val in opt.values -%}
+            {%- assign eulabel = '' -%}
+            {%- comment -%} 3 real sizes: S/M, L/XL, XXL. Old XS/S/M/L kept mapped only so the buy box renders sanely until the admin variants are renamed — delete the legacy names once admin is clean. {%- endcomment -%}{%- if val == 'S/M' or val == 'XS' or val == 'S' %}{% assign eulabel = 'EU 35–39' %}{% elsif val == 'L/XL' or val == 'M' %}{% assign eulabel = 'EU 40–44' %}{% elsif val == 'XXL' or val == 'L' %}{% assign eulabel = 'EU 45–48' %}{% endif -%}
+            <button type="button" class="size" role="radio" aria-checked="false" data-size-value="{{ val | escape }}" aria-label="Taille {{ val | escape }}, {{ eulabel }}"><span class="sz">{{ val | escape }}</span></button>
+          {%- endfor -%}{%- endif -%}{%- endfor -%}
+        </div>
+      </div>
+    </template>
+  {%- endif -%}
+
+  {%- if p != blank -%}
+    <script>
+      (function(){
+        var root = document.getElementById('aura-buy-{{ section.id }}');
+        if (!root) return;
+        var data = JSON.parse(root.querySelector('[data-aura-variants]').textContent);
+        var idInput = root.querySelector('[data-aura-variant]');
+        var qtyInput = root.querySelector('[data-aura-qty]');
+        var totalEl = root.querySelector('[data-aura-total]');
+        var atc = root.querySelector('[data-aura-atc]');
+        var colorName = root.querySelector('[data-aura-colorname]');
+        var mainPh = document.getElementById('gallery-ph');
+        var mainImg = document.getElementById('gallery-img');
+        var thumbRail = document.getElementById('gallery-thumbs');
+        var galleryMap = {};
+        var gNode = document.querySelector('[data-aura-gallery]');
+        if (gNode) { try { galleryMap = JSON.parse(gNode.textContent); } catch(e){} }
+        // Bundle picker
+        var bundleInput = root.querySelector('[data-aura-bundle]');
+        var bundleWrap  = root.querySelector('[data-bundle-inline]');   // inline reveal container
+        var bundleNote  = root.querySelector('[data-bundle-note]');     // "X offertes" hint in the head
+        var pairTpl     = document.querySelector('[data-aura-pair-template]');
+        var pairsWrap   = root.querySelector('[data-bundle-pairs]');
+        var bundleSize  = 0;      // 0/1 = single pair (no bundle)
+        var pairs       = [];     // [{c, s}] per pair
+        function currentThumbs(){ return thumbRail ? thumbRail.querySelectorAll('.gallery-thumb') : []; }
+        function hasGallery(c){ return !!(galleryMap[c] && galleryMap[c].length); }
+        // Rebuild the thumbnail rail for the chosen colour and show its first image.
+        function renderThumbs(c){
+          if (!thumbRail) return false;
+          if (!hasGallery(c)){
+            // No alt-tagged images for this colour — fall back to its variant image
+            // so the rail never shows another colour's photos.
+            var vimg = (data.find(function(v){ return v.c === c; }) || {}).img;
+            if (vimg){
+              thumbRail.innerHTML = '<button type="button" class="gallery-thumb active" data-img="' + vimg + '" aria-label="Voir l\'image 1"><span class="ph" style="background-image:url(' + vimg + ');background-size:cover;"></span></button>';
+              if (mainImg){ mainImg.srcset = ''; mainImg.src = vimg; }
+            }
+            return false;
+          }
+          var list = galleryMap[c], html = '';
+          for (var i = 0; i < list.length; i++){
+            html += '<button type="button" class="gallery-thumb' + (i === 0 ? ' active' : '') + '" data-img="' + list[i].b + '" data-srcset="' + (list[i].ss || '') + '" aria-label="Voir l\'image ' + (i + 1) + ' sur ' + list.length + '"><span class="ph" style="background-image:url(' + list[i].s + ');background-size:cover;"></span></button>';
+          }
+          thumbRail.innerHTML = html;
+          if (mainImg && list[0]){ mainImg.srcset = list[0].ss || ''; mainImg.src = list[0].b; }
+          return true;
+        }
+        // The sticky bar (aura-globals) renders after this section, so resolve its
+        // nodes lazily each update() — caching here would capture null.
+        function sticky(){ return { price: document.getElementById('sticky-price'), color: document.getElementById('sticky-color'), size: document.getElementById('sticky-size') }; }
+        var sizeRow = root.querySelector('[data-aura-size-row]');
+        var sizeHint = root.querySelector('[data-aura-size-hint]');
+        // No size pre-selected — the customer must choose deliberately (s = null).
+        var state = { c: {{ cur.option1 | json }}, s: null, qty: parseInt(qtyInput.value,10) || 1, disc: 0 };
+        var activePack0 = root.querySelector('[data-aura-packs] .pack.active');
+        if (activePack0) {
+          state.disc = parseFloat(activePack0.getAttribute('data-pack-disc')) || 0;
+          state.qty  = parseInt(activePack0.getAttribute('data-pack-qty'), 10) || state.qty;
+        }
+        // If the default-active tier is a multi-pair pack, reveal the inline pair
+        // rows up front (pre-filled with the buy-box choice). showBundle() is a
+        // hoisted function declaration, so calling it here is fine.
+        if (state.qty > 1) {
+          bundleSize = state.qty;
+          pairs = [];
+          for (var _i = 0; _i < bundleSize; _i++) pairs.push({ c: state.c, s: state.s });
+          showBundle();
+        }
+
+        // Delegated — the rail is re-rendered when the colour changes.
+        if (thumbRail){
+          thumbRail.addEventListener('click', function(e){
+            var t = e.target.closest('.gallery-thumb');
+            if (!t || !thumbRail.contains(t) || !t.getAttribute('data-img')) return;
+            currentThumbs().forEach(function(x){x.classList.remove('active');});
+            t.classList.add('active');
+            mainImg.srcset = t.getAttribute('data-srcset') || '';
+            mainImg.src = t.getAttribute('data-img');
+          });
+        }
+        var tprev = document.getElementById('thumb-prev'), tnext = document.getElementById('thumb-next');
+        if (thumbRail && tprev) tprev.addEventListener('click', function(){ thumbRail.scrollBy({left:-180,behavior:'smooth'}); });
+        if (thumbRail && tnext) tnext.addEventListener('click', function(){ thumbRail.scrollBy({left: 180,behavior:'smooth'}); });
+
+        function fmt(cents){ return (cents/100).toLocaleString('fr-FR',{minimumFractionDigits:0,maximumFractionDigits:2}) + ' €'; }
+        function find(){ return state.s ? data.find(function(v){ return v.c===state.c && v.s===state.s; }) : null; }
+        // A representative variant for pricing before a size is chosen (all sizes share a price).
+        function priceRef(){ return find() || data.find(function(v){ return v.c===state.c; }) || data[0]; }
+        function update(){
+          var v = find();
+          var ref = priceRef();
+          root.querySelectorAll('[data-aura-packs] .pack').forEach(function(pk){
+            var q = parseInt(pk.getAttribute('data-pack-qty'),10) || 1;
+            var d = parseFloat(pk.getAttribute('data-pack-disc')) || 0;
+            var priceEl = pk.querySelector('[data-pack-price]');
+            var wasEl = pk.querySelector('[data-pack-was]');
+            var saveEl = pk.querySelector('[data-pack-save]');
+            if (!ref) return;
+            var full = ref.price * q;
+            var net = Math.round(full * (1 - d/100));
+            if (priceEl) priceEl.textContent = fmt(net);
+            if (wasEl) wasEl.textContent = d > 0 ? fmt(full) : '';
+            if (saveEl) {
+              if (d > 0) { saveEl.textContent = '−' + d + ' %'; saveEl.classList.remove('save--full'); }
+              else { saveEl.textContent = ''; saveEl.classList.add('save--full'); }
+            }
+          });
+          if (colorName) colorName.textContent = state.c;
+          var sb = sticky();
+          if (sb.color) sb.color.textContent = state.c;
+          if (sb.size) {
+            var as = root.querySelector('[data-aura-sizes] .size.active');
+            sb.size.textContent = as ? (as.querySelector('.sz').textContent + ' · ' + as.querySelector('.eu').textContent.replace('EU ','')) : 'à choisir';
+          }
+          // When the colour has a tagged gallery, the thumbnail rail owns the main
+          // image (so size/pack changes don't reset the chosen photo). Fall back to
+          // the variant image only when no gallery exists for this colour.
+          if (!hasGallery(state.c)) {
+            var img = (v && v.img) || (ref && ref.img);
+            if (img && mainImg){ mainImg.srcset = ''; mainImg.src = img; }
+            if (img && mainPh) mainPh.style.backgroundImage = 'url(' + img + ')';
+          }
+          // Live total tracks the quantity tier AND the per-size variant price.
+          var total = ref ? Math.round(ref.price * state.qty * (1 - state.disc/100)) : 0;
+          totalEl.textContent = fmt(total);
+          if (sb.price) sb.price.textContent = fmt(total);
+          // Only a real, in-stock, size-selected variant can be added to cart.
+          if (v && v.available) {
+            idInput.value = v.id; qtyInput.value = state.qty;
+            atc.disabled = false; atc.style.opacity = 1;
+          } else {
+            idInput.value = '';
+            atc.disabled = false; atc.style.opacity = 1;   // stays clickable so the size hint can fire
+            if (state.s && v && !v.available) { totalEl.textContent = 'Indisponible'; }
+          }
+        }
+
+        function selectRadio(group, btn){
+          group.forEach(function(x){ x.classList.remove('active'); x.setAttribute('aria-checked','false'); });
+          btn.classList.add('active'); btn.setAttribute('aria-checked','true');
+        }
+
+        // ── Inline bundle picker (no modal) ────────────────────────────────
+        function variantFor(c, s){ return data.find(function(v){ return v.c === c && v.s === s; }); }
+        function pairRows(){ return pairsWrap ? pairsWrap.querySelectorAll('.bundle-pair') : []; }
+        // Resolve the current pairs to cart line items. Writes the live [{id,qty}]
+        // set into [data-aura-bundle] when every pair is sized & in stock; otherwise
+        // clears it so aura-cart.js knows the pack isn't ready to add yet.
+        function syncBundleInput(){
+          if (!bundleInput) return;
+          bundleInput.dataset.size = bundleSize;
+          if (bundleSize < 2){ bundleInput.value = ''; return; }
+          var items = [];
+          for (var i = 0; i < bundleSize; i++){
+            var v = variantFor(pairs[i].c, pairs[i].s);
+            if (!v || !v.available){ bundleInput.value = ''; return; }
+            items.push({ id: v.id, quantity: 1 });
+          }
+          bundleInput.value = JSON.stringify(items);
+        }
+        function updateBundleNote(){
+          if (bundleNote) bundleNote.textContent = bundleSize > 1 ? ((bundleSize / 2) + ' offertes') : '';
+        }
+        function syncBundleUI(){
+          pairRows().forEach(function(row){
+            var idx = parseInt(row.getAttribute('data-pair-index'), 10);
+            var p = pairs[idx]; if (!p) return;
+            row.querySelectorAll('.bp-swatches .swatch').forEach(function(b){
+              var on = b.getAttribute('data-color-value') === p.c;
+              b.classList.toggle('active', on); b.setAttribute('aria-checked', on);
+            });
+            row.querySelectorAll('.bp-sizes .size').forEach(function(b){
+              var on = b.getAttribute('data-size-value') === p.s;
+              b.classList.toggle('active', on); b.setAttribute('aria-checked', on);
+            });
+          });
+        }
+        function wireBundleRow(row){
+          var idx = parseInt(row.getAttribute('data-pair-index'), 10);
+          row.querySelectorAll('.bp-swatches .swatch').forEach(function(b){
+            b.addEventListener('click', function(){
+              selectRadio(row.querySelectorAll('.bp-swatches .swatch'), b);
+              pairs[idx].c = b.getAttribute('data-color-value');
+              syncBundleInput();
+            });
+          });
+          row.querySelectorAll('.bp-sizes .size').forEach(function(b){
+            b.addEventListener('click', function(){
+              selectRadio(row.querySelectorAll('.bp-sizes .size'), b);
+              pairs[idx].s = b.getAttribute('data-size-value');
+              row.classList.remove('size-missing');
+              syncBundleInput();
+            });
+          });
+        }
+        function buildPairs(){
+          if (!pairTpl || !pairsWrap) return;
+          if (pairRows().length === bundleSize) return;   // already built for this count
+          pairsWrap.innerHTML = '';
+          for (var i = 0; i < bundleSize; i++){
+            var node = pairTpl.content.firstElementChild.cloneNode(true);
+            node.setAttribute('data-pair-index', i);
+            node.querySelector('.bp-label').textContent = 'Paire ' + (i + 1);
+            pairsWrap.appendChild(node);
+            wireBundleRow(node);
+          }
+        }
+        // Reveal the inline rows for the current multi-pair tier, pre-filled with the
+        // buy-box choice for any pair not yet set.
+        function showBundle(){
+          if (bundleSize < 2 || !bundleWrap){ hideBundle(); return; }
+          for (var k = 0; k < pairs.length; k++){
+            if (!pairs[k].c) pairs[k].c = state.c;
+            if (!pairs[k].s && state.s) pairs[k].s = state.s;
+          }
+          buildPairs();
+          syncBundleUI();
+          updateBundleNote();
+          syncBundleInput();
+          // Slot the rows INSIDE the active tier card so it expands in place and
+          // pushes the lower tiers down (merged into one bordered card via CSS).
+          root.querySelectorAll('[data-aura-packs] .pack.is-expanded').forEach(function(p){ p.classList.remove('is-expanded'); });
+          var activePack = root.querySelector('[data-aura-packs] .pack.active');
+          if (activePack && bundleWrap){
+            activePack.insertAdjacentElement('afterend', bundleWrap);
+            activePack.classList.add('is-expanded');
+          }
+          bundleWrap.hidden = false;
+        }
+        function hideBundle(){
+          if (bundleWrap) bundleWrap.hidden = true;
+          if (pairsWrap) pairsWrap.innerHTML = '';
+          root.querySelectorAll('[data-aura-packs] .pack.is-expanded').forEach(function(p){ p.classList.remove('is-expanded'); });
+          if (bundleInput){ bundleInput.dataset.size = 0; bundleInput.value = ''; }
+        }
+        // Quick-fill: the buy-box colour/size applies to every pair. The rows update
+        // in view, so it reads as a shortcut rather than a surprise.
+        function applyToAllPairs(){
+          if (bundleSize < 2) return;
+          for (var i = 0; i < bundleSize; i++){
+            pairs[i].c = state.c;
+            if (state.s) pairs[i].s = state.s;
+          }
+          pairRows().forEach(function(r){ r.classList.remove('size-missing'); });
+          syncBundleUI(); syncBundleInput();
+        }
+        // aura-cart.js fires this when ATC is hit but the pack isn't fully sized —
+        // highlight the first unsized pair and scroll it into view.
+        function flagIncompletePair(){
+          var bad = null;
+          pairRows().forEach(function(row){
+            var idx = parseInt(row.getAttribute('data-pair-index'), 10);
+            if (!bad && (!pairs[idx] || !pairs[idx].s)){ bad = row; }
+          });
+          if (bad){
+            bad.classList.remove('size-missing'); void bad.offsetWidth; // replay shake
+            bad.classList.add('size-missing');
+            bad.scrollIntoView({ behavior:'smooth', block:'center' });
+          }
+        }
+        document.addEventListener('aura:bundleincomplete', flagIncompletePair);
+
+        var swatchEls = root.querySelectorAll('[data-aura-swatches] .swatch');
+        swatchEls.forEach(function(b){
+          b.addEventListener('click', function(){
+            selectRadio(swatchEls, b);
+            state.c = b.getAttribute('data-color-value');
+            if (mainPh) mainPh.style.setProperty('--swatch', b.getAttribute('data-hex'));
+            renderThumbs(state.c);
+            applyToAllPairs();   // multi-pack: the buy-box colour fills every pair
+            update();
+          });
+        });
+        var sizeEls = root.querySelectorAll('[data-aura-sizes] .size');
+        sizeEls.forEach(function(b){
+          b.addEventListener('click', function(){
+            selectRadio(sizeEls, b);
+            state.s = b.getAttribute('data-size-value');
+            if (sizeHint) sizeHint.hidden = true;
+            if (sizeRow) sizeRow.classList.remove('size-missing');
+            applyToAllPairs();   // multi-pack: the buy-box size fills every pair
+            update();
+          });
+        });
+        var packEls = root.querySelectorAll('[data-aura-packs] .pack');
+        packEls.forEach(function(b){
+          b.addEventListener('click', function(){
+            selectRadio(packEls, b);
+            state.qty = parseInt(b.getAttribute('data-pack-qty'),10) || 1;
+            state.disc = parseFloat(b.getAttribute('data-pack-disc')) || 0;
+            if (state.qty > 1){
+              // Entering (or switching) a multi-pair tier → reveal the inline rows,
+              // preserving any per-pair picks already made for the lower count.
+              if (bundleSize !== state.qty){
+                bundleSize = state.qty;
+                var seed = [];
+                for (var i = 0; i < bundleSize; i++) seed.push(pairs[i] ? { c: pairs[i].c, s: pairs[i].s } : { c: state.c, s: state.s });
+                pairs = seed;
+                if (pairsWrap) pairsWrap.innerHTML = '';   // force rebuild for the new count
+              }
+              showBundle();
+              update();
+            } else {
+              bundleSize = 0;
+              hideBundle();
+              update();
+            }
+          });
+        });
+        // Submit is owned by assets/aura-cart.js (single vs bundle, + size-missing hint).
+
+        // Size-guide modal
+        var sgModal = document.getElementById('sg-{{ section.id }}');
+        if (sgModal){
+          var sgOpen = function(){ sgModal.hidden = false; document.body.style.overflow = 'hidden'; };
+          var sgClose = function(){ sgModal.hidden = true; document.body.style.overflow = ''; };
+          document.querySelectorAll('[data-size-guide-open]').forEach(function(o){ o.addEventListener('click', sgOpen); });
+          sgModal.querySelectorAll('[data-size-guide-close]').forEach(function(c){ c.addEventListener('click', sgClose); });
+          document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !sgModal.hidden) sgClose(); });
+        }
+
+        // Concrete delivery window ("Livré entre mer. 12 et ven. 14 juin") —
+        // computed client-side so it is always current; Sundays skipped.
+        var deliveryEl = document.querySelector('[data-aura-delivery]');   // ship strip sits outside the form
+        if (deliveryEl) {
+          var deliveryDay = function(n){
+            var d = new Date(); d.setDate(d.getDate() + n);
+            if (d.getDay() === 0) d.setDate(d.getDate() + 1);
+            return d.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' });
+          };
+          deliveryEl.textContent = 'Livré entre ' + deliveryDay(parseInt(deliveryEl.dataset.min, 10) || 2)
+                                 + ' et ' + deliveryDay(parseInt(deliveryEl.dataset.max, 10) || 4);
+        }
+
+        // Swipe the main image on touch (threshold + axis check so vertical
+        // page scrolling over the photo is never hijacked).
+        var stage = document.getElementById('gallery-main');
+        if (stage) {
+          var tX = 0, tY = 0;
+          stage.addEventListener('touchstart', function(e){ tX = e.touches[0].clientX; tY = e.touches[0].clientY; }, { passive: true });
+          stage.addEventListener('touchend', function(e){
+            var dx = e.changedTouches[0].clientX - tX, dy = e.changedTouches[0].clientY - tY;
+            if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
+            var list = Array.prototype.slice.call(currentThumbs());
+            if (list.length < 2) return;
+            var i = list.findIndex(function(t){ return t.classList.contains('active'); });
+            var next = list[(i + (dx < 0 ? 1 : -1) + list.length) % list.length];
+            next.click();
+            next.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          }, { passive: true });
+        }
+
+        update();
+        // Re-sync once the sticky bar (rendered later in <body>) exists.
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', update);
+      })();
+    </script>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Aura Featured Product",
+  "settings": [
+    { "type": "product", "id": "featured_product", "label": "Featured product (live buy box)" },
+    { "type": "paragraph", "content": "Leave empty on a product template to use the page product. Pick a product on the homepage." },
+    { "type": "text", "id": "badge_label", "label": "Gallery badge", "default": "Best-seller" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Conçu pour les gardes de 12 heures" },
+    { "type": "text", "id": "headline", "label": "Headline / subtitle", "default": "La compression qui efface les marques rouges" },
+    { "type": "header", "content": "Benefits (4 icons)" },
+    { "type": "text", "id": "benefit_1", "label": "Benefit 1", "default": "18–25 mmHg vérifié" },
+    { "type": "text", "id": "benefit_2", "label": "Benefit 2", "default": "Zéro marque rouge" },
+    { "type": "text", "id": "benefit_3", "label": "Benefit 3", "default": "Sans couture" },
+    { "type": "text", "id": "benefit_4", "label": "Benefit 4", "default": "Facile à enfiler" },
+    { "type": "header", "content": "Size guide (modal)" },
+    { "type": "text", "id": "size_guide_title", "label": "Size guide — title", "default": "Guide des tailles" },
+    { "type": "html", "id": "size_guide", "label": "Size guide — content (table)", "default": "<table><thead><tr><th>Taille</th><th>Pointure (EU)</th><th>Largeur cheville*</th><th>Longueur jambe</th><th>Longueur pied*</th></tr></thead><tbody><tr><td>S/M</td><td>35–39</td><td>11 cm</td><td>32 cm</td><td>16,5 cm</td></tr><tr><td>L/XL</td><td>40–44</td><td>12 cm</td><td>33 cm</td><td>18,5 cm</td></tr><tr><td>XXL</td><td>45–48</td><td>13 cm</td><td>35 cm</td><td>20,5 cm</td></tr></tbody></table><p>*Mesures du bas posé à plat — la maille s'étire. Hauteur du bord : 2,5 cm. Entre deux tailles, choisissez la plus grande.</p>" },
+    { "type": "header", "content": "Social proof & CTA" },
+    { "type": "text", "id": "rating", "label": "Rating", "default": "4,8" },
+    { "type": "text", "id": "reviews_count", "label": "Reviews count", "default": "150+ avis d'infirmières" },
+    { "type": "text", "id": "offer_badge", "label": "Offer badge (under title)", "default": "2 paires achetées, 2 offertes" },
+    { "type": "text", "id": "price_from", "label": "Prix d'ancrage (« À partir de … / paire »)", "default": "17 €" },
+    { "type": "text", "id": "size_note", "label": "Note sous les tailles", "default": "La plupart des infirmières prennent leur pointure habituelle." },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Ajouter au panier" },
+    { "type": "text", "id": "savings_badge", "label": "Savings chip (next to Quantité)", "default": "−50 %" },
+    { "type": "header", "content": "Bandeau livraison · garantie · promo" },
+    { "type": "text", "id": "ship_left", "label": "Bandeau livraison — texte gauche (ex. « Expédié sous 24 h »)", "default": "Expédié sous 24 h" },
+    { "type": "text", "id": "ship_right", "label": "Bandeau livraison — texte droite (remplacé par les dates de livraison)", "default": "Livraison France & Europe" },
+    { "type": "range", "id": "ship_min_days", "label": "Livraison — délai min (jours)", "min": 1, "max": 10, "step": 1, "default": 5 },
+    { "type": "range", "id": "ship_max_days", "label": "Livraison — délai max (jours)", "min": 1, "max": 14, "step": 1, "default": 7 },
+    { "type": "text", "id": "guarantee_days", "label": "Guarantee — days (seal)", "default": "30" },
+    { "type": "text", "id": "guarantee_text", "label": "Guarantee — title", "default": "30 jours satisfait ou remboursé" },
+    { "type": "text", "id": "guarantee_body", "label": "Guarantee — body", "default": "Si la paire ne vous convient pas, même portée une garde, on la reprend sans question." },
+    { "type": "text", "id": "promo_heading", "label": "Promo card — line 1", "default": "Achetez 2 paires" },
+    { "type": "text", "id": "promo_strong", "label": "Promo card — highlight", "default": "2 paires offertes" },
+    { "type": "text", "id": "promo_sub", "label": "Promo card — subtext", "default": "Mélangez les coloris au paiement" },
+    { "type": "image_picker", "id": "promo_image", "label": "Promo card — image" },
+    { "type": "text", "id": "default_price", "label": "Price shown on load (static fallback)", "default": "68 €" }
+  ],
+  "blocks": [
+    {
+      "type": "color",
+      "name": "Color",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name", "default": "Bordeaux" },
+        { "type": "text", "id": "hex", "label": "Hex", "default": "#F4EFE7" },
+        { "type": "checkbox", "id": "dark", "label": "Dark color", "default": false }
+      ]
+    },
+    {
+      "type": "size",
+      "name": "Size",
+      "settings": [
+        { "type": "text", "id": "sz", "label": "Size", "default": "S" },
+        { "type": "text", "id": "eu", "label": "EU", "default": "EU 35–39" },
+        { "type": "checkbox", "id": "active", "label": "Selected by default", "default": false }
+      ]
+    },
+    {
+      "type": "pack",
+      "name": "Pack",
+      "settings": [
+        { "type": "text", "id": "qty", "label": "Quantity", "default": "1" },
+        { "type": "text", "id": "unit", "label": "Unit", "default": "paire" },
+        { "type": "text", "id": "per", "label": "Per-unit label", "default": "34 € / paire" },
+        { "type": "text", "id": "price", "label": "Price (number, static fallback)", "default": "34" },
+        { "type": "text", "id": "ribbon", "label": "Ribbon (top-right badge)" },
+        { "type": "select", "id": "ribbon_kind", "label": "Ribbon style", "default": "popular", "options": [ { "value": "popular", "label": "Popular (coral)" }, { "value": "value", "label": "Best value (green)" } ] },
+        { "type": "text", "id": "tag", "label": "Inline tag (e.g. 2+1 offert)" },
+        { "type": "text", "id": "perk", "label": "Perk line (e.g. Livraison offerte)" },
+        { "type": "text", "id": "save", "label": "Savings" },
+        { "type": "range", "id": "discount_pct", "label": "Pack discount % (match a Shopify automatic discount)", "min": 0, "max": 50, "step": 1, "unit": "%", "default": 0 },
+        { "type": "checkbox", "id": "active", "label": "Selected by default", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Aura Featured Product",
+      "blocks": [
+        { "type": "color", "settings": { "name": "Bordeaux", "hex": "#6E2C36", "dark": true } },
+        { "type": "color", "settings": { "name": "Noir", "hex": "#16181D", "dark": true } },
+        { "type": "color", "settings": { "name": "Gris", "hex": "#A8A6A3", "dark": false } },
+        { "type": "size", "settings": { "sz": "S/M", "eu": "EU 35–39", "active": true } },
+        { "type": "size", "settings": { "sz": "L/XL", "eu": "EU 40–44" } },
+        { "type": "size", "settings": { "sz": "XXL", "eu": "EU 45–48" } },
+        { "type": "pack", "settings": { "qty": "1", "unit": "paire", "per": "34 € / paire", "discount_pct": 0 } },
+        { "type": "pack", "settings": { "qty": "4", "unit": "paires", "per": "17 € / paire", "tag": "2 offertes", "perk": "Livraison offerte", "ribbon": "Le plus populaire", "discount_pct": 50, "active": true } },
+        { "type": "pack", "settings": { "qty": "6", "unit": "paires", "per": "17 € / paire", "tag": "3 offertes", "perk": "Livraison offerte + cadeau surprise", "ribbon": "Meilleure offre", "ribbon_kind": "value", "discount_pct": 50 } }
+      ]
+    }
+  ]
+}
+{% endschema %}

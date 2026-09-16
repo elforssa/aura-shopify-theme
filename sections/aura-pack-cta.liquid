@@ -1,0 +1,199 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura Pack CTA (FR)
+  ----------------------------------------------------------------------------
+  @description
+    Dark 6-pair "best offer" pack from the v2 design — copy + checklist on the
+    left, pricing card on the right. Mirrors the buy box's 6-pair BOGO tier
+    (buy 3 get 3: 204 € → 102 €, −50 %, 17 €/paire + livraison offerte +
+    cadeau surprise). Styles in assets/aura-v2.css
+    (.pack-cta). The button (#pack-cta-btn) scrolls to the buy box and selects
+    the 6-pair tier (falls back to opening the cart drawer when no buy box is on
+    the page, e.g. the homepage). Checklist items are editable blocks.
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+<section class="pack-cta" id="packs-cta" data-section="pack-cta">
+  <div class="pack-cta-grid">
+    <div>
+      <div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>
+      <h2>{{ section.settings.heading }}</h2>
+      <p class="lead">{{ section.settings.lead | escape }}</p>
+      <ul>
+        {%- for block in section.blocks -%}
+          <li {{ block.shopify_attributes }}><span class="ic">✓</span><span>{{ block.settings.text | escape }}</span><span class="meta">{{ block.settings.meta | escape }}</span></li>
+        {%- endfor -%}
+      </ul>
+    </div>
+    <div class="pack-cta-card">
+      {%- if section.settings.flag != blank -%}<div class="flag">{{ section.settings.flag | escape }}</div>{%- endif -%}
+      <div class="top">
+        <div class="pn">{{ section.settings.card_name }}</div>
+        <div class="strike">{{ section.settings.strike | escape }}</div>
+      </div>
+      <div class="desc">{{ section.settings.card_desc | escape }}</div>
+      <div class="includes">
+        <div class="inc-item"><div class="dot" style="background:#6E2C36"></div><div class="label">Bordeaux ×2</div></div>
+        <div class="inc-item"><div class="dot" style="background:#16181D"></div><div class="label">Noir ×2</div></div>
+        <div class="inc-item"><div class="dot" style="background:#A8A6A3"></div><div class="label">Gris ×2</div></div>
+      </div>
+      <div class="price-row">
+        <span class="num">{{ section.settings.price | escape }}</span>
+        <span class="euro">€</span>
+        <span class="per">{{ section.settings.per | escape }}</span>
+      </div>
+      <div class="save-line">{{ section.settings.save_line | escape }}</div>
+      <button class="btn btn-coral" id="pack-cta-btn">{{ section.settings.button_label | escape }} <span class="arrow">→</span></button>
+      <div class="ship">{{ section.settings.ship | escape }}</div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Aura Pack CTA",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "L'offre complète"
+    },
+    {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Une paire par <span class=\"ser\">jour de garde.</span>"
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Subheading",
+      "default": "Six paires d'Aura, une pour chaque jour de garde. Composez vos coloris, recevez la garde-robe complète — l'offre que nos clientes auraient voulu prendre dès le premier jour."
+    },
+    {
+      "type": "html",
+      "id": "card_name",
+      "label": "Card name",
+      "default": "Le pack 6 paires"
+    },
+    {
+      "type": "text",
+      "id": "strike",
+      "label": "Compare-at price",
+      "default": "204 €"
+    },
+    {
+      "type": "text",
+      "id": "card_desc",
+      "label": "Card description",
+      "default": "Six paires, vos coloris au choix. La garde-robe Aura complète, en une commande."
+    },
+    {
+      "type": "text",
+      "id": "price",
+      "label": "Price (number)",
+      "default": "102"
+    },
+    {
+      "type": "text",
+      "id": "per",
+      "label": "Price / pair",
+      "default": "17 € / paire · TTC"
+    },
+    {
+      "type": "text",
+      "id": "save_line",
+      "label": "Savings line",
+      "default": "Vous économisez 102 € — livraison offerte et cadeau surprise inclus"
+    },
+    {
+      "type": "text",
+      "id": "flag",
+      "label": "Flag",
+      "default": "Économisez 102 € · meilleure offre"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button",
+      "default": "Composer mon pack 6 paires"
+    },
+    {
+      "type": "text",
+      "id": "ship",
+      "label": "Shipping",
+      "default": "Livraison offerte dès 60 €"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Avantage du pack"
+        },
+        {
+          "type": "text",
+          "id": "meta",
+          "label": "Meta (right)",
+          "default": "Inclus"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Aura Pack CTA",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "text": "6 paires d'Aura, vos coloris au choix",
+            "meta": "valeur 204 €"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "text": "30 jours pour juger, sur de vraies gardes",
+            "meta": "Inclus"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "text": "Livraison offerte dès 60 €",
+            "meta": "Offerte"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "text": "Cadeau surprise glissé dans le colis",
+            "meta": "Offert"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "text": "Garantie de remplacement 12 mois",
+            "meta": "Inclus"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "text": "Conseil taille personnalisé par notre équipe",
+            "meta": "Offert"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

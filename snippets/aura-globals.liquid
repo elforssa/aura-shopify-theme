@@ -1,0 +1,57 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Snippet: aura-globals
+  ----------------------------------------------------------------------------
+  Global Aura v2 UI rendered once before </body>: the sticky add-to-cart bar
+  and the LIVE cart drawer. The drawer is rendered from the real {{ cart }}
+  on first paint and kept in sync by assets/aura-cart.js (Shopify AJAX cart).
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+<div class="sticky-atc" id="sticky-atc">
+  <div class="thumb" id="sticky-thumb" style="background:#F4EFE7"></div>
+  <div class="info">
+    <div class="n">Aura — <span id="sticky-color">Bordeaux</span></div>
+    <div class="v">Taille <span id="sticky-size">à choisir</span></div>
+  </div>
+  <div class="price"><span id="sticky-price">34 €</span></div>
+  <button class="btn btn-coral" id="sticky-btn">Ajouter au panier <span class="arrow">→</span></button>
+</div>
+
+<div class="drawer-overlay" id="drawer-overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Panier">
+  <div class="drawer-head">
+    <div class="h">Votre panier <span class="count" id="drawer-count">{{ cart.item_count }} {% if cart.item_count == 1 %}article{% else %}articles{% endif %}</span></div>
+    <button class="drawer-close" id="drawer-close" aria-label="Fermer">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 3l8 8M11 3l-8 8"/></svg>
+    </button>
+  </div>
+
+  <div class="drawer-items" id="drawer-items">
+    {%- for it in cart.items -%}
+      <div class="drawer-item" data-key="{{ it.key }}">
+        {%- if it.image -%}<img class="thumb" src="{{ it.image | image_url: width: 128 }}" alt="" width="64" height="64" style="object-fit:cover;">{%- else -%}<div class="thumb"></div>{%- endif -%}
+        <div>
+          <div class="n">{{ it.product.title | default: it.title | replace: 'Bas de contention', 'Chaussettes de compression' }}</div>
+          <div class="m">{{ it.variant.title }}</div>
+          <div class="qty"><button data-dec>−</button><span>{{ it.quantity }}</span><button data-inc>+</button></div>
+        </div>
+        <div class="p">{{ it.final_line_price | money }}</div>
+      </div>
+    {%- else -%}
+      <p style="padding:24px 0;color:var(--muted);font-size:14px;">Votre panier est vide.</p>
+    {%- endfor -%}
+  </div>
+
+  <div class="drawer-foot">
+    <div class="row"><span>Sous-total</span><span id="drawer-subtotal">{{ cart.total_price | money }}</span></div>
+    <div class="row drawer-discount-row" id="drawer-discount-row"{% if cart.total_discount <= 0 %} hidden{% endif %}><span>Réduction</span><span id="drawer-discount" style="color:var(--green);font-weight:600">−{{ cart.total_discount | money }}</span></div>
+    <div class="row"><span>Livraison</span><span style="color:var(--coral-deep);font-weight:600">Calculée au paiement</span></div>
+    <div class="row total"><span>Total</span><span id="drawer-total">{{ cart.total_price | money }}</span></div>
+    <button class="btn btn-coral" id="drawer-checkout">Paiement <span class="arrow">→</span></button>
+    <div class="note">Paiement sécurisé · CB · Apple Pay · PayPal · Klarna</div>
+  </div>
+</aside>
+
+<script src="{{ 'aura-v2.js' | asset_url }}" defer></script>
+<script src="{{ 'aura-cart.js' | asset_url }}" defer></script>

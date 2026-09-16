@@ -1,0 +1,188 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura Header (FR)
+  ----------------------------------------------------------------------------
+  @description
+    Sticky site header from the Aura v2 design — left nav, centred wordmark,
+    right nav + cart button (id="cart-open" opens the drawer via aura-v2.js).
+    Styles in assets/aura-v2.css (.header). Renders globally via header-group.json.
+  @blocks
+    - link_left  / link_right : editable nav links (optional badge)
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+<header class="header" data-section="header">
+  <div class="header-row">
+    <div class="header-left">
+      <button class="nav-burger" id="nav-burger" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6.5h16M3 11h16M3 15.5h16"/></svg>
+      </button>
+      <nav class="nav-links">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'link_left' -%}
+            <a href="{{ block.settings.url | default: '#' }}" class="nav-link" {{ block.shopify_attributes }}>
+              {{- block.settings.label | escape -}}
+              {%- if block.settings.badge != blank %} <span class="badge">{{ block.settings.badge | escape }}</span>{% endif -%}
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'link_right' -%}
+            <a href="{{ block.settings.url | default: '#' }}" class="nav-link" {{ block.shopify_attributes }}>{{ block.settings.label | escape }}</a>
+          {%- endif -%}
+        {%- endfor -%}
+      </nav>
+    </div>
+
+    <a href="{{ section.settings.logo_url | default: '/' }}" class="logo">{{ section.settings.logo_text | escape }}</a>
+
+    <div class="header-right">
+      <button class="nav-icon-btn" aria-label="Rechercher">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="9" r="5.5"/><path d="M13.5 13.5l3.5 3.5"/></svg>
+      </button>
+      <button class="cart-btn" id="cart-open" aria-label="{{ section.settings.cart_label | default: 'Panier' | escape }}">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16l-1.2 12.2a1 1 0 0 1-1 .8H6.2a1 1 0 0 1-1-.8L4 7z"/><path d="M8.5 7V5.5a3.5 3.5 0 0 1 7 0V7"/></svg>
+        <span class="count{% if cart.item_count == 0 %} is-empty{% endif %}" id="cart-count" data-cart-count>{{ cart.item_count }}</span>
+      </button>
+    </div>
+  </div>
+
+  <nav class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'link_left' -%}
+        <a href="{{ block.settings.url | default: '#' }}" class="mobile-link" {{ block.shopify_attributes }}>
+          {{- block.settings.label | escape -}}
+          {%- if block.settings.badge != blank %} <span class="badge">{{ block.settings.badge | escape }}</span>{% endif -%}
+        </a>
+      {%- endif -%}
+    {%- endfor -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'link_right' -%}
+        <a href="{{ block.settings.url | default: '#' }}" class="mobile-link" {{ block.shopify_attributes }}>{{ block.settings.label | escape }}</a>
+      {%- endif -%}
+    {%- endfor -%}
+  </nav>
+</header>
+<div class="aura-menu-overlay" id="menu-overlay"></div>
+
+<script>
+  (function () {
+    var b = document.getElementById('nav-burger');
+    var m = document.getElementById('mobile-menu');
+    var ov = document.getElementById('menu-overlay');
+    if (!b || !m) return;
+    function setOpen(open) {
+      m.classList.toggle('open', open);
+      if (ov) ov.classList.toggle('open', open);
+      b.setAttribute('aria-expanded', open ? 'true' : 'false');
+      m.setAttribute('aria-hidden', open ? 'false' : 'true');
+    }
+    b.addEventListener('click', function () { setOpen(!m.classList.contains('open')); });
+    m.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
+    if (ov) ov.addEventListener('click', function () { setOpen(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Aura Header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Brand name",
+      "default": "Aura"
+    },
+    {
+      "type": "url",
+      "id": "logo_url",
+      "label": "Logo link"
+    },
+    {
+      "type": "text",
+      "id": "cart_label",
+      "label": "Cart label",
+      "default": "Panier"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link_left",
+      "name": "Link (left)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Boutique"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge (optional)"
+        }
+      ]
+    },
+    {
+      "type": "link_right",
+      "name": "Link (right)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Trouver ma taille"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Aura Header",
+      "blocks": [
+        {
+          "type": "link_left",
+          "settings": {
+            "label": "Boutique"
+          }
+        },
+        {
+          "type": "link_left",
+          "settings": {
+            "label": "Pourquoi Aura"
+          }
+        },
+        {
+          "type": "link_left",
+          "settings": {
+            "label": "Pour les équipes"
+          }
+        },
+        {
+          "type": "link_left",
+          "settings": {
+            "label": "Journal"
+          }
+        },
+        {
+          "type": "link_right",
+          "settings": {
+            "label": "Trouver ma taille"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

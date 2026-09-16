@@ -1,0 +1,66 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura Newsletter (FR)
+  ----------------------------------------------------------------------------
+  @description
+    "Shift letter" newsletter band from the Aura v2 design. Styles in
+    assets/aura-v2.css (.newsletter). Uses Shopify's customer form so signups
+    are captured. Renders via footer-group.json.
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+<div class="newsletter" data-section="newsletter">
+  <div class="newsletter-inner">
+    <h3>{{ section.settings.heading }}</h3>
+    {%- if section.settings.body != blank -%}<p>{{ section.settings.body | escape }}</p>{%- endif -%}
+    {%- form 'customer' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <input
+        type="email"
+        name="contact[email]"
+        placeholder="{{ section.settings.placeholder | escape }}"
+        required
+      >
+      <button type="submit" class="btn btn-light">{{ section.settings.button_label | escape }}</button>
+    {%- endform -%}
+    {%- if section.settings.legal != blank -%}<div class="legal">{{ section.settings.legal | escape }}</div>{%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Aura Newsletter",
+  "settings": [
+    {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading",
+      "default": "La <span class=\"ser\">lettre de garde.</span>"
+    },
+    {
+      "type": "text",
+      "id": "body",
+      "label": "Text",
+      "default": "Une note mensuelle pour les infirmières : récupération, science du mollet, conseils d'ajustement de notre équipe. Jamais de spam, promis."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Email placeholder",
+      "default": "vous@hôpital.fr"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button",
+      "default": "S'inscrire"
+    },
+    {
+      "type": "text",
+      "id": "legal",
+      "label": "Legal note",
+      "default": "En vous inscrivant, vous acceptez notre politique de confidentialité. Désinscription en un clic."
+    }
+  ]
+}
+{% endschema %}

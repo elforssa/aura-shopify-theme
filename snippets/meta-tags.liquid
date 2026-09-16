@@ -1,8 +1,11 @@
 {%- liquid
-  assign og_title = page_title | default: shop.name
+  # Aura: mask the old product term until the admin product title/type are renamed
+  # (« Bas de contention » → « Chaussettes de compression »). Mirrors the defensive
+  # replace in layout/theme.liquid so og:/twitter: titles match the visible H1.
+  assign og_title = page_title | default: shop.name | replace: 'Bas de contention', 'Chaussettes de compression'
   assign og_url = canonical_url | default: request.origin
   assign og_type = 'website'
-  assign og_description = page_description | default: shop.description | default: shop.name
+  assign og_description = page_description | default: shop.description | default: shop.name | replace: 'Bas de contention', 'Chaussettes de compression' | replace: 'bas de contention', 'chaussettes de compression' | replace: 'compression médicale graduée', 'compression graduée' | replace: 'compression médicale', 'compression graduée'
 
   if request.page_type == 'product'
     assign og_type = 'product'

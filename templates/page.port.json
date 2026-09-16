@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "aura-page-guide",
+      "settings": {
+        "cta_url": "/pages/contact"
+      }
+    }
+  },
+  "order": ["main"]
+}

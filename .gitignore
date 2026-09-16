@@ -8,3 +8,16 @@
 ehthumbs.db
 Thumbs.db
 .shopify
+
+# Local debugging screenshots
+/.mc/
+
+# Machine-specific Claude permissions
+/.claude/settings.local.json
+
+# Local environment files; retain sanitized examples
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template

@@ -15,16 +15,53 @@
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
 
+    {%- comment -%} Aura brand fonts — Instrument Serif (display) + Geist (body) {%- endcomment -%}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700;800&display=swap"
+    >
+    {{ 'aura-v2.css' | asset_url | stylesheet_tag }}
+
+    {%- liquid
+      # Aura SEO: descriptive homepage title + template-aware meta-description
+      # fallbacks so Google never auto-generates snippets. Admin SEO values, when
+      # set, always win — these only fill the blanks. The replaces strip stale
+      # "compression médicale" wording (Aura is not a registered medical device)
+      # and the old product term "Bas de contention" (renamed to "Chaussettes de
+      # compression" — until the admin product title/type are renamed too).
+      assign meta_title = page_title | replace: 'Bas de contention', 'Chaussettes de compression'
+      if request.page_type == 'index' and page_title == shop.name
+        assign meta_title = 'Auralegs — Chaussettes de compression pour infirmières · 18–25 mmHg'
+      endif
+
+      assign meta_desc = page_description
+      if meta_desc == blank
+        if request.page_type == 'index'
+          assign meta_desc = 'Des jambes légères après 12 h de garde. Compression graduée 18–25 mmHg vérifiée, sans marques rouges, pensée pour les infirmières. Livraison offerte dès 60 €.'
+        elsif request.page_type == 'page' and page.handle == 'guide-des-tailles'
+          assign meta_desc = 'Trouvez votre taille Aura en 30 secondes : pointure (EU 35–48) et mesures pour choisir S/M, L/XL ou XXL. Échange gratuit pendant 30 jours.'
+        elsif request.page_type == 'page' and page.handle == 'contact'
+          assign meta_desc = 'Une question sur votre taille ou votre commande Aura ? Écrivez-nous à contact@auralegs.com — réponse rapide, échange gratuit sous 30 jours.'
+        elsif request.page_type == 'page' and page.handle == 'livraison-retours'
+          assign meta_desc = 'Expédié sous 24 h, livré en 5 à 7 jours ouvrés en France et en Europe. Livraison offerte dès 60 €, retours et échanges gratuits sous 30 jours.'
+        elsif request.page_type == 'page' and page.handle == 'notre-histoire'
+          assign meta_desc = 'Pourquoi Aura existe : des chaussettes de compression pensées pour les infirmières en garde de 12 h — jambes légères, zéro marque rouge, compression graduée 18–25 mmHg.'
+        endif
+      endif
+      assign meta_desc = meta_desc | replace: 'compression médicale graduée', 'compression graduée' | replace: 'compression médicale', 'compression graduée' | replace: 'Bas de contention', 'Chaussettes de compression' | replace: 'bas de contention', 'chaussettes de compression'
+    -%}
     <title>
-      {{ page_title }}
+      {{ meta_title }}
       {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
       {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      {%- unless meta_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
     </title>
 
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
-    {% endif %}
+    {%- if meta_desc != blank -%}
+      <meta name="description" content="{{ meta_desc | escape }}">
+    {%- endif -%}
 
     {% render 'meta-tags' %}
 
@@ -298,7 +335,7 @@
     </script>
   </head>
 
-  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}{% if template.suffix contains 'lp-format' %} lp-page{% endif %}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
@@ -307,7 +344,8 @@
       {%- render 'cart-drawer' -%}
     {%- endif -%}
 
-    {% sections 'header-group' %}
+    {%- comment -%} LP-format pages render navbar-free (no header / announcement) for paid traffic {%- endcomment -%}
+    {% unless template.suffix contains 'lp-format' %}{% sections 'header-group' %}{% endunless %}
 
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
       {{ content_for_layout }}
@@ -372,5 +410,7 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
+    {%- render 'aura-globals' -%}
   </body>
 </html>

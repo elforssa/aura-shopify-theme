@@ -1,0 +1,111 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura Page — Comment porter (FR)
+  ----------------------------------------------------------------------------
+  @description
+    Post-purchase "how to wear" page reached from a QR code on the packaging.
+    Centred head, 4 enfilage steps next to a photo/video slot, a do/don't/care
+    band, closing reassurance. Reuses the shared .pg page classes in
+    assets/aura-v2.css (no new CSS). Assign template "page.port" to the page
+    (URL: /pages/port).
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+<div class="pg" data-section="page-guide">
+  <div class="pg-inner">
+    <div class="pg-head">
+      <div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>
+      <h1 class="h-display h-section">{{ section.settings.heading | escape }}</h1>
+      <p class="lead">{{ section.settings.lead | escape }}</p>
+    </div>
+
+    <div class="pg-grid2">
+      <div class="pg-steps">
+        <div class="pg-step"><span class="n">1</span><div><div class="t">{{ section.settings.step1_title | escape }}</div><div class="d">{{ section.settings.step1_body | escape }}</div></div></div>
+        <div class="pg-step"><span class="n">2</span><div><div class="t">{{ section.settings.step2_title | escape }}</div><div class="d">{{ section.settings.step2_body | escape }}</div></div></div>
+        <div class="pg-step"><span class="n">3</span><div><div class="t">{{ section.settings.step3_title | escape }}</div><div class="d">{{ section.settings.step3_body | escape }}</div></div></div>
+        <div class="pg-step"><span class="n">4</span><div><div class="t">{{ section.settings.step4_title | escape }}</div><div class="d">{{ section.settings.step4_body | escape }}</div></div></div>
+      </div>
+      <div class="pg-media">
+        {%- if section.settings.image != blank -%}
+          <img src="{{ section.settings.image | image_url: width: 1000 }}" alt="{{ section.settings.heading | escape }}" width="1000" height="750" loading="lazy">
+        {%- else -%}
+          <div class="ph"><span class="ph-label">{{ section.settings.image_label | escape }}</span></div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <div class="pg-band">
+    <div class="pg-inner">
+      <div class="pg-head" style="margin-bottom:26px">
+        <div class="eyebrow">{{ section.settings.tips_eyebrow | escape }}</div>
+        <h2 class="h-display">{{ section.settings.tips_heading | escape }}</h2>
+      </div>
+      <div class="pg-cards3">
+        <div class="pg-card" style="margin-top:0">
+          <div class="t">{{ section.settings.do_title | escape }}</div>
+          <div class="d">{{ section.settings.do_body | escape }}</div>
+        </div>
+        <div class="pg-card" style="margin-top:0">
+          <div class="t">{{ section.settings.dont_title | escape }}</div>
+          <div class="d">{{ section.settings.dont_body | escape }}</div>
+        </div>
+        <div class="pg-card" style="margin-top:0">
+          <div class="t">{{ section.settings.care_title | escape }}</div>
+          <div class="d">{{ section.settings.care_body | escape }}</div>
+          {%- if section.settings.care_link != blank -%}<a class="pg-qa-link" href="{{ section.settings.care_url | escape }}">{{ section.settings.care_link | escape }}</a>{%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg-close">
+    <div class="eyebrow">{{ section.settings.close_eyebrow | escape }}</div>
+    <h2>{{ section.settings.close_heading | escape }}</h2>
+    <p>{{ section.settings.close_lead | escape }}</p>
+    {%- if section.settings.cta_label != blank -%}<a class="btn btn-coral" href="{{ section.settings.cta_url }}">{{ section.settings.cta_label | escape }} <span class="arrow">→</span></a>{%- endif -%}
+    <div class="note">{{ section.settings.cta_note | escape }}</div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Aura Page — Enfilage",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Guide" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Comment porter vos Aura" },
+    { "type": "textarea", "id": "lead", "label": "Sous-titre", "default": "Une paire bien enfilée, c'est tout le confort d'une compression graduée. Voici le geste, en quatre étapes — moins d'une minute une fois pris en main." },
+    { "type": "header", "content": "Étapes d'enfilage" },
+    { "type": "text", "id": "step1_title", "label": "Étape 1 — titre", "default": "Enfilez-les le matin" },
+    { "type": "textarea", "id": "step1_body", "label": "Étape 1 — texte", "default": "Le meilleur moment : au réveil, jambes reposées, avant qu'elles ne gonflent. La peau doit être sèche — évitez la crème juste avant." },
+    { "type": "text", "id": "step2_title", "label": "Étape 2 — titre", "default": "Retournez la tige jusqu'au talon" },
+    { "type": "textarea", "id": "step2_body", "label": "Étape 2 — texte", "default": "Glissez la main dans la chaussette, saisissez le talon et retournez la tige sur elle-même. Vous obtenez une « poche » facile à enfiler." },
+    { "type": "text", "id": "step3_title", "label": "Étape 3 — titre", "default": "Placez la pointe et le talon" },
+    { "type": "textarea", "id": "step3_body", "label": "Étape 3 — texte", "default": "Enfilez les orteils jusqu'à la pointe sans couture, puis calez bien le talon dans l'arrondi prévu. Tout part de là." },
+    { "type": "text", "id": "step4_title", "label": "Étape 4 — titre", "default": "Déroulez le long de la jambe" },
+    { "type": "textarea", "id": "step4_body", "label": "Étape 4 — texte", "default": "Remontez la maille progressivement, sans tirer d'un coup. Lissez les plis au fur et à mesure. Le bord-côte se place à deux doigts sous le genou — jamais replié." },
+    { "type": "image_picker", "id": "image", "label": "Photo ou visuel d'enfilage" },
+    { "type": "text", "id": "image_label", "label": "Libellé du placeholder", "default": "Vidéo ou photo — l'enfilage en gestes" },
+    { "type": "header", "content": "Bande — bons réflexes" },
+    { "type": "text", "id": "tips_eyebrow", "label": "Eyebrow", "default": "Les bons réflexes" },
+    { "type": "text", "id": "tips_heading", "label": "Titre", "default": "Bien portées, elles se font oublier." },
+    { "type": "text", "id": "do_title", "label": "À faire — titre", "default": "À faire" },
+    { "type": "textarea", "id": "do_body", "label": "À faire — texte", "default": "Enfilez-les le matin, lissez toute la maille, placez le bord-côte sous le genou. Portez-les toute la garde, retirez-les le soir." },
+    { "type": "text", "id": "dont_title", "label": "À éviter — titre", "default": "À éviter" },
+    { "type": "textarea", "id": "dont_body", "label": "À éviter — texte", "default": "Ne les roulez pas en boudin serré et ne repliez jamais le bord : cela crée un garrot qui coupe la circulation — l'effet inverse de la compression graduée." },
+    { "type": "text", "id": "care_title", "label": "Entretien — titre", "default": "Entretien" },
+    { "type": "textarea", "id": "care_body", "label": "Entretien — texte", "default": "Lavage en machine à 30°, à l'envers, sans adoucissant. Séchage à l'air libre. La maille garde ainsi sa compression, lavage après lavage." },
+    { "type": "text", "id": "care_link", "label": "Entretien — lien (libellé)", "default": "Une question ? Nous écrire →" },
+    { "type": "text", "id": "care_url", "label": "Entretien — lien (URL)", "default": "/pages/contact" },
+    { "type": "header", "content": "Bande finale" },
+    { "type": "text", "id": "close_eyebrow", "label": "Eyebrow", "default": "Au quotidien" },
+    { "type": "text", "id": "close_heading", "label": "Titre", "default": "Des jambes légères, garde après garde." },
+    { "type": "textarea", "id": "close_lead", "label": "Texte", "default": "Portez-les toute la garde, retirez-les le soir venu. C'est aussi simple que ça." },
+    { "type": "text", "id": "cta_label", "label": "Bouton", "default": "Une question ? Contactez-nous" },
+    { "type": "url", "id": "cta_url", "label": "Lien du bouton" },
+    { "type": "text", "id": "cta_note", "label": "Note sous le bouton", "default": "En cas de gêne ou de doute médical, retirez-les et parlez-en à votre médecin." }
+  ],
+  "presets": [{ "name": "Aura Page — Enfilage" }]
+}
+{% endschema %}

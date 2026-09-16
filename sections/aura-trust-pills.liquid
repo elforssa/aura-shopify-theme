@@ -1,0 +1,117 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura Trust Pills (FR)
+  ----------------------------------------------------------------------------
+  @description
+    Dark trust band from the Aura v2 design — 4 spec pills. Styles in
+    assets/aura-v2.css (.pills). Each pill is an editable block.
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+<div class="pills" data-section="trust-pills">
+  <div class="pills-row">
+    {%- for block in section.blocks -%}
+      <div class="pill" {{ block.shopify_attributes }}>
+        <div class="ic">
+          {%- case block.settings.icon -%}
+            {%- when 'star' -%}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l2.6 5.3 5.8.85-4.2 4.1 1 5.75L12 16.6l-5.2 2.6 1-5.75-4.2-4.1 5.8-.85z"/></svg>
+            {%- when 'seal' -%}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M8.4 12.2l2.4 2.4 4.8-4.9"/></svg>
+            {%- when 'thread' -%}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M4.5 7.5c6 0 6 6.5 0 6.5"/><path d="M19.5 10c-6 0-6 6.5 0 6.5"/></svg>
+            {%- else -%}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 9c3.2-3.4 6.3-3.4 9.5 0s6.3 3.4 9.5 0"/><path d="M3.5 15c3.2-3.4 6.3-3.4 9.5 0s6.3 3.4 9.5 0"/></svg>
+          {%- endcase -%}
+        </div>
+        <div class="t"><div class="l">{{ block.settings.label | escape }}</div><div class="s">{{ block.settings.sublabel | escape }}</div></div>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Aura Trust Pills",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "pill",
+      "name": "Pill",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "star",
+              "label": "Star"
+            },
+            {
+              "value": "seal",
+              "label": "Seal"
+            },
+            {
+              "value": "thread",
+              "label": "Thread"
+            },
+            {
+              "value": "knit",
+              "label": "Knit"
+            }
+          ],
+          "default": "star"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Heading",
+          "default": "Bénéfice"
+        },
+        {
+          "type": "text",
+          "id": "sublabel",
+          "label": "Subtitle",
+          "default": "Détail"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Aura Trust Pills",
+      "blocks": [
+        {
+          "type": "pill",
+          "settings": {
+            "icon": "star",
+            "label": "Compression vérifiée 18–25 mmHg",
+            "sublabel": "Compression graduée"
+          }
+        },
+        {
+          "type": "pill",
+          "settings": {
+            "icon": "seal",
+            "label": "Pointe sans couture",
+            "sublabel": "Fini les ampoules de la 8ᵉ heure"
+          }
+        },
+        {
+          "type": "pill",
+          "settings": {
+            "icon": "thread",
+            "label": "Tricot 2 fils, seconde peau",
+            "sublabel": "Garde sa forme après 100 lavages"
+          }
+        },
+        {
+          "type": "pill",
+          "settings": {
+            "icon": "knit",
+            "label": "Maille respirante 2 fils",
+            "sublabel": "Maison de bonneterie ligérienne"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

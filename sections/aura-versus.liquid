@@ -1,0 +1,169 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura Versus (FR)
+  ----------------------------------------------------------------------------
+  @description
+    "Most compression socks aren't compression socks" comparison table from the
+    v2 design — Aura vs pharmacy generics. Styles in assets/aura-v2.css
+    (.versus). Each comparison row is an editable block.
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+<section class="versus" data-section="versus">
+  <div class="head">
+    <div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>
+    <h2 class="h-display h-section">{{ section.settings.heading }}</h2>
+    <p class="lead">{{ section.settings.lead | escape }}</p>
+  </div>
+  <div class="versus-table">
+    <div class="vt-table-row" style="display: contents;">
+      <div class="vt-h first"><div class="lab">{{ section.settings.col_feature | escape }}</div><div class="nm">&nbsp;</div></div>
+      <div class="vt-h"><div class="lab">{{ section.settings.col_other_lab | escape }}</div><div class="nm">{{ section.settings.col_other_nm | escape }}</div></div>
+      <div class="vt-h brand"><div class="lab">{{ section.settings.col_brand_lab | escape }}</div><div class="nm">{{ section.settings.col_brand_nm | escape }}</div></div>
+    </div>
+    {%- for block in section.blocks -%}
+      <div class="vt-table-row" style="display: contents;" {{ block.shopify_attributes }}>
+        <div class="vt-cell feature">{{ block.settings.feature | escape }}</div>
+        <div class="vt-cell muted"><span class="ic-no">×</span> {{ block.settings.other | escape }}</div>
+        <div class="vt-cell brand"><span class="ic-yes">✓</span> {{ block.settings.brand | escape }}</div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Aura Versus",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Pourquoi les autres compressions échouent"
+    },
+    {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading",
+      "default": "La plupart des chaussettes de compression n'en sont pas vraiment."
+    },
+    {
+      "type": "text",
+      "id": "lead",
+      "label": "Subheading",
+      "default": "Si votre dernière paire vous a donné des ampoules, a roulé au bord-côte ou ressemblait à un garrot avant midi, voici ce qui clochait vraiment."
+    },
+    {
+      "type": "text",
+      "id": "col_feature",
+      "label": "Column 1 (label)",
+      "default": "Critère"
+    },
+    {
+      "type": "text",
+      "id": "col_other_lab",
+      "label": "Column 2 (label)",
+      "default": "Compression en pharmacie"
+    },
+    {
+      "type": "text",
+      "id": "col_other_nm",
+      "label": "Column 2 (name)",
+      "default": "Générique"
+    },
+    {
+      "type": "text",
+      "id": "col_brand_lab",
+      "label": "Column 3 (label)",
+      "default": "La référence"
+    },
+    {
+      "type": "text",
+      "id": "col_brand_nm",
+      "label": "Column 3 (name)",
+      "default": "Aura"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "feature",
+          "label": "Feature",
+          "default": "Critère"
+        },
+        {
+          "type": "text",
+          "id": "other",
+          "label": "Others",
+          "default": "Point faible"
+        },
+        {
+          "type": "text",
+          "id": "brand",
+          "label": "Aura",
+          "default": "Avantage Aura"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Aura Versus",
+      "blocks": [
+        {
+          "type": "row",
+          "settings": {
+            "feature": "Pression graduée",
+            "other": "Plate ou non vérifiée",
+            "brand": "18–25 mmHg, cheville-mollet"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "feature": "Construction de la pointe",
+            "other": "Couture épaisse",
+            "brand": "Sans couture, sans point de pression"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "feature": "Tenue du bord-côte",
+            "other": "Roule dès la 4ᵉ heure",
+            "brand": "Maintien plat, anti-roulement"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "feature": "Gestion de la chaleur",
+            "other": "Le polyester retient la transpiration",
+            "brand": "Coup-de-pied en maille aérée"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "feature": "Après 100 lavages",
+            "other": "Pression perdue, trous",
+            "brand": "Compression intacte, garantie"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "feature": "Conception",
+            "other": "Générique, jamais testé en garde",
+            "brand": "Pensé et testé avec des soignantes"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

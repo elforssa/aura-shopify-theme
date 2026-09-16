@@ -1,216 +1,878 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "main": {
-      "type": "main-product",
+    "aura_featured_product": {
+      "type": "aura-featured-product",
       "blocks": {
-        "vendor": {
-          "type": "text",
+        "c1": {
+          "type": "color",
           "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "uppercase"
+            "name": "Bordeaux",
+            "hex": "#6E2C36",
+            "dark": true
           }
         },
-        "title": {
-          "type": "title"
-        },
-        "caption": {
-          "type": "text",
+        "c2": {
+          "type": "color",
           "settings": {
-            "text": "{{ product.metafields.descriptors.subtitle.value }}",
-            "text_style": "subtitle"
+            "name": "Noir",
+            "hex": "#16181D",
+            "dark": true
           }
         },
-        "price": {
-          "type": "price"
-        },
-        "variant_picker": {
-          "type": "variant_picker",
+        "c3": {
+          "type": "color",
           "settings": {
-            "picker_type": "button"
+            "name": "Gris",
+            "hex": "#A8A6A3",
+            "dark": false
           }
         },
-        "quantity_selector": {
-          "type": "quantity_selector"
-        },
-        "buy_buttons": {
-          "type": "buy_buttons",
+        "s1": {
+          "type": "size",
           "settings": {
-            "show_dynamic_checkout": true,
-            "show_gift_card_recipient": true
+            "sz": "S/M",
+            "eu": "EU 35–39",
+            "active": true
           }
         },
-        "description": {
-          "type": "description"
-        },
-        "collapsible-row-0": {
-          "type": "collapsible_tab",
+        "s2": {
+          "type": "size",
           "settings": {
-            "heading": "Materials",
-            "icon": "leather",
-            "content": "",
-            "page": ""
+            "sz": "L/XL",
+            "eu": "EU 40–44",
+            "active": false
           }
         },
-        "collapsible-row-1": {
-          "type": "collapsible_tab",
+        "s3": {
+          "type": "size",
           "settings": {
-            "heading": "Shipping & Returns",
-            "icon": "truck",
-            "content": "",
-            "page": ""
+            "sz": "XXL",
+            "eu": "EU 45–48",
+            "active": false
           }
         },
-        "collapsible-row-2": {
-          "type": "collapsible_tab",
+        "k1": {
+          "type": "pack",
           "settings": {
-            "heading": "Dimensions",
-            "icon": "ruler",
-            "content": "",
-            "page": ""
+            "qty": "1",
+            "unit": "paire",
+            "per": "34 € / paire",
+            "price": "34",
+            "ribbon": "",
+            "ribbon_kind": "popular",
+            "tag": "",
+            "perk": "",
+            "save": "",
+            "discount_pct": 0,
+            "active": false
           }
         },
-        "collapsible-row-3": {
-          "type": "collapsible_tab",
+        "k2": {
+          "type": "pack",
           "settings": {
-            "heading": "Care Instructions",
+            "qty": "4",
+            "unit": "paires",
+            "per": "17 € / paire",
+            "price": "68",
+            "ribbon": "Le plus populaire",
+            "ribbon_kind": "popular",
+            "tag": "2 offertes",
+            "perk": "Livraison offerte",
+            "save": "Économisez 50 %",
+            "discount_pct": 50,
+            "active": true
+          }
+        },
+        "k3": {
+          "type": "pack",
+          "settings": {
+            "qty": "6",
+            "unit": "paires",
+            "per": "17 € / paire",
+            "price": "102",
+            "ribbon": "Meilleure offre",
+            "ribbon_kind": "value",
+            "tag": "3 offertes",
+            "perk": "Livraison offerte + cadeau surprise",
+            "save": "Économisez 50 %",
+            "discount_pct": 50,
+            "active": false
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "s1",
+        "s2",
+        "s3",
+        "k1",
+        "k2",
+        "k3"
+      ],
+      "settings": {
+        "featured_product": "",
+        "badge_label": "Best-seller",
+        "eyebrow": "Conçu pour les gardes de 12 heures",
+        "headline": "La compression qui efface les marques rouges",
+        "benefit_1": "18–25 mmHg vérifié",
+        "benefit_2": "Zéro marque rouge",
+        "benefit_3": "Sans couture",
+        "benefit_4": "Facile à enfiler",
+        "size_guide_title": "Guide des tailles",
+        "size_guide": "<table>\n<thead><tr>\n<th>Taille</th>\n<th>Pointure (EU)</th>\n<th>Largeur cheville*</th>\n<th>Longueur jambe</th>\n<th>Longueur pied*</th>\n</tr></thead>\n<tbody>\n<tr>\n<td>S/M</td>\n<td>35–39</td>\n<td>11 cm</td>\n<td>32 cm</td>\n<td>16,5 cm</td>\n</tr>\n<tr>\n<td>L/XL</td>\n<td>40–44</td>\n<td>12 cm</td>\n<td>33 cm</td>\n<td>18,5 cm</td>\n</tr>\n<tr>\n<td>XXL</td>\n<td>45–48</td>\n<td>13 cm</td>\n<td>35 cm</td>\n<td>20,5 cm</td>\n</tr>\n</tbody>\n</table><p>*Mesures du bas posé à plat — la maille s'étire. Hauteur du bord : 2,5 cm. Entre deux tailles, choisissez la plus grande.</p>",
+        "rating": "4,8",
+        "reviews_count": "150+ avis d'infirmières",
+        "offer_badge": "",
+        "price_from": "17 €",
+        "size_note": "La plupart des infirmières prennent leur pointure habituelle.",
+        "cta_label": "Ajouter au panier",
+        "savings_badge": "−50 %",
+        "ship_left": "Expédié sous 24 h",
+        "ship_right": "Livraison France & Europe",
+        "ship_min_days": 5,
+        "ship_max_days": 7,
+        "guarantee_days": "30",
+        "guarantee_text": "30 jours satisfait ou remboursé",
+        "guarantee_body": "Si la paire ne vous convient pas, même portée une garde, on la reprend sans question.",
+        "promo_heading": "Achetez 2 paires",
+        "promo_strong": "2 paires offertes",
+        "promo_sub": "Mélangez les coloris au paiement",
+        "default_price": "68 €"
+      }
+    },
+    "aura_feature_grid": {
+      "type": "aura-feature-grid",
+      "blocks": {
+        "f1": {
+          "type": "feature",
+          "settings": {
+            "icon": "verified",
+            "spec": "Compression",
+            "label": "18–25 mmHg, vérifiée"
+          }
+        },
+        "f2": {
+          "type": "feature",
+          "settings": {
+            "icon": "nomark",
+            "spec": "Bord-côte",
+            "label": "Plat, zéro marque rouge"
+          }
+        },
+        "f3": {
+          "type": "feature",
+          "settings": {
+            "icon": "circ",
+            "spec": "Circulation",
+            "label": "Soutenue toute la garde"
+          }
+        },
+        "f4": {
+          "type": "feature",
+          "settings": {
+            "icon": "swell",
+            "spec": "Gonflements",
+            "label": "Limités en fin de journée"
+          }
+        },
+        "f5": {
+          "type": "feature",
+          "settings": {
+            "icon": "fiber",
+            "spec": "Maille",
+            "label": "Respirante et douce"
+          }
+        },
+        "f6": {
+          "type": "feature",
+          "settings": {
+            "icon": "easy",
+            "spec": "Enfilage",
+            "label": "Facile, sans effort"
+          }
+        }
+      },
+      "block_order": [
+        "f1",
+        "f2",
+        "f3",
+        "f4",
+        "f5",
+        "f6"
+      ],
+      "settings": {}
+    },
+    "aura_video_reviews_v2": {
+      "type": "aura-video-reviews",
+      "blocks": {
+        "v1": {
+          "type": "vreview",
+          "settings": {
+            "video": "shopify://files/videos/eva aura .mp4",
+            "video_url": "",
+            "name": "Anaïs L.",
+            "quote": "« Dès le premier jour de garde, mes jambes vont tellement mieux.»"
+          }
+        },
+        "v2": {
+          "type": "vreview",
+          "settings": {
+            "video": "shopify://files/videos/0617(2).mp4",
+            "video_url": "",
+            "name": "Lorna M.",
+            "quote": "« Tout a changé pour mes jambes gonflées depuis que j'ai trouvé Aura. »"
+          }
+        }
+      },
+      "block_order": [
+        "v1",
+        "v2"
+      ],
+      "settings": {
+        "eyebrow": "Elles témoignent",
+        "heading": "La preuve, en vidéo."
+      }
+    },
+    "aura_statistics": {
+      "type": "aura-statistics",
+      "blocks": {
+        "st1": {
+          "type": "stat",
+          "settings": {
+            "number": "94",
+            "suffix": "%",
+            "label": "ressentent moins de jambes lourdes",
+            "highlight": false
+          }
+        },
+        "st2": {
+          "type": "stat",
+          "settings": {
+            "number": "8",
+            "suffix": "h",
+            "label": "de maintien sans glisser, garde après garde",
+            "highlight": true
+          }
+        },
+        "st3": {
+          "type": "stat",
+          "settings": {
+            "number": "0",
+            "suffix": "",
+            "label": "marque rouge en fin de journée",
+            "highlight": false
+          }
+        },
+        "st4": {
+          "type": "stat",
+          "settings": {
+            "number": "92",
+            "suffix": "%",
+            "label": "oublient qu'elles les portent après une heure de garde",
+            "highlight": false
+          }
+        }
+      },
+      "block_order": [
+        "st1",
+        "st2",
+        "st3",
+        "st4"
+      ],
+      "settings": {
+        "eyebrow": "Les vrais chiffres",
+        "heading": "Vos fins de garde, en chiffres.",
+        "lead": "Mesuré sur 1 200 infirmières après une garde de 12 heures."
+      }
+    },
+    "aura_expert": {
+      "type": "aura-expert-testimonial",
+      "disabled": true,
+      "settings": {
+        "eyebrow": "Approuvé par les soignants",
+        "quote": "<p>« Je les recommande à mes patientes infirmières. Une compression graduée bien tricotée change vraiment la fin de garde — moins d'œdème, moins de douleur. »</p>",
+        "name": "Dr. Camille Roussel",
+        "credentials": "Médecin vasculaire · Lyon",
+        "role": "12 ans en phlébologie hospitalière"
+      }
+    },
+    "aura_science": {
+      "type": "aura-science",
+      "settings": {
+        "eyebrow": "La science",
+        "heading": "La pression qu'il faut à vos jambes.",
+        "para1": "<p>La vraie compression est <strong>graduée</strong>, pas uniforme : plus ferme à la cheville, plus souple vers le mollet. Cette fermeté à la cheville est voulue. C'est ce gradient qui ramène réellement le sang vers le cœur, au lieu de simplement comprimer la jambe.</p>",
+        "para2": "",
+        "bars_label": "Aura · compression graduée",
+        "bars_value": "18–25 mmHg",
+        "zone1": "Cheville",
+        "zone2": "Mollet",
+        "zone3": "Haut du mollet",
+        "flat_label": "Bas classique · compression plate",
+        "flat_value": "Pression identique",
+        "illus_label": "Schéma anatomique · retour veineux soléaire & mollet",
+        "illus_image": "shopify://shop_images/add_these_arrows_Remove_text_202606161812.jpg"
+      }
+    },
+    "aura_benefits": {
+      "type": "aura-benefits-alternating",
+      "blocks": {
+        "b1": {
+          "type": "benefit",
+          "settings": {
             "icon": "heart",
-            "content": "",
-            "page": ""
+            "heading": "Votre circulation repart.",
+            "body": "<p>La compression graduée 18–25 mmHg relance le retour veineux et limite l'œdème en fin de garde : jambes légères, chevilles fines, sans marque à la peau — du premier patient à la dixième heure.</p>",
+            "video": "shopify://files/videos/0617.mp4"
           }
         },
-        "share": {
-          "type": "share",
+        "b3": {
+          "type": "benefit",
           "settings": {
-            "share_label": "Share"
+            "icon": "run",
+            "heading": "Vous récupérez plus vite.",
+            "body": "<p>Moins de fatigue musculaire après une longue station debout, et une récupération qui démarre dès l'enfilage.</p>",
+            "video": "shopify://files/videos/0617(1).mp4"
           }
         }
       },
       "block_order": [
-        "vendor",
-        "title",
-        "caption",
-        "price",
-        "variant_picker",
-        "quantity_selector",
-        "buy_buttons",
-        "description",
-        "collapsible-row-0",
-        "collapsible-row-1",
-        "collapsible-row-2",
-        "collapsible-row-3",
-        "share"
+        "b1",
+        "b3"
       ],
       "settings": {
-        "enable_sticky_info": true,
-        "gallery_layout": "stacked",
-        "media_size": "large",
-        "constrain_to_viewport": true,
-        "mobile_thumbnails": "hide",
-        "hide_variants": true,
-        "enable_video_looping": false,
-        "padding_top": 36,
-        "padding_bottom": 12
+        "eyebrow": "Les bénéfices",
+        "heading": "Pensé pour vos 12 heures."
       }
     },
-    "image-with-text": {
-      "type": "image-with-text",
+    "aura_softness": {
+      "type": "aura-softness",
       "blocks": {
-        "image-with-text-0": {
-          "type": "heading",
+        "r1": {
+          "type": "rung",
           "settings": {
-            "heading": "Image with text",
-            "heading_size": "h1"
+            "level": "Rigide",
+            "name": "Polyester",
+            "dots": 1,
+            "stretch": "Bon marché, étouffant, qui gratte. Le réflexe en dessous de 15 €.",
+            "best": false,
+            "flag": "Ce qu'on utilise"
           }
         },
-        "image-with-text-1": {
-          "type": "text",
+        "r2": {
+          "type": "rung",
           "settings": {
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "text_style": "body"
+            "level": "Assez douce",
+            "name": "Coton",
+            "dots": 2,
+            "stretch": "Respirant mais se détend, ne tient pas la compression au-delà de 10 h.",
+            "best": false,
+            "flag": "Ce qu'on utilise"
+          }
+        },
+        "r3": {
+          "type": "rung",
+          "settings": {
+            "level": "Plus douce",
+            "name": "Viscose de bambou",
+            "dots": 3,
+            "stretch": "Agréable sur la peau, mais perd sa forme après un lavage chaud.",
+            "best": false,
+            "flag": "Ce qu'on utilise"
+          }
+        },
+        "r4": {
+          "type": "rung",
+          "settings": {
+            "level": "La plus douce",
+            "name": "Aura — tricot 2 fils",
+            "dots": 4,
+            "stretch": "Léger comme une seconde peau, résistant au lavage quotidien.",
+            "best": true,
+            "flag": "Ce qu'on utilise"
           }
         }
       },
       "block_order": [
-        "image-with-text-0",
-        "image-with-text-1"
+        "r1",
+        "r2",
+        "r3",
+        "r4"
       ],
       "settings": {
-        "height": "small",
-        "desktop_image_width": "medium",
-        "layout": "text_first",
-        "desktop_content_position": "top",
-        "desktop_content_alignment": "left",
-        "content_layout": "no-overlap",
-        "color_scheme": "scheme-2",
-        "mobile_content_alignment": "left",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "eyebrow": "Douceur de la matière",
+        "heading": "Douce ? Plus douce que ce qu'on imagine d'une chaussette.",
+        "lead": "Nous avons choisi notre tricot 2 fils sur un comparatif comme celui-ci. Les références des autres, classées de gauche à droite."
       }
     },
-    "multicolumn": {
-      "type": "multicolumn",
+    "aura_versus": {
+      "type": "aura-versus",
       "blocks": {
-        "column-0": {
-          "type": "column",
+        "v1": {
+          "type": "row",
           "settings": {
-            "title": "Free Shipping",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
+            "feature": "Pression graduée",
+            "other": "Plate ou non vérifiée",
+            "brand": "18–25 mmHg, cheville-mollet"
           }
         },
-        "column-1": {
-          "type": "column",
+        "v2": {
+          "type": "row",
           "settings": {
-            "title": "Hassle-Free Exchanges",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
+            "feature": "Construction de la pointe",
+            "other": "Couture épaisse",
+            "brand": "Sans couture, pointe finie à la main"
+          }
+        },
+        "v3": {
+          "type": "row",
+          "settings": {
+            "feature": "Tenue du bord-côte",
+            "other": "Roule dès la 4ᵉ heure",
+            "brand": "Maintien plat, anti-roulement"
+          }
+        },
+        "v4": {
+          "type": "row",
+          "settings": {
+            "feature": "Gestion de la chaleur",
+            "other": "Le polyester retient la transpiration",
+            "brand": "Coup-de-pied en maille aérée"
+          }
+        },
+        "v5": {
+          "type": "row",
+          "settings": {
+            "feature": "Après 100 lavages",
+            "other": "Pression perdue, trous",
+            "brand": "Compression intacte, garantie"
+          }
+        },
+        "v6": {
+          "type": "row",
+          "settings": {
+            "feature": "Conception",
+            "other": "Générique, jamais testé en garde",
+            "brand": "Pensé et testé avec des soignantes"
           }
         }
       },
       "block_order": [
-        "column-0",
-        "column-1"
+        "v1",
+        "v2",
+        "v3",
+        "v4",
+        "v5",
+        "v6"
       ],
       "settings": {
-        "title": "",
-        "heading_size": "h1",
-        "image_width": "full",
-        "image_ratio": "adapt",
-        "columns_desktop": 2,
-        "column_alignment": "left",
-        "background_style": "none",
-        "button_label": "",
-        "button_link": "",
-        "swipe_on_mobile": false,
-        "color_scheme": "scheme-1",
-        "columns_mobile": "1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "eyebrow": "Pourquoi les autres compressions échouent",
+        "heading": "La plupart des chaussettes de compression n'en sont pas vraiment.",
+        "lead": "Si votre dernière paire vous a donné des ampoules, a roulé au bord-côte ou ressemblait à un garrot avant midi, voici ce qui clochait vraiment.",
+        "col_feature": "Critère",
+        "col_other_lab": "Compression en pharmacie",
+        "col_other_nm": "Générique",
+        "col_brand_lab": "La référence",
+        "col_brand_nm": "Aura"
       }
     },
-    "related-products": {
-      "type": "related-products",
+    "aura_ugc": {
+      "type": "aura-ugc",
+      "blocks": {
+        "u1": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/French_woman_running_in_forest_202606191212.jpg",
+            "color": "#EBE3D5",
+            "handle": "@",
+            "url": "",
+            "size": "normal"
+          }
+        },
+        "u2": {
+          "type": "tile",
+          "settings": {
+            "color": "#D9CFBC",
+            "handle": "@marion.sf",
+            "url": "",
+            "size": "normal"
+          }
+        },
+        "u3": {
+          "type": "tile",
+          "settings": {
+            "color": "#E89379",
+            "handle": "@juliette_lille",
+            "url": "",
+            "size": "normal"
+          }
+        },
+        "u4": {
+          "type": "tile",
+          "settings": {
+            "color": "#C8A689",
+            "handle": "@dr.t.bordeaux",
+            "url": "",
+            "size": "normal"
+          }
+        },
+        "u5": {
+          "type": "tile",
+          "settings": {
+            "color": "#0E1B33",
+            "handle": "@aida.ehpad",
+            "url": "",
+            "size": "normal"
+          }
+        },
+        "u6": {
+          "type": "tile",
+          "settings": {
+            "color": "#F2B8A4",
+            "handle": "@sophie.bloc",
+            "url": "",
+            "size": "normal"
+          }
+        }
+      },
+      "block_order": [
+        "u1",
+        "u2",
+        "u3",
+        "u4",
+        "u5",
+        "u6"
+      ],
+      "disabled": true,
       "settings": {
-        "heading": "You may also like",
-        "heading_size": "h2",
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "image_ratio": "square",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "columns_mobile": "2",
-        "padding_top": 36,
-        "padding_bottom": 28
+        "hashtag": "#AuraEnGarde",
+        "heading": "De vraies gardes. De vraies chaussettes.",
+        "lead": "Identifiées par des infirmières, sages-femmes, ambulanciers et voyageuses, en France et au-delà."
+      }
+    },
+    "aura_reviews": {
+      "type": "aura-reviews",
+      "blocks": {
+        "w1": {
+          "type": "review",
+          "settings": {
+            "featured": true,
+            "half": false,
+            "verified_label": "Acheteuse vérifiée",
+            "title": "« Rentrée à la maison, et j'ai cuisiné le dîner. »",
+            "body": "Avant, je posais mon sac à la porte et je m'allongeais par terre, jambes contre le mur. Après trois mois en Aura, je rentre et je cuisine. C'est tout l'avis.",
+            "initials": "CL",
+            "name": "Camille L.",
+            "role": "IDE urgentiste · CHU Lyon Sud · 11 mois de port"
+          }
+        },
+        "w2": {
+          "type": "review",
+          "settings": {
+            "featured": false,
+            "half": false,
+            "verified_label": "Acheteuse vérifiée",
+            "title": "M'a portée pendant la semaine d'intégration.",
+            "body": "La pointe sans couture est la seule raison qui m'a fait tenir. La paire d'avant m'avait donné une ampoule au 3ᵉ jour ; Aura a tenu toute la rotation sans une seule.",
+            "initials": "MD",
+            "name": "Marion D.",
+            "role": "IDE Gériatrie · Bordeaux"
+          }
+        },
+        "w3": {
+          "type": "review",
+          "settings": {
+            "featured": false,
+            "half": false,
+            "verified_label": "Acheteuse vérifiée",
+            "title": "Lavage à 60°, 18 mois après.",
+            "body": "Bordeaux le lundi, Gris le jeudi. Je lave chaud, je sèche tiède. La compression est comme au premier jour. J'avais usé quatre marques moins chères avant.",
+            "initials": "JR",
+            "name": "Juliette R.",
+            "role": "Sage-femme · Maternité Paris 14e"
+          }
+        },
+        "w4": {
+          "type": "review",
+          "settings": {
+            "featured": false,
+            "half": false,
+            "verified_label": "Acheteuse vérifiée",
+            "title": "J'en ai racheté 4 le dimanche.",
+            "body": "Sceptique. Portées 14 heures d'affilée un samedi. Commandé quatre paires de plus le soir même. Les mollets ne brûlent plus à la dixième heure.",
+            "initials": "TB",
+            "name": "Thomas B.",
+            "role": "Aide-soignant · EHPAD Lille"
+          }
+        },
+        "w5": {
+          "type": "review",
+          "settings": {
+            "featured": false,
+            "half": false,
+            "verified_label": "Acheteuse vérifiée",
+            "title": "Valent leurs 34 €, et je suis exigeante.",
+            "body": "J'ai testé quatre marques au même prix. Aura est la seule avec un bord-côte qui ne roule pas, une couture de pointe qu'on ne sent pas, et une pression qui semble pensée.",
+            "initials": "SO",
+            "name": "Sophie O.",
+            "role": "IDE Bloc op. · Marseille"
+          }
+        },
+        "w6": {
+          "type": "review",
+          "settings": {
+            "featured": false,
+            "half": true,
+            "verified_label": "Acheteuse vérifiée",
+            "title": "Pris une taille au-dessus : parfait.",
+            "body": "Conseil : j'ai pris une taille au-dessus du guide et elles sont idéales. Sinon, des chaussettes brillantes. Le tableau de mesure du mollet vaut de l'or.",
+            "initials": "LE",
+            "name": "Léa E.",
+            "role": "Infirmière puéricultrice · Nantes"
+          }
+        }
+      },
+      "block_order": [
+        "w1",
+        "w2",
+        "w3",
+        "w4",
+        "w5",
+        "w6"
+      ],
+      "settings": {
+        "eyebrow": "Vrais avis · vérifiés",
+        "heading": "Portées par des infirmières dans toute la France.",
+        "score": "4,8",
+        "meta": "150+ avis vérifiés d'infirmières"
+      }
+    },
+    "aura_product_details": {
+      "type": "aura-product-details",
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "desc_label": "Description",
+        "description": "Tricotés d'une seule pièce. Compression graduée 18–25 mmHg, pointe sans couture, talon renforcé et bord-côte plat qui ne roule jamais.",
+        "care_label": "Entretien",
+        "care_text": "<p>Lavage en machine à 30°. Séchage à l'air libre. Pas de sèche-linge, pas d'adoucissant — la maille garde sa compression plus longtemps.</p>",
+        "shipping_label": "Livraison",
+        "shipping_text": "<p>Expédié sous 24 h. Livraison offerte dès 60 € (France et Europe), en 5 à 7 jours ouvrés. Suivi par e-mail.</p>",
+        "returns_label": "Retours & échanges",
+        "returns_text": "<p>30 jours pour changer d'avis. Retours et échanges gratuits, même portées une garde.</p>"
+      }
+    },
+    "aura_faq": {
+      "type": "aura-faq",
+      "blocks": {
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "question": "S'agit-il de chaussettes de compression de qualité médicale ?",
+            "answer": "<p>Aura délivre une compression graduée 18–25 mmHg vérifiée — le niveau reconnu pour soulager les jambes lourdes lors des longues stations debout. C'est une compression de confort pensée pour les gardes de 12 heures ; ce n'est pas un dispositif médical délivré sur ordonnance. En cas de trouble veineux diagnostiqué, parlez-en à votre médecin.</p>",
+            "open": true
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "question": "Comment trouver ma taille ?",
+            "answer": "<p>Prenez votre pointure habituelle et repérez votre taille dans notre <a href=\"#\">guide des tailles</a>. Entre deux tailles, prenez la plus grande : la maille se détend, elle ne rétrécit pas.</p>",
+            "open": false
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "question": "Combien de temps durent-elles ?",
+            "answer": "<p>La compression tient au-delà de 100 cycles de lavage à 60°. Tricot 2 fils — léger comme une seconde peau, résistant au lavage quotidien. Si votre paire perd sa pression sous 12 mois, nous la remplaçons gratuitement.</p>",
+            "open": false
+          }
+        },
+        "q4": {
+          "type": "qa",
+          "settings": {
+            "question": "Puis-je les laver en machine ?",
+            "answer": "<p>Oui. Lavage en machine à 60°, séchage tambour doux. Pas d'adoucissant. Sur l'envers c'est plus délicat, mais pas obligatoire.</p>",
+            "open": false
+          }
+        },
+        "q5": {
+          "type": "qa",
+          "settings": {
+            "question": "Et si elles ne me conviennent pas ?",
+            "answer": "<p>Portez-les un mois complet de gardes. Si ce ne sont pas les chaussettes les plus confortables que vous possédez, renvoyez-les — nous prenons en charge le retour et vous remboursons intégralement. Sans question, sans frais.</p>",
+            "open": false
+          }
+        },
+        "q6": {
+          "type": "qa",
+          "settings": {
+            "question": "Proposez-vous des commandes pour équipes et hôpitaux ?",
+            "answer": "<p>Oui — dès 6 paires : tarif équipe, monogrammes brodés, essayages sur site (Île-de-France & Rhône-Alpes) et facturation. <a href=\"#\">Écrivez à notre pôle équipes →</a></p>",
+            "open": false
+          }
+        },
+        "q7": {
+          "type": "qa",
+          "settings": {
+            "question": "Quand verrai-je des résultats ?",
+            "answer": "<p>La plupart des clientes constatent moins de gonflement du mollet et de fatigue en fin de garde dès la première garde de 12 heures. Les bénéfices à long terme (meilleur retour veineux, moins de varicosités) s'installent au fil des semaines.</p>",
+            "open": false
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6",
+        "q7"
+      ],
+      "settings": {
+        "eyebrow": "Vos questions, nos réponses",
+        "heading": "Ce que les infirmières nous demandent.",
+        "lead": "Ou écrivez-nous directement. Nous répondons en général en moins d'une heure, en français comme en anglais.",
+        "contact_title": "Encore une question ?",
+        "contact_desc": "Notre équipe est en grande partie composée d'infirmières. On comprend.",
+        "contact_email": "contact@auralegs.com"
+      }
+    },
+    "aura_promise": {
+      "type": "aura-promise",
+      "blocks": {
+        "m1": {
+          "type": "promise",
+          "settings": {
+            "icon": "star",
+            "title": "Essai 30 nuits",
+            "desc": "Portez-les un mois complet. Pas conquise ? Retour gratuit."
+          }
+        },
+        "m2": {
+          "type": "promise",
+          "settings": {
+            "icon": "shield",
+            "title": "Garantie 12 mois",
+            "desc": "Perte de pression ou couture lâchée ? On remplace, sans question."
+          }
+        },
+        "m3": {
+          "type": "promise",
+          "settings": {
+            "icon": "globe",
+            "title": "Conçu avec des soignantes",
+            "desc": "Pensé et testé en garde réelle avant d'être validé."
+          }
+        },
+        "m4": {
+          "type": "promise",
+          "settings": {
+            "icon": "ship",
+            "title": "Livraison offerte dès 60 €",
+            "desc": "Sur chaque commande de plus de 60 € · expédié sous 24 h."
+          }
+        }
+      },
+      "block_order": [
+        "m1",
+        "m2",
+        "m3",
+        "m4"
+      ],
+      "disabled": true,
+      "settings": {}
+    },
+    "aura_pack_cta": {
+      "type": "aura-pack-cta",
+      "blocks": {
+        "i1": {
+          "type": "item",
+          "settings": {
+            "text": "6 paires d'Aura, vos coloris au choix",
+            "meta": "valeur 204 €"
+          }
+        },
+        "i2": {
+          "type": "item",
+          "settings": {
+            "text": "Cadeau surprise inclus",
+            "meta": "Offert"
+          }
+        },
+        "i3": {
+          "type": "item",
+          "settings": {
+            "text": "Livraison offerte — 5 à 7 jours ouvrés",
+            "meta": "Offerte"
+          }
+        },
+        "i4": {
+          "type": "item",
+          "settings": {
+            "text": "Garantie de remplacement 12 mois",
+            "meta": "Inclus"
+          }
+        },
+        "i5": {
+          "type": "item",
+          "settings": {
+            "text": "−10 % pour vous et une collègue, prochaine commande",
+            "meta": "Les deux"
+          }
+        }
+      },
+      "block_order": [
+        "i1",
+        "i2",
+        "i3",
+        "i4",
+        "i5"
+      ],
+      "settings": {
+        "eyebrow": "L'offre complète",
+        "heading": "Une paire par <span class=\"ser\">jour de garde.</span>",
+        "lead": "Six paires d'Aura, une pour chaque jour de garde. Composez vos coloris, recevez la garde-robe complète — l'offre que nos clientes auraient voulu prendre dès le premier jour.",
+        "card_name": "Le pack 6 paires",
+        "strike": "204 €",
+        "card_desc": "Six paires, vos coloris au choix. La garde-robe Aura complète, en une commande.",
+        "price": "102",
+        "per": "17 € / paire · TTC",
+        "save_line": "Vous économisez 102 € — livraison et cadeau surprise inclus",
+        "flag": "Économisez 102 € · meilleure offre",
+        "button_label": "Composer mon pack 6 paires",
+        "ship": "Livraison express offerte · expédié sous 24 h"
       }
     }
   },
   "order": [
-    "main",
-    "image-with-text",
-    "multicolumn",
-    "related-products"
+    "aura_featured_product",
+    "aura_feature_grid",
+    "aura_video_reviews_v2",
+    "aura_statistics",
+    "aura_expert",
+    "aura_science",
+    "aura_benefits",
+    "aura_softness",
+    "aura_versus",
+    "aura_ugc",
+    "aura_reviews",
+    "aura_product_details",
+    "aura_faq",
+    "aura_promise",
+    "aura_pack_cta"
   ]
 }

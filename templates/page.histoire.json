@@ -1,0 +1,74 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "aura-page-histoire",
+      "blocks": {
+        "r1": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/LAW00191.jpg",
+            "image_label": "",
+            "heading": "Le constat",
+            "body": "Tout commence auprès d'infirmières françaises. Les mêmes mots revenaient après chaque garde : jambes lourdes, chevilles marquées, chaussettes qui roulent avant midi. Les chaussettes de compression existantes étaient pensées pour la prescription, jamais pour celles qui les portent 12 heures par jour."
+          }
+        },
+        "r2": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/Nylon_knee_high_sock_prototypes_202606191117.jpg",
+            "image_label": "Premiers prototypes — photo à venir",
+            "heading": "Deux ans de prototypes",
+            "body": "Nous avons conçu Aura avec celles qui allaient la porter : compression graduée 18–25 mmHg vérifiée, pointe sans couture, bord-côte élargi qui ne laisse pas de marque. Chaque version a été portée en garde réelle avant d'être validée."
+          }
+        },
+        "r3": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/Change_dress_to_black_carpet_202606191119.jpg",
+            "image_label": "Photo à venir",
+            "heading": "Aujourd'hui",
+            "body": "Aura habille des infirmières, des sages-femmes et des aides-soignantes dans toute la France. La promesse n'a pas bougé : finir sa garde avec des jambes qui suivent encore."
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3"
+      ],
+      "settings": {
+        "eyebrow": "Notre histoire",
+        "heading": "Née pendant une garde de nuit.",
+        "lead": "Aura est partie d'un constat simple : debout toute la journée, ces jambes méritaient mieux que des bas d'hôpital gris et un garrot en guise de maintien.",
+        "hero_image": "shopify://shop_images/resize_to_16_9_202606191116.jpg",
+        "hero_label": "L'équipe Aura — photo à venir",
+        "quote": "« On voulait des chaussettes qu'une infirmière garde avec plaisir, pas par obligation. »",
+        "quote_by": "L'équipe Aura",
+        "v1_title": "Conçu avec des soignantes",
+        "v1_body": "Chaque détail vient d'une garde réelle, pas d'un moodboard.",
+        "v2_title": "18–25 mmHg, vérifié",
+        "v2_body": "La compression est contrôlée en pression, pas estimée.",
+        "v3_title": "30 jours pour juger",
+        "v3_body": "Même portée une garde, on la reprend sans question.",
+        "close_eyebrow": "La suite",
+        "close_heading": "Elle s'écrit en garde.",
+        "close_lead": "Si Aura tient sa promesse, c'est à vos jambes d'en juger. Trente jours, une vraie garde, et votre avis.",
+        "cta_label": "Découvrir Aura",
+        "cta_url": "/products/aura-chaussettes-de-compression",
+        "cta_note": "30 jours satisfait ou remboursé, même portée une garde."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

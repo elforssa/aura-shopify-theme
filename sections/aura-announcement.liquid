@@ -1,0 +1,51 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura Announcement (FR)
+  ----------------------------------------------------------------------------
+  @description
+    Top announcement bar from the Aura v2 design. Styles live in
+    assets/aura-v2.css (.announce). Renders globally via header-group.json.
+  @settings
+    - shipping_text / sale_text / lang_text (all editable)
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+<div class="announce" data-section="announcement-bar">
+  {%- if section.settings.shipping_text != blank -%}
+    <span class="announce-msg is-active">{{ section.settings.shipping_text | escape }}</span>
+    <span class="dot"></span>
+  {%- endif -%}
+  {%- if section.settings.sale_text != blank -%}
+    <span class="announce-msg sale">{{ section.settings.sale_text | escape }}</span>
+    <span class="dot"></span>
+  {%- endif -%}
+  {%- if section.settings.lang_text != blank -%}
+    <span class="lang">{{ section.settings.lang_text }}</span>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Aura Announcement",
+  "settings": [
+    {
+      "type": "text",
+      "id": "shipping_text",
+      "label": "Shipping text",
+      "default": "Livraison offerte dès 60 €"
+    },
+    {
+      "type": "text",
+      "id": "sale_text",
+      "label": "Promo text",
+      "default": "Offre packs : jusqu'à −22 %"
+    },
+    {
+      "type": "text",
+      "id": "lang_text",
+      "label": "Language selector",
+      "default": "🇫🇷 FR <span style=\"opacity:0.4\">/</span> EN"
+    }
+  ]
+}
+{% endschema %}

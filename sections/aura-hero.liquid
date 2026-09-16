@@ -1,0 +1,312 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura Hero (v2, FR)
+  ----------------------------------------------------------------------------
+  @description
+    Split editorial hero from the Aura v2 design. Styles in assets/aura-v2.css
+    (.hero). Left: rating, big display headline, lead, CTAs, proof row. Right:
+    lifestyle image (or placeholder) with floating tag, shift-bar, testimonial.
+  @blocks
+    - proof : small trust item with icon in the proof row
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+{%- style -%}
+  /* The wrapper is a <section> (schema tag), so the global
+     `section { padding: 96px 32px }` in aura-v2.css was padding the
+     whole hero. Zero it so the inner .hero controls all spacing. */
+  #shopify-section-{{ section.id }} { padding: 0; }
+
+  #shopify-section-{{ section.id }} .hero {
+    display: flex;
+    align-items: flex-start;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    /* Never let the headline touch the viewport edge — keep a safe gutter even
+       when padding_x is 0 for the full-bleed look (the "C" was clipping). */
+    padding-left: max({{ section.settings.padding_x }}px, 28px);
+    padding-right: max({{ section.settings.padding_x }}px, 28px);
+  }
+  #shopify-section-{{ section.id }} .hero-grid {
+    width: 100%;
+    max-width: {% if section.settings.full_width %}none{% else %}1440px{% endif %};
+    margin: 0 auto;
+  }
+  /* DESKTOP — fill the screen exactly (when enabled): the hero spans the
+     viewport below the header, the image fills its column, and the copy is
+     vertically centred so there's no dead gap. */
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} .hero {
+      align-items: stretch;
+      {% if section.settings.fill_viewport %}min-height: calc(100svh - {{ section.settings.chrome_offset }}px);{% endif %}
+    }
+    #shopify-section-{{ section.id }} .hero-grid { align-items: stretch; }
+    {% if section.settings.fill_viewport %}#shopify-section-{{ section.id }} .hero-copy { display: flex; flex-direction: column; justify-content: center; }{% endif %}
+    #shopify-section-{{ section.id }} .hero-visual { aspect-ratio: auto; min-height: 460px; }
+    #shopify-section-{{ section.id }} .hero-visual > img,
+    #shopify-section-{{ section.id }} .hero-visual > .ph {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    }
+  }
+  /* PHONE — Hushed layout: image on top, then copy stacked, single CTA last. */
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .hero { padding-left: 18px; padding-right: 18px; }
+    #shopify-section-{{ section.id }} .hero-grid {
+      display: flex; flex-direction: column; align-items: stretch; gap: 18px;
+    }
+    #shopify-section-{{ section.id }} .hero-visual { order: -1; aspect-ratio: 1 / 1; }
+    #shopify-section-{{ section.id }} .hero-copy { display: flex; flex-direction: column; }
+  }
+{%- endstyle -%}
+
+<section class="hero" data-section="hero">
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <div class="rating-row">
+        <span class="stars">★★★★<span class="star-off">★</span></span>
+        <span>{{ section.settings.rating_text }}</span>
+      </div>
+      <h1 class="h-display">{{ section.settings.heading }}</h1>
+      <p class="lead">{{ section.settings.lead | escape }}</p>
+      <div class="hero-ctas">
+        {%- if section.settings.cta1_label != blank -%}
+          <a href="{{ section.settings.cta1_url | default: '#product' }}" class="btn btn-primary">{{ section.settings.cta1_label | escape }} <span class="arrow">→</span></a>
+        {%- endif -%}
+        {%- if section.settings.cta2_label != blank -%}
+          <a href="{{ section.settings.cta2_url | default: '#science' }}" class="btn btn-ghost">{{ section.settings.cta2_label | escape }}</a>
+        {%- endif -%}
+      </div>
+      {%- if section.blocks.size > 0 -%}
+        <div class="hero-proof">
+          {%- for block in section.blocks -%}
+            <div class="item" {{ block.shopify_attributes }}>
+              {%- case block.settings.icon -%}
+                {%- when 'check' -%}<svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 10l4 4 10-10"/></svg>
+                {%- when 'clock' -%}<svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg>
+                {%- else -%}<svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 7l7-4 7 4v6l-7 4-7-4z"/><path d="M10 11v3"/></svg>
+              {%- endcase -%}
+              {{ block.settings.label | escape }}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="hero-visual">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 1200 | image_tag: widths: '375,550,750,1100,1200', sizes: '(min-width: 980px) 45vw, 100vw', fetchpriority: 'high', loading: 'eager', style: 'width:100%;height:100%;object-fit:cover;' }}
+      {%- else -%}
+        <div class="ph"><span class="ph-label">{{ section.settings.image_label | escape }}</span></div>
+      {%- endif -%}
+      {%- if section.settings.tag != blank -%}<div class="hero-tag">{{ section.settings.tag | escape }}</div>{%- endif -%}
+      <div class="hero-shift-bar">
+        <div class="n">{{ section.settings.shift_number | escape }}</div>
+        <div class="d">{{ section.settings.shift_text | escape }}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Aura Hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width (edge to edge)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "fill_viewport",
+      "label": "Fill viewport height (center vertically)",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "chrome_offset",
+      "label": "Header offset (px)",
+      "min": 60,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 110
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top spacing (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_x",
+      "label": "Side spacing (px)",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom spacing (px)",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "html",
+      "id": "rating_text",
+      "label": "Rating text",
+      "default": "<strong>4,8</strong> · 150+ avis vérifiés d'infirmières"
+    },
+    {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading (H1)",
+      "default": "Conçus pour les gardes de 12 heures."
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Subheading",
+      "default": "Chaussettes de compression Aura : pression graduée 18–25 mmHg, tricotées sans couture. La paire qu'on garde enfin avec plaisir après la dixième heure."
+    },
+    {
+      "type": "text",
+      "id": "cta1_label",
+      "label": "Primary CTA",
+      "default": "Acheter maintenant"
+    },
+    {
+      "type": "url",
+      "id": "cta1_url",
+      "label": "Primary CTA link"
+    },
+    {
+      "type": "text",
+      "id": "cta2_label",
+      "label": "Secondary CTA",
+      "default": "Comment ça marche"
+    },
+    {
+      "type": "url",
+      "id": "cta2_url",
+      "label": "Secondary CTA link"
+    },
+    {
+      "type": "header",
+      "content": "Visual"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Lifestyle image"
+    },
+    {
+      "type": "text",
+      "id": "image_label",
+      "label": "Placeholder caption",
+      "default": "Hero · Infirmière tenant 3 paires, lumière douce"
+    },
+    {
+      "type": "text",
+      "id": "tag",
+      "label": "Badge",
+      "default": "Nouveau"
+    },
+    {
+      "type": "text",
+      "id": "shift_number",
+      "label": "Shift number",
+      "default": "12h"
+    },
+    {
+      "type": "text",
+      "id": "shift_text",
+      "label": "Shift text",
+      "default": "pensés et testés sur de vraies gardes de 12 heures, avec des soignantes"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "proof",
+      "name": "Trust item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "clock",
+              "label": "Clock"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            }
+          ],
+          "default": "check"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Text",
+          "default": "Réassurance"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Aura Hero",
+      "blocks": [
+        {
+          "type": "proof",
+          "settings": {
+            "icon": "check",
+            "label": "Livraison offerte dès 60 €"
+          }
+        },
+        {
+          "type": "proof",
+          "settings": {
+            "icon": "clock",
+            "label": "Conçues en France"
+          }
+        },
+        {
+          "type": "proof",
+          "settings": {
+            "icon": "shield",
+            "label": "Satisfait ou remboursé 30 jours"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,116 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura Video Reviews (FR)
+  ----------------------------------------------------------------------------
+  @description
+    Hollow-style video-testimonial row: poster cards with a play button, each
+    followed by a short review (name + stars + quote). Styles in
+    assets/aura-v2.css (.vreviews). Each card is an editable block.
+  @blocks
+    - vreview : uploaded Shopify video (preload=none, tap to play) + optional
+      poster / external link fallback / name / quote
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+<section class="vreviews" data-section="video-reviews" data-vrev-build="20260617a">
+  {%- if section.settings.heading != blank -%}
+    <div class="vreviews-head">
+      {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+      <h2 class="h-display h-section">{{ section.settings.heading }}</h2>
+    </div>
+  {%- endif -%}
+
+  <div class="vreviews-grid">
+    {%- for block in section.blocks -%}
+      <div class="vreview" {{ block.shopify_attributes }}>
+        {%- comment -%} Poster: explicit override, else Shopify's auto-generated preview. {%- endcomment -%}
+        {%- assign vid = block.settings.video -%}
+        {%- if block.settings.poster != blank -%}
+          {%- assign poster_url = block.settings.poster | image_url: width: 800 -%}
+        {%- elsif vid != blank and vid.preview_image != blank -%}
+          {%- assign poster_url = vid.preview_image | image_url: width: 800 -%}
+        {%- else -%}
+          {%- assign poster_url = '' -%}
+        {%- endif -%}
+        {%- if vid != blank -%}
+          {%- comment -%} Uploaded video: CDN-hosted, preload="none" so it only loads on tap. {%- endcomment -%}
+          <div class="vreview-media" data-vreview>
+            <video class="vreview-video" playsinline preload="none"{% if poster_url != blank %} poster="{{ poster_url }}"{% endif %} aria-label="{{ block.settings.name | escape }}">
+              {%- for source in vid.sources -%}<source src="{{ source.url }}" type="{{ source.mime_type }}">{%- endfor -%}
+            </video>
+            <button type="button" class="vreview-play" aria-label="Lire la vidéo"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+          </div>
+        {%- else -%}
+          {%- comment -%} No uploaded video: poster (or placeholder), optional external link. {%- endcomment -%}
+          {%- if block.settings.video_url != blank -%}<a class="vreview-media" href="{{ block.settings.video_url }}" target="_blank" rel="noopener">{%- else -%}<div class="vreview-media">{%- endif -%}
+            {%- if poster_url != blank -%}
+              <img src="{{ poster_url }}" alt="{{ block.settings.name | escape }}" width="600" height="800" loading="lazy" style="object-fit:cover;width:100%;height:100%;">
+            {%- else -%}
+              <span class="ph" style="--swatch:#EBE3D5"></span>
+            {%- endif -%}
+            <span class="vreview-play"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+          {%- if block.settings.video_url != blank -%}</a>{%- else -%}</div>{%- endif -%}
+        {%- endif -%}
+        <div class="vreview-foot">
+          <div class="vreview-name">{{ block.settings.name | escape }}<span class="vreview-stars">★★★★★</span></div>
+          <p class="vreview-quote">{{ block.settings.quote | escape }}</p>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+<script>
+  (function () {
+    document.querySelectorAll('[data-vreview]').forEach(function (media) {
+      var v = media.querySelector('.vreview-video');
+      var play = media.querySelector('.vreview-play');
+      if (!v || v.dataset.wired) return;
+      v.dataset.wired = '1';
+      function showBtn(show) { if (play) play.style.display = show ? '' : 'none'; }
+      function start() {
+        var p = v.play();
+        if (p && p.catch) p.catch(function () { v.muted = true; v.play(); }); // sound blocked → muted fallback
+      }
+      if (play) play.addEventListener('click', function (e) { e.stopPropagation(); start(); });
+      v.addEventListener('click', function () { if (v.paused) start(); else v.pause(); });
+      v.addEventListener('play', function () { showBtn(false); });
+      v.addEventListener('pause', function () { if (!v.ended) showBtn(true); });
+      v.addEventListener('ended', function () { showBtn(true); });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Aura Video Reviews",
+  "tag": "section",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Elles témoignent" },
+    { "type": "html", "id": "heading", "label": "Heading (optional)" }
+  ],
+  "blocks": [
+    {
+      "type": "vreview",
+      "name": "Video review",
+      "settings": [
+        { "type": "video", "id": "video", "label": "Vidéo (hébergée par Shopify)", "info": "Uploadez le fichier — Shopify l'héberge, l'optimise et génère un aperçu. Lecture au clic (avec le son), sans ralentir le chargement de la page." },
+        { "type": "image_picker", "id": "poster", "label": "Aperçu (optionnel)", "info": "Remplace l'aperçu auto de Shopify. Sert aussi de visuel si aucune vidéo n'est uploadée." },
+        { "type": "url", "id": "video_url", "label": "Lien vidéo externe (de secours, ouvre un onglet)", "info": "Utilisé seulement si aucune vidéo n'est uploadée ci-dessus." },
+        { "type": "text", "id": "name", "label": "Name", "default": "Anaïs L." },
+        { "type": "text", "id": "quote", "label": "Quote", "default": "« Dès le premier jour, mes jambes vont tellement mieux. »" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Aura Video Reviews",
+      "blocks": [
+        { "type": "vreview", "settings": { "name": "Anaïs L.", "quote": "« Dès le premier jour de garde, mes jambes vont tellement mieux. »" } },
+        { "type": "vreview", "settings": { "name": "Lorna M.", "quote": "« Tout a changé pour mes jambes gonflées depuis que j'ai trouvé Aura. »" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

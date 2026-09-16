@@ -1,0 +1,291 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura LP — Advertorial / listicle (FR)
+  ----------------------------------------------------------------------------
+  @description
+    Native-content landing page for cold Meta traffic (advertorial format —
+    reads like an editorial article, not a store page). Header (eyebrow +
+    headline + byline + optional star-rating quote), optional hero image,
+    lead, then an ordered list of blocks: numbered/plain article beats,
+    inline CTAs, a brand-vs-other comparison table, a TL;DR callout and a
+    promo banner — in any order. Optional final CTA with a round guarantee
+    badge, and an optional fixed "sticky" sale bar (with JS countdown).
+    CTAs whose link is #offre / #acheter scroll to the on-page buy box
+    (.product); any real URL (e.g. the product page) passes through.
+    Powers all three LP formats: A (listicle), B (story), D (full Hollow).
+    Styles: .lp-adv* in assets/aura-v2.css. Mobile obeys the shared system.
+  @blocks
+    - raison  : article beat (numbered list item OR plain story beat)
+    - cta     : inline call-to-action button
+    - compare : brand-vs-other comparison table (up to 6 rows)
+    - callout : highlighted TL;DR / note box
+    - promo   : discount / offer banner
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+<article class="lp-adv{% if section.settings.sticky_show %} lp-adv--sticky{% endif %}" data-section="lp-advertorial">
+  <header class="lp-adv-head">
+    {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+    {%- if section.settings.headline != blank -%}<h1 class="lp-adv-h1 h-display">{{ section.settings.headline }}</h1>{%- endif -%}
+    {%- if section.settings.byline != blank -%}<div class="lp-adv-byline">{{ section.settings.byline | escape }}</div>{%- endif -%}
+    {%- if section.settings.rating_quote != blank -%}
+      <div class="lp-adv-rating">
+        <span class="lp-adv-stars" aria-hidden="true">★★★★★</span>
+        <span class="lp-adv-rating-q">«&nbsp;{{ section.settings.rating_quote | escape }}&nbsp;»</span>
+        {%- if section.settings.rating_author != blank -%}<span class="lp-adv-rating-a">— {{ section.settings.rating_author | escape }}</span>{%- endif -%}
+      </div>
+    {%- endif -%}
+  </header>
+
+  {%- unless section.settings.hide_hero -%}
+    {%- if section.settings.image != blank -%}
+      <figure class="lp-adv-hero">
+        <img src="{{ section.settings.image | image_url: width: 1200 }}" alt="{{ section.settings.headline | strip_html | escape }}" width="1200" height="800" loading="eager" style="object-fit:cover;width:100%;height:100%;">
+        {%- if section.settings.caption != blank -%}<figcaption class="lp-adv-cap">{{ section.settings.caption | escape }}</figcaption>{%- endif -%}
+      </figure>
+    {%- else -%}
+      <figure class="lp-adv-hero"><div class="ph"><span class="ph-label">{{ 'Image éditoriale' }}</span></div></figure>
+    {%- endif -%}
+  {%- endunless -%}
+
+  {%- if section.settings.lead != blank -%}<div class="lp-adv-lead">{{ section.settings.lead }}</div>{%- endif -%}
+
+  <div class="lp-adv-body">
+    {%- assign n = 0 -%}
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'raison' -%}
+          {%- if block.settings.numbered -%}{%- assign n = n | plus: 1 -%}{%- endif -%}
+          <section class="lp-reason{% unless block.settings.numbered %} lp-reason--plain{% endunless %}" {{ block.shopify_attributes }}>
+            {%- if block.settings.title != blank -%}
+              <h2 class="lp-reason-title">{%- if block.settings.numbered -%}<span class="lp-reason-num">{{ n }}.</span>{%- endif -%}<span class="lp-reason-ttl">{{ block.settings.title }}</span></h2>
+            {%- endif -%}
+            {%- if block.settings.numbered -%}
+              <figure class="lp-reason-fig">
+                {%- if block.settings.image != blank -%}
+                  <img class="lp-reason-img" src="{{ block.settings.image | image_url: width: 1000 }}" alt="{{ block.settings.title | strip_html | escape }}" width="1000" height="620" loading="lazy">
+                {%- else -%}
+                  <div class="ph"><span class="ph-label">Image · argument&nbsp;{{ n }}</span></div>
+                {%- endif -%}
+              </figure>
+            {%- elsif block.settings.image != blank -%}
+              <figure class="lp-reason-fig"><img class="lp-reason-img" src="{{ block.settings.image | image_url: width: 1000 }}" alt="{{ block.settings.title | strip_html | escape }}" width="1000" height="620" loading="lazy"></figure>
+            {%- endif -%}
+            {%- if block.settings.body != blank -%}<div class="lp-reason-text">{{ block.settings.body }}</div>{%- endif -%}
+          </section>
+        {%- when 'cta' -%}
+          <div class="lp-adv-cta" {{ block.shopify_attributes }}>
+            {%- if block.settings.text != blank -%}<p class="lp-adv-cta-line">{{ block.settings.text }}</p>{%- endif -%}
+            <a class="btn btn-primary" href="{{ block.settings.link | default: '#offre' }}" data-lp-cta>{{ block.settings.label | default: 'Découvrir Aura' }}</a>
+            {%- if block.settings.proof != blank -%}<p class="lp-adv-cta-proof">{{ block.settings.proof | escape }}</p>{%- endif -%}
+          </div>
+        {%- when 'compare' -%}
+          <div class="lp-compare" {{ block.shopify_attributes }}>
+            <div class="lp-compare-row lp-compare-row--head">
+              <span class="lp-compare-c"></span>
+              <span class="lp-compare-v lp-compare-v--brand">{{ block.settings.brand_label | escape }}</span>
+              <span class="lp-compare-v lp-compare-v--other">{{ block.settings.other_label | escape }}</span>
+            </div>
+            {%- for i in (1..6) -%}
+              {%- capture lk -%}r{{ i }}l{%- endcapture -%}
+              {%- capture bk -%}r{{ i }}b{%- endcapture -%}
+              {%- capture ok -%}r{{ i }}o{%- endcapture -%}
+              {%- if block.settings[lk] != blank -%}
+                <div class="lp-compare-row">
+                  <span class="lp-compare-c">{{ block.settings[lk] | escape }}</span>
+                  <span class="lp-compare-v lp-compare-v--brand">{{ block.settings[bk] | escape }}</span>
+                  <span class="lp-compare-v lp-compare-v--other">{{ block.settings[ok] | escape }}</span>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- when 'callout' -%}
+          <div class="lp-callout" {{ block.shopify_attributes }}>
+            {%- if block.settings.tag != blank -%}<span class="lp-callout-tag">{{ block.settings.tag | escape }}</span>{%- endif -%}
+            {%- if block.settings.body != blank -%}<div class="lp-callout-body">{{ block.settings.body }}</div>{%- endif -%}
+          </div>
+        {%- when 'promo' -%}
+          <div class="lp-promo" {{ block.shopify_attributes }}>
+            {%- if block.settings.big != blank -%}<div class="lp-promo-big">{{ block.settings.big | escape }}</div>{%- endif -%}
+            <div class="lp-promo-copy">
+              {%- if block.settings.head != blank -%}<div class="lp-promo-head">{{ block.settings.head | escape }}</div>{%- endif -%}
+              {%- if block.settings.sub != blank -%}<div class="lp-promo-sub">{{ block.settings.sub | escape }}</div>{%- endif -%}
+              {%- if block.settings.deadline != blank -%}<div class="lp-promo-deadline">{{ block.settings.deadline | escape }}</div>{%- endif -%}
+            </div>
+            {%- if block.settings.label != blank -%}<a class="btn btn-primary" href="{{ block.settings.link | default: '#offre' }}" data-lp-cta>{{ block.settings.label }}</a>{%- endif -%}
+          </div>
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+
+  {%- if section.settings.close_text != blank or section.settings.close_label != blank -%}
+    <div class="lp-adv-close">
+      {%- if section.settings.close_badge != blank -%}
+        <div class="lp-adv-badge">
+          <span class="lp-adv-badge-n">{{ section.settings.close_badge | escape }}</span>
+          {%- if section.settings.close_badge_text != blank -%}<span class="lp-adv-badge-t">{{ section.settings.close_badge_text | escape }}</span>{%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.close_text != blank -%}<div class="lp-adv-close-text">{{ section.settings.close_text }}</div>{%- endif -%}
+      {%- if section.settings.close_label != blank -%}<a class="btn btn-primary" href="{{ section.settings.close_link | default: '#offre' }}" data-lp-cta>{{ section.settings.close_label }}</a>{%- endif -%}
+      {%- if section.settings.close_proof != blank -%}<p class="lp-adv-cta-proof">{{ section.settings.close_proof | escape }}</p>{%- endif -%}
+    </div>
+  {%- endif -%}
+</article>
+
+{%- if section.settings.sticky_show -%}
+  <div class="lp-sticky" data-lp-sticky data-deadline="{{ section.settings.sticky_deadline | escape }}">
+    <div class="lp-sticky-in">
+      <div class="lp-sticky-txt">
+        {%- if section.settings.sticky_label != blank -%}<strong>{{ section.settings.sticky_label | escape }}</strong>{%- endif -%}
+        <span class="lp-sticky-time" data-lp-countdown>{{ section.settings.sticky_deadline | escape }}</span>
+      </div>
+      {%- if section.settings.sticky_cta != blank -%}<a class="btn btn-primary" href="{{ section.settings.sticky_link | default: '#offre' }}" data-lp-cta>{{ section.settings.sticky_cta | escape }}</a>{%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+<script>
+  (function () {
+    var sec = document.querySelector('[data-section="lp-advertorial"]');
+    // CTA scroll: only intercept the "scroll to the offer" links; real URLs pass through.
+    document.querySelectorAll('[data-lp-cta]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        var href = a.getAttribute('href') || '';
+        if (href === '#offre' || href === '#acheter') {
+          var target = document.querySelector('.product') || document.getElementById('offre');
+          if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        }
+      });
+    });
+    // Optional countdown on the sticky bar (deadline = a date string, e.g. 2026-07-06T23:59).
+    var el = document.querySelector('[data-lp-countdown]');
+    if (el) {
+      var end = Date.parse(el.parentNode.parentNode.parentNode.getAttribute('data-deadline'));
+      if (!isNaN(end)) {
+        var tick = function () {
+          var d = end - Date.now();
+          if (d <= 0) { el.textContent = ''; return; }
+          var s = Math.floor(d / 1000), days = Math.floor(s / 86400);
+          var h = Math.floor((s % 86400) / 3600), m = Math.floor((s % 3600) / 60), ss = s % 60;
+          var p = function (x) { return (x < 10 ? '0' : '') + x; };
+          el.textContent = (days > 0 ? days + 'j · ' : '') + p(h) + ':' + p(m) + ':' + p(ss);
+          requestAnimationFrame(function () {});
+        };
+        tick(); setInterval(tick, 1000);
+      }
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Aura LP — Advertorial",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow (sur-titre)", "default": "Santé au travail" },
+    { "type": "html", "id": "headline", "label": "Titre éditorial (H1)", "default": "Pourquoi de plus en plus d'infirmières abandonnent les chaussettes de compression de pharmacie" },
+    { "type": "text", "id": "byline", "label": "Signature / temps de lecture", "default": "Par la rédaction Aura · 4 min de lecture" },
+    { "type": "text", "id": "rating_quote", "label": "Citation étoilée (sous la signature)" },
+    { "type": "text", "id": "rating_author", "label": "Auteur de la citation" },
+    { "type": "checkbox", "id": "hide_hero", "label": "Masquer l'image de haut de page", "default": false },
+    { "type": "image_picker", "id": "image", "label": "Image éditoriale (haut de page)" },
+    { "type": "text", "id": "caption", "label": "Légende de l'image" },
+    { "type": "richtext", "id": "lead", "label": "Chapô (paragraphe d'introduction)", "default": "<p>Après une garde de 12 heures, les jambes lourdes et les marques rouges ne sont pas une fatalité. Voici ce qui change avec une compression graduée 18–25 mmHg vraiment pensée pour les soignantes.</p>" },
+    { "type": "header", "content": "Conclusion (bas de page)" },
+    { "type": "text", "id": "close_badge", "label": "Badge garantie — chiffre (ex. 99)" },
+    { "type": "text", "id": "close_badge_text", "label": "Badge garantie — texte (ex. jours satisfait ou remboursé)" },
+    { "type": "richtext", "id": "close_text", "label": "Texte de conclusion", "default": "<p>Des milliers d'infirmières ont déjà fait le test. La vôtre commence par une simple paire.</p>" },
+    { "type": "text", "id": "close_label", "label": "Bouton — libellé", "default": "Je découvre Aura" },
+    { "type": "url", "id": "close_link", "label": "Bouton — lien (laisser vide = descendre vers l'offre)" },
+    { "type": "text", "id": "close_proof", "label": "Ligne de réassurance sous le bouton", "default": "4,8 ★ · 150+ avis · Livraison offerte dès 60 €" },
+    { "type": "header", "content": "Bandeau collant (sticky)" },
+    { "type": "checkbox", "id": "sticky_show", "label": "Afficher le bandeau collant en bas", "default": false },
+    { "type": "text", "id": "sticky_label", "label": "Texte (ex. OFFRE DE LANCEMENT)" },
+    { "type": "text", "id": "sticky_deadline", "label": "Échéance (date ISO ex. 2026-07-06T23:59, ou texte)", "info": "Une date ISO active le compte à rebours ; sinon le texte s'affiche tel quel." },
+    { "type": "text", "id": "sticky_cta", "label": "Bouton — libellé" },
+    { "type": "url", "id": "sticky_link", "label": "Bouton — lien" }
+  ],
+  "blocks": [
+    {
+      "type": "raison",
+      "name": "Bloc d'article",
+      "settings": [
+        { "type": "checkbox", "id": "numbered", "label": "Afficher le numéro (mode liste)", "default": true },
+        { "type": "html", "id": "title", "label": "Titre de l'argument", "default": "Fini les marques rouges en fin de garde" },
+        { "type": "richtext", "id": "body", "label": "Texte", "default": "<p>Le bord-côte large (+1 cm) répartit la pression au lieu de la concentrer. La cheville et le mollet restent libres, sans la marque qui creuse la peau après dix heures debout.</p>" },
+        { "type": "image_picker", "id": "image", "label": "Image (optionnelle)" }
+      ]
+    },
+    {
+      "type": "cta",
+      "name": "Appel à l'action",
+      "settings": [
+        { "type": "richtext", "id": "text", "label": "Phrase au-dessus du bouton" },
+        { "type": "text", "id": "label", "label": "Libellé du bouton", "default": "Découvrir Aura" },
+        { "type": "url", "id": "link", "label": "Lien (laisser vide = descendre vers l'offre)" },
+        { "type": "text", "id": "proof", "label": "Ligne de réassurance" }
+      ]
+    },
+    {
+      "type": "compare",
+      "name": "Tableau comparatif",
+      "settings": [
+        { "type": "text", "id": "brand_label", "label": "Colonne — marque", "default": "Aura" },
+        { "type": "text", "id": "other_label", "label": "Colonne — concurrent", "default": "Compression synthétique" },
+        { "type": "text", "id": "r1l", "label": "Ligne 1 — critère", "default": "Anti-gonflement" },
+        { "type": "text", "id": "r1b", "label": "Ligne 1 — Aura", "default": "Compression graduée 18–25 mmHg" },
+        { "type": "text", "id": "r1o", "label": "Ligne 1 — concurrent", "default": "Pression plate ou nulle" },
+        { "type": "text", "id": "r2l", "label": "Ligne 2 — critère", "default": "Confort" },
+        { "type": "text", "id": "r2b", "label": "Ligne 2 — Aura", "default": "Sans démangeaison ni marque rouge" },
+        { "type": "text", "id": "r2o", "label": "Ligne 2 — concurrent", "default": "Gratte, laisse des marques" },
+        { "type": "text", "id": "r3l", "label": "Ligne 3 — critère", "default": "Maintien" },
+        { "type": "text", "id": "r3b", "label": "Ligne 3 — Aura", "default": "Ne roule pas, ne glisse pas" },
+        { "type": "text", "id": "r3o", "label": "Ligne 3 — concurrent", "default": "Roule sous le genou" },
+        { "type": "text", "id": "r4l", "label": "Ligne 4 — critère", "default": "Enfilage" },
+        { "type": "text", "id": "r4b", "label": "Ligne 4 — Aura", "default": "Facile à enfiler / retirer" },
+        { "type": "text", "id": "r4o", "label": "Ligne 4 — concurrent", "default": "Comme un garrot" },
+        { "type": "text", "id": "r5l", "label": "Ligne 5 — critère", "default": "Durée de vie" },
+        { "type": "text", "id": "r5b", "label": "Ligne 5 — Aura", "default": "12–18 mois sans souci" },
+        { "type": "text", "id": "r5o", "label": "Ligne 5 — concurrent", "default": "Perd sa compression vite" },
+        { "type": "text", "id": "r6l", "label": "Ligne 6 — critère" },
+        { "type": "text", "id": "r6b", "label": "Ligne 6 — Aura" },
+        { "type": "text", "id": "r6o", "label": "Ligne 6 — concurrent" }
+      ]
+    },
+    {
+      "type": "callout",
+      "name": "Encadré",
+      "settings": [
+        { "type": "text", "id": "tag", "label": "Étiquette", "default": "TL;DR" },
+        { "type": "richtext", "id": "body", "label": "Texte", "default": "<p>Aura remplace vos chaussettes de compression de pharmacie : compression graduée vérifiée, zéro marque rouge, faciles à enfiler — pour de bon.</p>" }
+      ]
+    },
+    {
+      "type": "promo",
+      "name": "Bannière promo",
+      "settings": [
+        { "type": "text", "id": "big", "label": "Gros chiffre (ex. −50 %)", "default": "−50 %" },
+        { "type": "text", "id": "head", "label": "Titre", "default": "Offre de lancement" },
+        { "type": "text", "id": "sub", "label": "Sous-titre", "default": "2 paires achetées, 2 offertes" },
+        { "type": "text", "id": "deadline", "label": "Échéance (texte)", "default": "Se termine ce week-end" },
+        { "type": "text", "id": "label", "label": "Bouton — libellé", "default": "J'en profite" },
+        { "type": "url", "id": "link", "label": "Bouton — lien" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Aura LP — Advertorial",
+      "blocks": [
+        { "type": "raison", "settings": { "title": "Fini les marques rouges en fin de garde", "body": "<p>Le bord-côte large (+1 cm) répartit la pression au lieu de la concentrer. La cheville reste libre, sans la marque qui creuse la peau après dix heures debout.</p>" } },
+        { "type": "raison", "settings": { "title": "Une compression vérifiée, pas approximative", "body": "<p>18–25 mmHg de compression graduée, mesurée — plus forte à la cheville, plus douce au mollet, pour relancer le retour veineux là où ça compte.</p>" } },
+        { "type": "raison", "settings": { "title": "Une pointe sans couture, vraiment", "body": "<p>La pointe anatomique sans couture supprime les points de pression sur les orteils — celui qu'on sent toute la journée dans une chaussure de bloc.</p>" } },
+        { "type": "cta", "settings": { "text": "<p>Prête à sentir la différence dès la première garde ?</p>", "label": "Découvrir Aura", "proof": "4,8 ★ · 150+ avis" } },
+        { "type": "raison", "settings": { "title": "Faciles à enfiler, même le matin", "body": "<p>Le tricot 2 fils est plus souple : on les enfile sans se battre, et ils restent respirants toute la journée.</p>" } },
+        { "type": "raison", "settings": { "title": "Des jambes plus légères, le soir venu", "body": "<p>Moins de jambes lourdes, moins de chevilles gonflées. La récupération commence dès qu'on les enfile, pas une fois rentrée chez soi.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

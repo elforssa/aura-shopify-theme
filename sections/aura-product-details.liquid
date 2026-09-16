@@ -1,0 +1,53 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura Product Details (FR)
+  ----------------------------------------------------------------------------
+  @description
+    The secondary product-detail accordions (Description / Entretien / Livraison
+    / Retours) extracted from the buy box so they sit lower on the page, after
+    the proof + education sections. Reuses the .product-accordion styling.
+    On a product template the Description falls back to product.description.
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+<section class="prod-details" data-section="product-details">
+  <div class="prod-details-inner">
+    {%- if section.settings.heading != blank -%}
+      <div class="prod-details-head">
+        {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+        <h2 class="h-display h-section">{{ section.settings.heading }}</h2>
+      </div>
+    {%- endif -%}
+
+    {%- assign desc = section.settings.description -%}
+    {%- if product != blank and product.description != blank -%}{%- assign desc = product.description | strip_html -%}{%- endif -%}
+
+    <div class="buy-accordions">
+      {%- if desc != blank -%}<details class="product-accordion"><summary>{{ section.settings.desc_label | default: 'Description' | escape }}<span class="acc-plus"></span></summary><div class="acc-body">{{ desc }}</div></details>{%- endif -%}
+      {%- if section.settings.care_text != blank -%}<details class="product-accordion"><summary>{{ section.settings.care_label | default: 'Entretien' | escape }}<span class="acc-plus"></span></summary><div class="acc-body">{{ section.settings.care_text }}</div></details>{%- endif -%}
+      {%- if section.settings.shipping_text != blank -%}<details class="product-accordion"><summary>{{ section.settings.shipping_label | default: 'Livraison' | escape }}<span class="acc-plus"></span></summary><div class="acc-body">{{ section.settings.shipping_text }}</div></details>{%- endif -%}
+      {%- if section.settings.returns_text != blank -%}<details class="product-accordion"><summary>{{ section.settings.returns_label | default: 'Retours & échanges' | escape }}<span class="acc-plus"></span></summary><div class="acc-body">{{ section.settings.returns_text }}</div></details>{%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Aura Product Details",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow (optional)" },
+    { "type": "html", "id": "heading", "label": "Heading (optional)" },
+    { "type": "text", "id": "desc_label", "label": "Description toggle label", "default": "Description" },
+    { "type": "textarea", "id": "description", "label": "Description (fallback if no product)", "default": "Tricotées d'une seule pièce. Compression graduée 18–25 mmHg, pointe sans couture, talon renforcé et bord-côte plat qui ne roule jamais." },
+    { "type": "text", "id": "care_label", "label": "Care label", "default": "Entretien" },
+    { "type": "richtext", "id": "care_text", "label": "Entretien", "default": "<p>Lavage en machine à 30°. Séchage à l'air libre. Pas de sèche-linge, pas d'adoucissant — la maille garde sa compression plus longtemps.</p>" },
+    { "type": "text", "id": "shipping_label", "label": "Shipping label", "default": "Livraison" },
+    { "type": "richtext", "id": "shipping_text", "label": "Livraison", "default": "<p>Livraison offerte dès 60 € (France et Europe), en 5 à 7 jours ouvrés. Expédié sous 24 h, suivi par e-mail.</p>" },
+    { "type": "text", "id": "returns_label", "label": "Returns label", "default": "Retours & échanges" },
+    { "type": "richtext", "id": "returns_text", "label": "Retours & échanges", "default": "<p>30 jours pour changer d'avis. Retours et échanges gratuits, même portées une garde.</p>" }
+  ],
+  "presets": [
+    { "name": "Aura Product Details" }
+  ]
+}
+{% endschema %}

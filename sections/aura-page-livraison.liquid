@@ -1,0 +1,128 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura Page — Livraison & retours (FR)
+  ----------------------------------------------------------------------------
+  @description
+    Shipping & returns page: centred head, 3 shipping cards (blocks), the
+    returns flow as numbered steps, guarantee card, link to the refund
+    policy, closing CTA. Styles in assets/aura-v2.css (.pg). Assign template
+    "page.livraison" to the page.
+  @blocks
+    - ship : title + body
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+<div class="pg" data-section="page-livraison">
+  <div class="pg-inner">
+    <div class="pg-head">
+      <div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>
+      <h1 class="h-display h-section">{{ section.settings.heading | escape }}</h1>
+      <p class="lead">{{ section.settings.lead | escape }}</p>
+    </div>
+
+    <div class="pg-cards3">
+      {%- for block in section.blocks -%}
+        <div class="pg-card pg-ship" {{ block.shopify_attributes }} style="margin-top:0">
+          <div class="z">{{ block.settings.title | escape }}</div>
+          <div class="big">{{ block.settings.delay | escape }}</div>
+          <div class="d">{{ block.settings.body | escape }}</div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+
+  <div class="pg-band">
+    <div class="pg-inner">
+    <div class="pg-head" style="margin-bottom:28px">
+      <div class="eyebrow">{{ section.settings.returns_eyebrow | escape }}</div>
+      <h2 class="h-display" style="font-size:26px">{{ section.settings.returns_heading | escape }}</h2>
+    </div>
+
+    <div class="pg-grid2">
+      <div class="pg-steps">
+        <div class="pg-step"><span class="n">1</span><div><div class="t">{{ section.settings.r1_title | escape }}</div><div class="d">{{ section.settings.r1_body | escape }}</div></div></div>
+        <div class="pg-step"><span class="n">2</span><div><div class="t">{{ section.settings.r2_title | escape }}</div><div class="d">{{ section.settings.r2_body | escape }}</div></div></div>
+        <div class="pg-step"><span class="n">3</span><div><div class="t">{{ section.settings.r3_title | escape }}</div><div class="d">{{ section.settings.r3_body | escape }}</div></div></div>
+      </div>
+      <div>
+        <div class="guarantee-block" style="margin-top:0">
+          <div class="guarantee-seal">
+            <img src="{{ 'aura-guarantee-seal.svg' | asset_url }}" alt="Garantie {{ section.settings.guarantee_title | default: '30 jours satisfait ou remboursé' | escape }}" width="72" height="72" loading="lazy" decoding="async">
+          </div>
+          <div>
+            <div class="guarantee-title">{{ section.settings.guarantee_title | escape }}</div>
+            <div class="guarantee-body">{{ section.settings.guarantee_body | escape }}</div>
+          </div>
+        </div>
+        <div class="pg-card" style="margin-top:12px">
+          <div class="t">{{ section.settings.legal_title | escape }}</div>
+          <div class="d">{{ section.settings.legal_body | escape }} <a href="{{ section.settings.legal_url }}">{{ section.settings.legal_link_label | escape }}</a></div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <div class="pg-close">
+    <div class="eyebrow">{{ section.settings.close_eyebrow | escape }}</div>
+    <h2>{{ section.settings.close_heading | escape }}</h2>
+    <p>{{ section.settings.close_lead | escape }}</p>
+    <a class="btn btn-coral" href="{{ section.settings.cta_url }}">{{ section.settings.cta_label | escape }} <span class="arrow">→</span></a>
+    <div class="note">{{ section.settings.cta_note | escape }}</div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Aura Page — Livraison",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Livraison & retours" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Livraison en France, sans surprise." },
+    { "type": "textarea", "id": "lead", "label": "Sous-titre", "default": "Votre commande est suivie de bout en bout. Voici exactement ce qui se passe après votre paiement." },
+    { "type": "header", "content": "Retours" },
+    { "type": "text", "id": "returns_eyebrow", "label": "Retours — eyebrow", "default": "Retours & échanges" },
+    { "type": "text", "id": "returns_heading", "label": "Retours — titre", "default": "Changer d'avis est gratuit pendant 30 jours." },
+    { "type": "text", "id": "r1_title", "label": "Étape 1 — titre", "default": "Écrivez-nous sous 30 jours" },
+    { "type": "textarea", "id": "r1_body", "label": "Étape 1 — texte", "default": "Un e-mail suffit, avec votre numéro de commande. Pas de formulaire, pas de justification demandée." },
+    { "type": "text", "id": "r2_title", "label": "Étape 2 — titre", "default": "Recevez votre étiquette de retour" },
+    { "type": "textarea", "id": "r2_body", "label": "Étape 2 — texte", "default": "On vous l'envoie par e-mail. Déposez le colis en point relais ou en bureau de poste." },
+    { "type": "text", "id": "r3_title", "label": "Étape 3 — titre", "default": "Remboursement ou échange" },
+    { "type": "textarea", "id": "r3_body", "label": "Étape 3 — texte", "default": "Dès réception du colis : remboursement intégral ou nouvelle taille, au choix." },
+    { "type": "text", "id": "guarantee_title", "label": "Garantie — titre", "default": "30 jours satisfait ou remboursé" },
+    { "type": "textarea", "id": "guarantee_body", "label": "Garantie — texte", "default": "Même portée une garde, on la reprend sans question. C'est la condition pour juger une compression : une vraie journée de travail." },
+    { "type": "text", "id": "legal_title", "label": "Carte légale — titre", "default": "Les détails complets" },
+    { "type": "textarea", "id": "legal_body", "label": "Carte légale — texte", "default": "Délais, conditions et droit de rétractation sont décrits dans notre politique de remboursement." },
+    { "type": "text", "id": "legal_link_label", "label": "Lien — libellé", "default": "La consulter →" },
+    { "type": "url", "id": "legal_url", "label": "Lien — URL" },
+    { "type": "header", "content": "Bande finale" },
+    { "type": "text", "id": "close_eyebrow", "label": "Eyebrow", "default": "Le risque est pour nous" },
+    { "type": "text", "id": "close_heading", "label": "Titre", "default": "Commandez pour votre prochaine garde." },
+    { "type": "textarea", "id": "close_lead", "label": "Texte", "default": "Livrée chez vous, jugée sur une vraie journée de travail, reprise sans question si elle ne vous convient pas." },
+    { "type": "text", "id": "cta_label", "label": "Bouton", "default": "Découvrir Aura" },
+    { "type": "url", "id": "cta_url", "label": "Lien du bouton" },
+    { "type": "text", "id": "cta_note", "label": "Note sous le bouton", "default": "Livraison offerte dès 60 €." }
+  ],
+  "blocks": [
+    {
+      "type": "ship",
+      "name": "Carte livraison",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Zone", "default": "France métropolitaine" },
+        { "type": "text", "id": "delay", "label": "Délai (grand)", "default": "5–7 jours ouvrés" },
+        { "type": "textarea", "id": "body", "label": "Texte", "default": "Livraison offerte dès 60 €, en 5 à 7 jours ouvrés avec suivi." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Aura Page — Livraison",
+      "blocks": [
+        { "type": "ship", "settings": { "title": "France métropolitaine", "body": "5 à 7 jours ouvrés avec numéro de suivi. Livraison offerte dès 60 € d'achat." } },
+        { "type": "ship", "settings": { "title": "Europe", "body": "Belgique, Suisse, Luxembourg et toute l'UE : 5 à 7 jours ouvrés, suivi inclus. Livraison offerte dès 60 € d'achat." } },
+        { "type": "ship", "settings": { "title": "Livraison offerte dès 60 €", "body": "France et Europe : la livraison est offerte dès 60 € d'achat. En dessous, le tarif exact s'affiche au paiement." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

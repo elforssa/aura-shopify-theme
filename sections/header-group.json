@@ -1,44 +1,78 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
-    "announcement-bar": {
-      "type": "announcement-bar",
+    "aura_announcement": {
+      "type": "aura-announcement",
+      "settings": {
+        "shipping_text": "Livraison offerte dès 60 €",
+        "sale_text": "Offre packs : jusqu'à −50 %",
+        "lang_text": "🇫🇷 FR <span style=\"opacity:0.4\">/</span> EN"
+      }
+    },
+    "aura_header": {
+      "type": "aura-header",
       "blocks": {
-        "announcement-bar-0": {
-          "type": "announcement",
+        "l2": {
+          "type": "link_left",
           "settings": {
-            "text": "Welcome to our store",
-            "text_alignment": "center",
-            "color_scheme": "scheme-1",
-            "link": ""
+            "label": "Notre histoire",
+            "url": "/pages/notre-histoire"
+          }
+        },
+        "l3": {
+          "type": "link_left",
+          "settings": {
+            "label": "Guide des tailles",
+            "url": "/pages/guide-des-tailles"
+          }
+        },
+        "r1": {
+          "type": "link_right",
+          "settings": {
+            "label": "Livraison & retours",
+            "url": "/pages/livraison-retours"
+          }
+        },
+        "r2": {
+          "type": "link_right",
+          "settings": {
+            "label": "Contact",
+            "url": "/pages/contact"
+          }
+        },
+        "l0": {
+          "type": "link_left",
+          "settings": {
+            "label": "Boutique",
+            "url": "/products/aura-chaussettes-de-compression"
           }
         }
       },
       "block_order": [
-        "announcement-bar-0"
-      ]
-    },
-    "header": {
-      "type": "header",
+        "l0",
+        "l2",
+        "l3",
+        "r1",
+        "r2"
+      ],
       "settings": {
-        "color_scheme": "scheme-1",
-        "logo_position": "middle-left",
-        "menu": "main-menu",
-        "menu_type_desktop": "dropdown",
-        "sticky_header_type": "on-scroll-up",
-        "show_line_separator": true,
-        "enable_country_selector": true,
-        "enable_language_selector": true,
-        "mobile_logo_position": "center",
-        "margin_bottom": 0,
-        "padding_top": 20,
-        "padding_bottom": 20
+        "logo_text": "Aura",
+        "cart_label": "Panier"
       }
     }
   },
   "order": [
-    "announcement-bar",
-    "header"
+    "aura_announcement",
+    "aura_header"
   ]
 }

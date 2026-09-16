@@ -1,0 +1,144 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura Page — Contact (FR)
+  ----------------------------------------------------------------------------
+  @description
+    Editorial contact page: intro column on the left (heading, direct e-mail,
+    team line, B2B card, address), the Shopify contact form in a white card on
+    the right with a subject selector. Styles in assets/aura-v2.css (.pg).
+    Assign template "page.contact" to the page.
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+<div class="pg" data-section="page-contact">
+  <div class="pg-inner">
+    <div class="pg-split">
+
+      <div class="pg-head-left">
+        <div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>
+        <h1 class="h-display h-section">{{ section.settings.heading | escape }}</h1>
+        <p class="lead">{{ section.settings.lead | escape }}</p>
+
+        <div class="pg-team">
+          <span class="av">A</span>
+          <span class="d">{{ section.settings.team_line | escape }}</span>
+        </div>
+
+        <div class="pg-card">
+          <div class="t">{{ section.settings.card1_title | escape }}</div>
+          <div class="d">{{ section.settings.card1_body | escape }}</div>
+          <div class="d" style="margin-top:10px"><a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a></div>
+          {%- if section.settings.phone != blank -%}<div class="d" style="margin-top:6px"><a href="tel:{{ section.settings.phone | remove: ' ' | remove: '(' | remove: ')' | remove: '-' }}">{{ section.settings.phone }}</a></div>{%- endif -%}
+        </div>
+        <div class="pg-card">
+          <div class="t">{{ section.settings.card2_title | escape }}</div>
+          <div class="d">{{ section.settings.card2_body | escape }}</div>
+        </div>
+        <p class="pg-addr">{{ section.settings.address | escape }}</p>
+      </div>
+
+      <div class="pg-form-card">
+        {%- form 'contact', class: 'pg-form' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="pg-alert ok">{{ section.settings.success_text | escape }}</div>
+          {%- elsif form.errors -%}
+            <div class="pg-alert err">{{ section.settings.error_text | escape }}</div>
+          {%- endif -%}
+          <div class="pg-field">
+            <label for="contact-name">Nom</label>
+            <input type="text" id="contact-name" name="contact[name]" autocomplete="name" value="{{ form.name }}">
+          </div>
+          <div class="pg-field">
+            <label for="contact-email">E-mail</label>
+            <input type="email" id="contact-email" name="contact[email]" autocomplete="email" required value="{{ form.email }}">
+          </div>
+          <div class="pg-field">
+            <label for="contact-subject">Sujet</label>
+            <div class="pg-select">
+              <select id="contact-subject" name="contact[Sujet]">
+                {%- assign subjects = section.settings.subjects | split: ',' -%}
+                {%- for subj in subjects -%}
+                  <option value="{{ subj | strip | escape }}">{{ subj | strip | escape }}</option>
+                {%- endfor -%}
+              </select>
+            </div>
+          </div>
+          <div class="pg-field">
+            <label for="contact-body">Votre message</label>
+            <textarea id="contact-body" name="contact[body]" required>{{ form.body }}</textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">{{ section.settings.button_label | escape }}</button>
+          <p class="pg-form-note">{{ section.settings.privacy_note | escape }}</p>
+        {%- endform -%}
+      </div>
+
+    </div>
+  </div>
+
+  <div class="pg-band">
+    <div class="pg-inner">
+      <div class="pg-head" style="margin-bottom:26px">
+        <div class="eyebrow">{{ section.settings.qa_eyebrow | escape }}</div>
+        <h2 class="h-display">{{ section.settings.qa_heading | escape }}</h2>
+      </div>
+      <div class="pg-cards3">
+        <div class="pg-card" style="margin-top:0">
+          <div class="t">{{ section.settings.q1_title | escape }}</div>
+          <div class="d">{{ section.settings.q1_body | escape }}</div>
+          <a class="pg-qa-link" href="{{ section.settings.q1_url | escape }}">{{ section.settings.q1_link | escape }}</a>
+        </div>
+        <div class="pg-card" style="margin-top:0">
+          <div class="t">{{ section.settings.q2_title | escape }}</div>
+          <div class="d">{{ section.settings.q2_body | escape }}</div>
+          <a class="pg-qa-link" href="{{ section.settings.q2_url | escape }}">{{ section.settings.q2_link | escape }}</a>
+        </div>
+        <div class="pg-card" style="margin-top:0">
+          <div class="t">{{ section.settings.q3_title | escape }}</div>
+          <div class="d">{{ section.settings.q3_body | escape }}</div>
+          <a class="pg-qa-link" href="{{ section.settings.q3_url | escape }}">{{ section.settings.q3_link | escape }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Aura Page — Contact",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Contact" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Écrivez-nous comme à une collègue." },
+    { "type": "textarea", "id": "lead", "label": "Sous-titre", "default": "Taille, échange, commande : posez la question telle qu'elle vous vient. On répond en général en moins d'une heure, du lundi au samedi." },
+    { "type": "text", "id": "team_line", "label": "Ligne équipe", "default": "Une équipe en grande partie composée d'infirmières vous répond, en français comme en anglais." },
+    { "type": "text", "id": "email", "label": "E-mail de contact", "default": "contact@auralegs.com" },
+    { "type": "text", "id": "phone", "label": "Téléphone (laisser vide pour masquer)" },
+    { "type": "text", "id": "subjects", "label": "Sujets (séparés par des virgules)", "default": "Taille & échange, Ma commande, Équipes & hôpitaux, Autre question" },
+    { "type": "text", "id": "button_label", "label": "Bouton", "default": "Envoyer le message" },
+    { "type": "text", "id": "privacy_note", "label": "Note sous le bouton", "default": "Votre e-mail ne sert qu'à vous répondre. Jamais de liste, jamais de spam." },
+    { "type": "text", "id": "success_text", "label": "Message envoyé", "default": "Message bien reçu. On vous répond très vite." },
+    { "type": "text", "id": "error_text", "label": "Message d'erreur", "default": "Une information manque ou est invalide. Vérifiez les champs ci-dessous." },
+    { "type": "header", "content": "Colonne gauche" },
+    { "type": "text", "id": "card1_title", "label": "Carte 1 — titre", "default": "En direct" },
+    { "type": "textarea", "id": "card1_body", "label": "Carte 1 — texte", "default": "Pour une réponse encore plus rapide, écrivez-nous directement :" },
+    { "type": "text", "id": "card2_title", "label": "Carte 2 — titre", "default": "Équipes & hôpitaux" },
+    { "type": "textarea", "id": "card2_body", "label": "Carte 2 — texte", "default": "Commande groupée pour un service ou un établissement ? Choisissez le sujet « Équipes & hôpitaux », on vous prépare un devis sous 48 h." },
+    { "type": "text", "id": "address", "label": "Adresse", "default": "AURALEGION LLC · 2403 Rooks Ave, Cheyenne, WY 82007, USA" },
+    { "type": "header", "content": "Bande « réponses rapides »" },
+    { "type": "text", "id": "qa_eyebrow", "label": "Eyebrow", "default": "Avant d'écrire" },
+    { "type": "text", "id": "qa_heading", "label": "Titre", "default": "Les réponses les plus demandées." },
+    { "type": "text", "id": "q1_title", "label": "Q1 — titre", "default": "Quelle taille choisir ?" },
+    { "type": "textarea", "id": "q1_body", "label": "Q1 — texte", "default": "La plupart des infirmières prennent leur pointure habituelle. Le guide complet règle les cas limites." },
+    { "type": "text", "id": "q1_link", "label": "Q1 — lien (libellé)", "default": "Voir le guide des tailles →" },
+    { "type": "text", "id": "q1_url", "label": "Q1 — lien (URL)", "default": "/pages/guide-des-tailles" },
+    { "type": "text", "id": "q2_title", "label": "Q2 — titre", "default": "Où est ma commande ?" },
+    { "type": "textarea", "id": "q2_body", "label": "Q2 — texte", "default": "Comptez 5 à 7 jours ouvrés, avec un suivi envoyé par e-mail dès le départ du colis." },
+    { "type": "text", "id": "q2_link", "label": "Q2 — lien (libellé)", "default": "Délais détaillés →" },
+    { "type": "text", "id": "q2_url", "label": "Q2 — lien (URL)", "default": "/pages/livraison-retours" },
+    { "type": "text", "id": "q3_title", "label": "Q3 — titre", "default": "Retour ou échange ?" },
+    { "type": "textarea", "id": "q3_body", "label": "Q3 — texte", "default": "30 jours, même portée une garde. La marche à suivre tient en trois étapes." },
+    { "type": "text", "id": "q3_link", "label": "Q3 — lien (libellé)", "default": "Voir comment faire →" },
+    { "type": "text", "id": "q3_url", "label": "Q3 — lien (URL)", "default": "/pages/livraison-retours" }
+  ],
+  "presets": [{ "name": "Aura Page — Contact" }]
+}
+{% endschema %}

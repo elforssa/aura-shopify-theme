@@ -1,0 +1,49 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura Expert Testimonial (FR)
+  ----------------------------------------------------------------------------
+  @description
+    "Approuvé par les soignants" — a single expert testimonial: photo +
+    serif pull-quote + name + credentials + optional role line. Styles in
+    assets/aura-v2.css (.expert).
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+<section class="expert" data-section="expert-testimonial">
+  <div class="expert-grid">
+    <div class="expert-media">
+      {%- if section.settings.image != blank -%}
+        <img class="ph" src="{{ section.settings.image | image_url: width: 900 }}" alt="{{ section.settings.name | escape }}" width="900" height="1080" loading="lazy" style="object-fit:cover;width:100%;height:100%;">
+      {%- else -%}
+        <div class="ph" style="--swatch:#EBE3D5"><span class="ph-label">{{ section.settings.name | escape }}</span></div>
+      {%- endif -%}
+    </div>
+    <div class="expert-copy">
+      {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+      <blockquote class="expert-quote">{{ section.settings.quote }}</blockquote>
+      <div class="expert-by">
+        <div class="expert-name">{{ section.settings.name | escape }}</div>
+        {%- if section.settings.credentials != blank -%}<div class="expert-cred">{{ section.settings.credentials | escape }}</div>{%- endif -%}
+        {%- if section.settings.role != blank -%}<div class="expert-role">{{ section.settings.role | escape }}</div>{%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Aura Expert Testimonial",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "L'avis d'un médecin vasculaire" },
+    { "type": "richtext", "id": "quote", "label": "Quote", "default": "<p>« Je les recommande à mes patientes infirmières. Une compression graduée bien tricotée change vraiment la fin de garde — moins d'œdème, moins de douleur. »</p>" },
+    { "type": "image_picker", "id": "image", "label": "Photo" },
+    { "type": "text", "id": "name", "label": "Name", "default": "Dr. Camille Roussel" },
+    { "type": "text", "id": "credentials", "label": "Credentials", "default": "Médecin vasculaire · Lyon" },
+    { "type": "text", "id": "role", "label": "Role / affiliation (optional)", "default": "12 ans en phlébologie hospitalière" }
+  ],
+  "presets": [
+    { "name": "Aura Expert Testimonial" }
+  ]
+}
+{% endschema %}

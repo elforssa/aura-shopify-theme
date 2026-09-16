@@ -1,0 +1,150 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura Personas (FR)
+  ----------------------------------------------------------------------------
+  @description
+    Horizontal snap-scroll of "who wears Aura" cards from the v2 design. Styles
+    in assets/aura-v2.css (.personas). Each card is an editable block.
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+<section class="personas" data-section="personas">
+  <div class="personas-head">
+    <div>
+      <div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>
+      <h2 class="h-display h-section">{{ section.settings.heading | escape }}</h2>
+    </div>
+  </div>
+  <div class="personas-viewport">
+  <button class="carousel-arrow prev" id="personas-prev" aria-label="Précédent"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M8.5 2.5l-5 4.5 5 4.5"/></svg></button>
+  <button class="carousel-arrow next" id="personas-next" aria-label="Suivant"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5.5 2.5l5 4.5-5 4.5"/></svg></button>
+  <div class="personas-track" id="personas">
+    {%- for block in section.blocks -%}
+      <div class="persona" style="--p-bg:{{ block.settings.bg }}" {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+          <div class="ph" style="background-image:url({{ block.settings.image | image_url: width: 560 }});background-size:cover;background-position:center;"></div>
+        {%- else -%}
+          <div class="ph"></div>
+        {%- endif -%}
+        {%- if block.settings.badge != blank -%}<div class="badge">{{ block.settings.badge | escape }}</div>{%- endif -%}
+        <div class="meta"><div class="pn">{{ block.settings.name | escape }}</div><div class="pd">{{ block.settings.desc | escape }}</div></div>
+      </div>
+    {%- endfor -%}
+  </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Aura Personas",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Qui porte Aura"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Pensés pour les gardes. Adoptés bien au-delà."
+    },
+    {
+      "type": "text",
+      "id": "lead",
+      "label": "Subheading",
+      "default": "Cinq métiers, cinq routines. Aura a été testée sur chacune avant d'expédier une seule paire."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "persona",
+      "name": "Persona",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "bg",
+          "label": "Background color",
+          "default": "#EBE3D5"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge",
+          "default": "12h de garde"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Infirmières hospitalières"
+        },
+        {
+          "type": "textarea",
+          "id": "desc",
+          "label": "Description",
+          "default": "Description du métier."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Aura Personas",
+      "blocks": [
+        {
+          "type": "persona",
+          "settings": {
+            "bg": "#EBE3D5",
+            "badge": "12h de garde",
+            "name": "Infirmières & soignantes",
+            "desc": "IDE, aides-soignantes, sages-femmes. Celles qui nous ont aidées à concevoir Aura."
+          }
+        },
+        {
+          "type": "persona",
+          "settings": {
+            "bg": "#D9CFBC",
+            "badge": "10h+ debout",
+            "name": "Métiers debout",
+            "desc": "Coiffure, vente, cuisine, salle. Jamais assise — les mollets encaissent."
+          }
+        },
+        {
+          "type": "persona",
+          "settings": {
+            "bg": "#E4D7C4",
+            "badge": "Récupération",
+            "name": "Post-op & maternité",
+            "desc": "Jambes lourdes après l'opération ou l'accouchement. Un soutien gradué, doux pour les peaux sensibles."
+          }
+        },
+        {
+          "type": "persona",
+          "settings": {
+            "bg": "#CDBFA8",
+            "badge": "Long-courrier",
+            "name": "Voyageuses, hôtesses & pilotes",
+            "desc": "Huit heures en cabine, le décalage dans les jambes. Elles se glissent dans le bagage à main."
+          }
+        },
+        {
+          "type": "persona",
+          "settings": {
+            "bg": "#DCD0BB",
+            "badge": "Performance",
+            "name": "Sport & récupération",
+            "desc": "Course, trail, salle. On récupère plus vite après l'effort — et on les garde au repos."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

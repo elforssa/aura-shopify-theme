@@ -1,0 +1,65 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura Statistics (FR)
+  ----------------------------------------------------------------------------
+  @description
+    "Les vrais chiffres" — eyebrow + heading, then a row of big-number stat
+    blocks (number + suffix + label + optional graduated bar). Styles live in
+    assets/aura-v2.css (.stats). Each stat is an editable block.
+  @blocks
+    - stat : number / suffix / label / bar % / highlight
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+<section class="stats" data-section="statistics">
+  <div class="stats-head">
+    {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+    <h2 class="h-display h-section">{{ section.settings.heading }}</h2>
+    {%- if section.settings.lead != blank -%}<p class="lead">{{ section.settings.lead | escape }}</p>{%- endif -%}
+  </div>
+
+  <div class="stats-row">
+    {%- for block in section.blocks -%}
+      <div class="stat{% if block.settings.highlight %} stat--hl{% endif %}" {{ block.shopify_attributes }}>
+        <div class="stat-num">{{ block.settings.number | escape }}<span class="stat-suffix">{{ block.settings.suffix | escape }}</span></div>
+        <div class="stat-label">{{ block.settings.label | escape }}</div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Aura Statistics",
+  "tag": "section",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Les vrais chiffres" },
+    { "type": "html", "id": "heading", "label": "Heading", "default": "Vos fins de garde, en chiffres." },
+    { "type": "text", "id": "lead", "label": "Subheading", "default": "D'après les retours des infirmières qui portent Aura en garde." }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Number", "default": "94" },
+        { "type": "text", "id": "suffix", "label": "Suffix", "default": "%" },
+        { "type": "textarea", "id": "label", "label": "Label", "default": "ressentent moins de jambes lourdes" },
+        { "type": "checkbox", "id": "highlight", "label": "Highlight this stat", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Aura Statistics",
+      "blocks": [
+        { "type": "stat", "settings": { "number": "94", "suffix": "%", "label": "ressentent moins de jambes lourdes" } },
+        { "type": "stat", "settings": { "number": "8", "suffix": "h", "label": "de maintien sans glisser, garde après garde", "highlight": true } },
+        { "type": "stat", "settings": { "number": "0", "suffix": "", "label": "marque rouge en fin de journée" } },
+        { "type": "stat", "settings": { "number": "100", "suffix": "%", "label": "testés en garde réelle avant d'être validés" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

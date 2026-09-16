@@ -1,0 +1,121 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura Promise (FR)
+  ----------------------------------------------------------------------------
+  @description
+    Four-up guarantee band from the v2 design. Styles in assets/aura-v2.css
+    (.promise). Each promise is an editable block with a selectable line icon.
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+<div class="promise" data-section="promise">
+  <div class="promise-row">
+    {%- for block in section.blocks -%}
+      <div class="promise-item" {{ block.shopify_attributes }}>
+        <div class="ic">
+          {%- case block.settings.icon -%}
+            {%- comment -%} Lune + étoiles — « Essai 30 nuits » {%- endcomment -%}
+            {%- when 'star' -%}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19.65 13.17a7.65 7.65 0 1 1-8.32-8.32 5.95 5.95 0 0 0 8.32 8.32z"/><path d="M17.6 3.9v3.2M16 5.5h3.2"/><path d="M20.6 8.9v1.8M19.7 9.8h1.8"/></svg>
+            {%- comment -%} Bouclier à couture — « Garantie 12 mois » (le check est une piqûre) {%- endcomment -%}
+            {%- when 'shield' -%}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2 18.8 5.7v5.1c0 4.5-2.9 7.4-6.8 9-3.9-1.6-6.8-4.5-6.8-9V5.7L12 3.2z"/><path d="M8.9 11.9l2.2 2.2 4-4.5" stroke-dasharray="2.2 1.7"/></svg>
+            {%- comment -%} Cœur + pouls — « Conçu avec des soignantes » {%- endcomment -%}
+            {%- when 'globe' -%}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.3C7.8 17.5 4 14.1 4 9.9 4 7.2 6 5.2 8.5 5.2c1.4 0 2.7.7 3.5 1.9.8-1.2 2.1-1.9 3.5-1.9C18 5.2 20 7.2 20 9.9c0 4.2-3.8 7.6-8 10.4z"/><path d="M7.4 11.6h2.1l1.2-2.3 1.7 4.2 1.2-1.9h2.9"/></svg>
+            {%- comment -%} Colis rubané — « Livraison offerte » {%- endcomment -%}
+            {%- else -%}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 16.2V7.8a1.9 1.9 0 0 0-.95-1.65l-6.6-3.8a1.9 1.9 0 0 0-1.9 0l-6.6 3.8A1.9 1.9 0 0 0 3.5 7.8v8.4a1.9 1.9 0 0 0 .95 1.65l6.6 3.8a1.9 1.9 0 0 0 1.9 0l6.6-3.8a1.9 1.9 0 0 0 .95-1.65z"/><path d="M3.8 6.9 12 11.6l8.2-4.7"/><path d="M12 21.4v-9.8"/><path d="M7.75 4.55l8.3 4.75v3.2"/></svg>
+          {%- endcase -%}
+        </div>
+        <div><div class="t">{{ block.settings.title | escape }}</div><div class="d">{{ block.settings.desc | escape }}</div></div>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Aura Promise",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "promise",
+      "name": "Promise",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "star",
+              "label": "Lune — essai 30 nuits"
+            },
+            {
+              "value": "shield",
+              "label": "Bouclier cousu — garantie"
+            },
+            {
+              "value": "globe",
+              "label": "Cœur + pouls — soignantes"
+            },
+            {
+              "value": "ship",
+              "label": "Colis — livraison"
+            }
+          ],
+          "default": "star"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Promesse"
+        },
+        {
+          "type": "text",
+          "id": "desc",
+          "label": "Description",
+          "default": "Détail de la promesse."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Aura Promise",
+      "blocks": [
+        {
+          "type": "promise",
+          "settings": {
+            "icon": "star",
+            "title": "Essai 30 jours",
+            "desc": "Portez-les un mois complet. Pas conquise ? Retour gratuit."
+          }
+        },
+        {
+          "type": "promise",
+          "settings": {
+            "icon": "shield",
+            "title": "Garantie 12 mois",
+            "desc": "Perte de pression ou couture lâchée ? On remplace, sans question."
+          }
+        },
+        {
+          "type": "promise",
+          "settings": {
+            "icon": "globe",
+            "title": "Conçu avec des soignantes",
+            "desc": "Pensé et testé en garde réelle avant d'être validé."
+          }
+        },
+        {
+          "type": "promise",
+          "settings": {
+            "icon": "ship",
+            "title": "Livraison offerte dès 60 €",
+            "desc": "Offerte en France et en Europe dès 60 € d'achat."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

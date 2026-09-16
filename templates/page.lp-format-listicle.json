@@ -1,0 +1,181 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "advertorial": {
+      "type": "aura-lp-advertorial",
+      "blocks": {
+        "cmp": {
+          "type": "compare",
+          "settings": {
+            "brand_label": "Aura",
+            "other_label": "Compression de pharmacie",
+            "r1l": "Anti-gonflement",
+            "r1b": "Compression graduée 18–25 mmHg",
+            "r1o": "Pression plate ou non vérifiée",
+            "r2l": "Confort",
+            "r2b": "Sans démangeaison ni marque rouge",
+            "r2o": "Gratte, laisse des marques",
+            "r3l": "Maintien",
+            "r3b": "Ne roule pas, ne glisse pas",
+            "r3o": "Roule sous le genou avant midi",
+            "r4l": "Enfilage",
+            "r4b": "Facile à enfiler et à retirer",
+            "r4o": "Comme un garrot",
+            "r5l": "Durée de vie",
+            "r5b": "12–18 mois, compression intacte",
+            "r5o": "Perd sa pression vite",
+            "r6l": "",
+            "r6b": "",
+            "r6o": ""
+          }
+        },
+        "tldr": {
+          "type": "callout",
+          "settings": {
+            "tag": "En résumé",
+            "body": "<p>Les chaussettes de compression Aura remplacent celles de pharmacie : compression graduée 18–25 mmHg vérifiée, zéro marque rouge, pointe sans couture et faciles à enfiler — pensées pour les gardes de 12 heures, pour de bon.</p>"
+          }
+        },
+        "r1": {
+          "type": "raison",
+          "settings": {
+            "numbered": true,
+            "title": "Un vrai soutien de la circulation (en finir avec les chevilles gonflées)",
+            "body": "<p>La plupart des chaussettes écrasent la jambe de façon uniforme. Aura applique une pression graduée — plus ferme à la cheville, plus douce vers le mollet — qui relance le retour veineux et limite l'œdème de fin de garde. Résultat : des chevilles qui ne gonflent plus dans les sabots, du premier patient à la dixième heure.</p>"
+          }
+        },
+        "r2": {
+          "type": "raison",
+          "settings": {
+            "numbered": true,
+            "title": "Une compression graduée 18–25 mmHg qui agit vraiment",
+            "body": "<p>Pas une compression « marketing ». Le gradient 18–25 mmHg est vérifié : c'est le niveau pensé pour soutenir les longues stations debout sans la rigidité d'un bas d'hôpital. La différence se sent dès la première garde.</p>",
+            "image": "shopify://shop_images/keep_the_subject_the_same_202606141700_63504080-155d-4a11-8771-d51b553c142e.jpg"
+          }
+        },
+        "r3": {
+          "type": "raison",
+          "settings": {
+            "numbered": true,
+            "title": "Fraîches et respirantes (adieu les chaussettes moites)",
+            "body": "<p>La maille est tricotée pour évacuer la chaleur et l'humidité, avec un coup-de-pied aéré. Vos pieds restent au sec sous la garde, même en été dans une chaussure de bloc fermée.</p>"
+          }
+        },
+        "r4": {
+          "type": "raison",
+          "settings": {
+            "numbered": true,
+            "title": "Elles ne roulent pas et ne glissent pas",
+            "body": "<p>Le bord-côte large et plat maintient la chaussette en place sans serrer. Fini la chaussette qui roule sous le genou à la 4ᵉ heure et la marque qui creuse la peau.</p>"
+          }
+        },
+        "r5": {
+          "type": "raison",
+          "settings": {
+            "numbered": true,
+            "title": "Elles taillent vraiment — du S/M au XXL, mollets larges inclus",
+            "body": "<p>Une compression efficace commence par la bonne taille. Aura propose trois tailles, du S/M au XXL, avec un guide pointure pour viser juste. La plupart des infirmières prennent leur pointure habituelle.</p>"
+          }
+        },
+        "promo": {
+          "type": "promo",
+          "settings": {
+            "big": "−50 %",
+            "head": "Offre de lancement",
+            "sub": "2 paires achetées, 2 paires offertes",
+            "deadline": "Offre limitée",
+            "label": "J'en profite — 2 achetées, 2 offertes",
+            "link": "/products/aura-chaussettes-de-compression"
+          }
+        },
+        "r6": {
+          "type": "raison",
+          "settings": {
+            "numbered": true,
+            "title": "Conçues pour durer 12 à 18 mois",
+            "body": "<p>Tricot 2 fils, résistant au lavage quotidien : la compression tient lavage après lavage, là où les marques bon marché se détendent en quelques semaines. Et si une paire perd sa pression dans les 12 mois, on la remplace gratuitement.</p>"
+          }
+        },
+        "r7": {
+          "type": "raison",
+          "settings": {
+            "numbered": true,
+            "title": "Une pointe sans couture — zéro ampoule, zéro point de pression",
+            "body": "<p>La pointe anatomique sans couture supprime le point dur sur les orteils, celui qu'on sent toute la journée. C'est souvent la raison qui fait abandonner les bas classiques dès le troisième jour : ici, il n'existe pas.</p>"
+          }
+        },
+        "r8": {
+          "type": "raison",
+          "settings": {
+            "numbered": true,
+            "title": "Douces comme un bas fin, techniques comme un équipement médical",
+            "body": "<p>Le fil est aussi doux qu'un collant haut de gamme, mais la maille travaille comme du matériel technique. On oublie qu'on les porte — sauf au moment de constater des jambes légères le soir.</p>"
+          }
+        },
+        "r9": {
+          "type": "raison",
+          "settings": {
+            "numbered": true,
+            "title": "Faciles à enfiler, même à 5 h du matin",
+            "body": "<p>Le tricot 2 fils est plus souple : on les enfile sans se battre, sans tirer comme sur un bas médical rigide. Le geste du matin redevient simple.</p>"
+          }
+        },
+        "r10": {
+          "type": "raison",
+          "settings": {
+            "numbered": true,
+            "title": "Satisfaite ou remboursée 30 jours, garantie 12 mois",
+            "body": "<p>Portez-les un mois complet de gardes. Si ce ne sont pas les chaussettes les plus confortables que vous possédez, on vous rembourse — retour offert, sans question. La garantie 12 mois fait le reste.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "cmp",
+        "tldr",
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5",
+        "promo",
+        "r6",
+        "r7",
+        "r8",
+        "r9",
+        "r10"
+      ],
+      "settings": {
+        "eyebrow": "Dossier · santé des jambes",
+        "headline": "10 raisons pour lesquelles les infirmières abandonnent les chaussettes de compression de pharmacie",
+        "byline": "Par la rédaction Aura · Mis à jour il y a 2 jours · 5 min de lecture",
+        "rating_quote": "Bien mieux que les bas que mon médecin m'avait conseillés.",
+        "rating_author": "Sophie O., IDE bloc opératoire",
+        "hide_hero": true,
+        "caption": "",
+        "lead": "<p>Si vos jambes vous lâchent en fin de garde, le problème n'est peut-être pas vous — c'est votre paire. Voici, point par point, pourquoi de plus en plus de soignantes passent à une compression graduée vraiment pensée pour elles.</p>",
+        "close_badge": "30",
+        "close_badge_text": "jours satisfait ou remboursé",
+        "close_text": "<p>Des milliers d'infirmières ont déjà fait le test, sur de vraies gardes de 12 heures.<br>Avec l'offre « 2 paires achetées, 2 offertes », autant en avoir une pour chaque jour.</p>",
+        "close_label": "J'essaie Aura — 2 achetées, 2 offertes",
+        "close_link": "/products/aura-chaussettes-de-compression",
+        "close_proof": "Essai 30 jours · garantie 12 mois · livraison offerte dès 60 €",
+        "sticky_show": true,
+        "sticky_label": "OFFRE DE LANCEMENT · 2 PAIRES OFFERTES",
+        "sticky_deadline": "",
+        "sticky_cta": "J'en profite",
+        "sticky_link": "/products/aura-chaussettes-de-compression"
+      }
+    }
+  },
+  "order": [
+    "advertorial"
+  ]
+}

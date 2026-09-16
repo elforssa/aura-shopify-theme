@@ -1,0 +1,167 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura FAQ (FR)
+  ----------------------------------------------------------------------------
+  @description
+    FAQ accordion + contact card from the v2 design. Styles in
+    assets/aura-v2.css (.faq); accordion behaviour in assets/aura-v2.js.
+    Each Q&A is an editable block; tick "Ouvert" to expand it by default.
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+<section class="faq" data-section="faq">
+  <div class="faq-head">
+    <div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>
+    <h2 class="h-display h-section">{{ section.settings.heading | escape }}</h2>
+    <p class="lead">{{ section.settings.lead | escape }}</p>
+  </div>
+  <div class="faq-grid">
+    <div>
+      <div class="contact-card">
+        <div class="t">{{ section.settings.contact_title | escape }}</div>
+        <div class="d">{{ section.settings.contact_desc | escape }}</div>
+        <a href="mailto:{{ section.settings.contact_email }}">{{ section.settings.contact_email }} →</a>
+      </div>
+    </div>
+
+    <div class="faq-list" id="faq-list">
+      {%- for block in section.blocks -%}
+        <div class="faq-item{% if block.settings.open %} open{% endif %}" {{ block.shopify_attributes }}>
+          <button class="faq-q">{{ block.settings.question | escape }}
+            <span class="plus"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">{{ block.settings.answer }}</div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Aura FAQ",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Vos questions, nos réponses"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Ce que les infirmières nous demandent."
+    },
+    {
+      "type": "text",
+      "id": "lead",
+      "label": "Subheading",
+      "default": "Ou écrivez-nous directement. Nous répondons en général en moins d'une heure, en français comme en anglais."
+    },
+    {
+      "type": "text",
+      "id": "contact_title",
+      "label": "Contact title",
+      "default": "Encore une question ?"
+    },
+    {
+      "type": "text",
+      "id": "contact_desc",
+      "label": "Contact text",
+      "default": "Notre équipe est en grande partie composée d'infirmières. On comprend."
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Email",
+      "default": "contact@auralegs.com"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "qa",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Votre question ?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Votre réponse.</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "open",
+          "label": "Open by default",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Aura FAQ",
+      "blocks": [
+        {
+          "type": "qa",
+          "settings": {
+            "open": true,
+            "question": "Quel niveau de compression offrent-ils ?",
+            "answer": "<p>Aura délivre une compression graduée de 18–25 mmHg — le confort d'un bas technique pensé pour les longues journées debout, sans la rigidité d'un bas d'hôpital. Pour un avis médical ou une prescription, parlez-en à votre médecin.</p>"
+          }
+        },
+        {
+          "type": "qa",
+          "settings": {
+            "question": "Comment trouver ma taille ?",
+            "answer": "<p>Prenez votre pointure habituelle et repérez votre taille dans notre <a href=\"#\">guide des tailles</a>. Entre deux tailles, prenez la plus grande : la maille se détend, elle ne rétrécit pas.</p>"
+          }
+        },
+        {
+          "type": "qa",
+          "settings": {
+            "question": "Combien de temps durent-elles ?",
+            "answer": "<p>La maille garde sa compression lavage après lavage. Tricot 2 fils — léger comme une seconde peau, résistant au lavage quotidien. Si votre paire perd sa pression dans les 12 mois, nous la remplaçons gratuitement.</p>"
+          }
+        },
+        {
+          "type": "qa",
+          "settings": {
+            "question": "Puis-je les laver en machine ?",
+            "answer": "<p>Oui. Lavage en machine à 30°, de préférence à l'envers. Séchage à l'air libre, pas d'adoucissant — la maille garde sa compression plus longtemps.</p>"
+          }
+        },
+        {
+          "type": "qa",
+          "settings": {
+            "question": "Et si elles ne me conviennent pas ?",
+            "answer": "<p>Portez-les un mois complet de gardes. Si ce ne sont pas les chaussettes les plus confortables que vous possédez, renvoyez-les — nous prenons en charge le retour et vous remboursons intégralement. Sans question, sans frais.</p>"
+          }
+        },
+        {
+          "type": "qa",
+          "settings": {
+            "question": "Proposez-vous des commandes pour équipes et hôpitaux ?",
+            "answer": "<p>Oui — dès 6 paires : tarif équipe, facturation et un interlocuteur dédié. <a href=\"#\">Écrivez à notre pôle équipes →</a></p>"
+          }
+        },
+        {
+          "type": "qa",
+          "settings": {
+            "question": "Quand verrai-je des résultats ?",
+            "answer": "<p>La plupart des clientes ressentent moins de gonflement du mollet et de fatigue en fin de garde dès la première garde de 12 heures. Les bénéfices se confirment au fil des semaines de port.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

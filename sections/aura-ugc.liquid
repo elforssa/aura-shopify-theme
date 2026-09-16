@@ -1,0 +1,185 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura UGC (FR)
+  ----------------------------------------------------------------------------
+  @description
+    Masonry-style customer photo grid from the v2 design. Styles in
+    assets/aura-v2.css (.ugc). Each tile is an editable block; "size" controls
+    the masonry span (normal / large / tall).
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+<section class="ugc" data-section="ugc">
+  <div class="head">
+    {%- if section.settings.hashtag != blank -%}<div class="hashtag">{{ section.settings.hashtag | escape }}</div>{%- endif -%}
+    <h2 class="h-display">{{ section.settings.heading | escape }}</h2>
+    <p class="lead">{{ section.settings.lead | escape }}</p>
+  </div>
+  <div class="ugc-grid">
+    {%- for block in section.blocks -%}
+      <a class="ugc-tile" {% if block.settings.url != blank %}href="{{ block.settings.url }}" target="_blank" rel="noopener"{% endif %} style="--c:{{ block.settings.color }}" {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+          <div class="ph" style="background-image:url({{ block.settings.image | image_url: width: 640 }});background-size:cover;background-position:center;"></div>
+        {%- else -%}
+          <div class="ph"></div>
+        {%- endif -%}
+        {%- if block.settings.handle != blank -%}<div class="handle">{{ block.settings.handle | escape }}</div>{%- endif -%}
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Aura UGC",
+  "settings": [
+    {
+      "type": "text",
+      "id": "hashtag",
+      "label": "Hashtag",
+      "default": "#AuraEnGarde"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "De vraies gardes. De vraies chaussettes."
+    },
+    {
+      "type": "text",
+      "id": "lead",
+      "label": "Subheading",
+      "default": "Identifiées par des infirmières, sages-femmes, ambulanciers et voyageuses, en France et au-delà."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Photo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "color",
+          "label": "Background color",
+          "default": "#EBE3D5"
+        },
+        {
+          "type": "text",
+          "id": "handle",
+          "label": "Handle",
+          "default": "@compte"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Instagram link"
+        },
+        {
+          "type": "select",
+          "id": "size",
+          "label": "Size (unused — grid is uniform)",
+          "options": [
+            {
+              "value": "normal",
+              "label": "Normal"
+            },
+            {
+              "value": "large",
+              "label": "Large (2×2)"
+            },
+            {
+              "value": "tall",
+              "label": "Tall (1×2)"
+            }
+          ],
+          "default": "normal"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Aura UGC",
+      "blocks": [
+        {
+          "type": "tile",
+          "settings": {
+            "color": "#EBE3D5",
+            "handle": "@camille.ide",
+            "size": "large"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "color": "#D9CFBC",
+            "handle": "@marion.sf",
+            "size": "normal"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "color": "#E89379",
+            "handle": "@juliette_lille",
+            "size": "tall"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "color": "#C8A689",
+            "handle": "@dr.t.bordeaux",
+            "size": "normal"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "color": "#0E1B33",
+            "handle": "@aida.ehpad",
+            "size": "normal"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "color": "#F2B8A4",
+            "handle": "@sophie.bloc",
+            "size": "normal"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "color": "#EBE3D5",
+            "handle": "@thomas_aides",
+            "size": "normal"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "color": "#C8A689",
+            "handle": "@laure.urg",
+            "size": "normal"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "color": "#F2B8A4",
+            "handle": "@anais.idel",
+            "size": "normal"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

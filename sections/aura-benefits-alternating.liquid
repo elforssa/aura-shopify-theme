@@ -1,0 +1,119 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: Aura Benefits (alternating) (FR)
+  ----------------------------------------------------------------------------
+  @description
+    "Bénéfices" — alternating image / text rows. The image flips left↔right on
+    each row on desktop and stacks image-on-top on mobile. Styles in
+    assets/aura-v2.css (.benefits-alt). Each row is an editable block.
+  @blocks
+    - benefit : icon / heading / body / image / video (video wins; image = poster)
+  ----------------------------------------------------------------------------
+{% endcomment %}
+
+<section class="benefits-alt" data-section="benefits-alternating">
+  <div class="benefits-alt-head">
+    {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+    <h2 class="h-display h-section">{{ section.settings.heading }}</h2>
+  </div>
+
+  {%- for block in section.blocks -%}
+    <div class="ben-row" {{ block.shopify_attributes }}>
+      <div class="ben-media">
+        {%- if block.settings.video != blank -%}
+          <video class="ph" autoplay loop muted playsinline preload="metadata"{% if block.settings.image != blank %} poster="{{ block.settings.image | image_url: width: 1000 }}"{% endif %} style="object-fit:cover;width:100%;height:100%;">
+            {%- # theme-check-disable RemoteAsset -%}
+            {%- for source in block.settings.video.sources -%}
+              <source src="{{ source.url }}" type="{{ source.mime_type }}">
+            {%- endfor -%}
+            {%- # theme-check-enable RemoteAsset -%}
+          </video>
+        {%- elsif block.settings.image != blank -%}
+          <img class="ph" src="{{ block.settings.image | image_url: width: 1000 }}" alt="{{ block.settings.heading | strip_html | escape }}" width="1000" height="780" loading="lazy" style="object-fit:cover;width:100%;height:100%;">
+        {%- else -%}
+          <div class="ph"><span class="ph-label">{{ block.settings.heading | strip_html | escape }}</span></div>
+        {%- endif -%}
+      </div>
+      <div class="ben-copy">
+        <div class="ben-ic">
+          {%- case block.settings.icon -%}
+            {%- when 'shield' -%}<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 2.5v5.5c0 4-3 6.8-7 8-4-1.2-7-4-7-8V5.5L12 3z"/><path d="M9 11.5l2 2 4-4.5"/></svg>
+            {%- when 'wave' -%}<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 9c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/><path d="M3 15c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/></svg>
+            {%- when 'clock' -%}<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            {%- when 'heart' -%}{%- render 'aura-icon-circulation' -%}
+            {%- when 'run' -%}{%- render 'aura-icon-recovery' -%}
+            {%- else -%}<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+          {%- endcase -%}
+        </div>
+        <h3 class="ben-title">{{ block.settings.heading }}</h3>
+        <div class="ben-body">{{ block.settings.body }}</div>
+      </div>
+    </div>
+  {%- endfor -%}
+</section>
+
+{% schema %}
+{
+  "name": "Aura Benefits (alt)",
+  "tag": "section",
+  "max_blocks": 5,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Les bénéfices" },
+    { "type": "html", "id": "heading", "label": "Heading", "default": "Pensé pour vos 12 heures." }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "select", "id": "icon", "label": "Icon", "default": "heart",
+          "options": [
+            { "value": "heart", "label": "Circulation (emblème Aura)" },
+            { "value": "wave", "label": "Wave (swelling)" },
+            { "value": "shield", "label": "Shield (health)" },
+            { "value": "run", "label": "Récupération (emblème Aura)" },
+            { "value": "clock", "label": "Clock (all-day)" },
+            { "value": "corners", "label": "Corners (fit)" }
+          ]
+        },
+        { "type": "html", "id": "heading", "label": "Heading", "default": "Une circulation qui repart" },
+        { "type": "richtext", "id": "body", "label": "Body", "default": "<p>La compression graduée 18–25 mmHg relance le retour veineux et soulage les jambes lourdes — du premier patient à la fin de la garde.</p>" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "video", "id": "video", "label": "Vidéo (remplace l'image ; image = poster)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Aura Benefits (alt)",
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "heart",
+            "heading": "Votre circulation repart.",
+            "body": "<p>La compression graduée 18–25 mmHg relance le retour veineux et soulage les jambes lourdes — du premier patient à la dixième heure.</p>"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "wave",
+            "heading": "Fini les chevilles gonflées.",
+            "body": "<p>Le maintien anatomique limite l'œdème de fin de journée. La cheville reste fine, sans la marque rouge du bord-côte.</p>"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "run",
+            "heading": "Vous récupérez plus vite.",
+            "body": "<p>Moins de fatigue musculaire après une longue station debout, et une récupération qui démarre dès qu'on les enfile.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
