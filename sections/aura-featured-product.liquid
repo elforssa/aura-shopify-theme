@@ -229,18 +229,21 @@
       {%- endif -%}
 
       {%- if section.settings.ship_left != blank or section.settings.ship_right != blank -%}
-        <div class="ship-strip">
-          {%- if section.settings.ship_left != blank -%}<span class="ship-item"><span class="ship-dot"></span>{{ section.settings.ship_left | escape }}</span>{%- endif -%}
-          {%- comment -%} JS rewrites this to a concrete date range ("Livré entre mer. 12 et ven. 14 juin");
-              the static setting text is the no-JS fallback. {%- endcomment -%}
-          {%- if section.settings.ship_right != blank -%}<span class="ship-item" data-aura-delivery data-min="{{ section.settings.ship_min_days | default: 5 }}" data-max="{{ section.settings.ship_max_days | default: 7 }}">{{ section.settings.ship_right | escape }}</span>{%- endif -%}
-        </div>
+        {%- comment -%} ONE delivery sentence: « ● Commande expédiée sous 24 h · livrée entre … ».
+            JS rewrites the second part to a concrete date range ("livrée entre mer. 12 et ven. 14 juin");
+            the static setting text is the no-JS fallback. {%- endcomment -%}
+        <p class="ship-strip ship-line">
+          <span class="ship-dot" aria-hidden="true"></span>
+          {%- if section.settings.ship_left != blank -%}<span>{{ section.settings.ship_left | escape }}</span>{%- endif -%}
+          {%- if section.settings.ship_left != blank and section.settings.ship_right != blank -%}<span class="ship-sep" aria-hidden="true"> · </span>{%- endif -%}
+          {%- if section.settings.ship_right != blank -%}<span data-aura-delivery data-min="{{ section.settings.ship_min_days | default: 5 }}" data-max="{{ section.settings.ship_max_days | default: 7 }}">{{ section.settings.ship_right | escape }}</span>{%- endif -%}
+        </p>
       {%- endif -%}
 
       {%- if section.settings.guarantee_text != blank -%}
         <div class="guarantee-block">
           <div class="guarantee-seal">
-            <img src="{{ 'aura-guarantee-seal.svg' | asset_url }}" alt="Garantie {{ section.settings.guarantee_days | default: '30' | escape }} jours satisfait ou remboursé" width="72" height="72" loading="lazy" decoding="async">
+            {%- render 'aura-guarantee-seal', days: section.settings.guarantee_days -%}
           </div>
           <div class="guarantee-copy">
             <div class="guarantee-title">{{ section.settings.guarantee_text | escape }}</div>
@@ -355,7 +358,28 @@
         }
         // The sticky bar (aura-globals) renders after this section, so resolve its
         // nodes lazily each update() — caching here would capture null.
-        function sticky(){ return { price: document.getElementById('sticky-price'), color: document.getElementById('sticky-color'), size: document.getElementById('sticky-size') }; }
+        function sticky(){ return { price: document.getElementById('sticky-price'), was: document.getElementById('sticky-was'), pack: document.getElementById('sticky-pack'), color: document.getElementById('sticky-color'), size: document.getElementById('sticky-size') }; }
+        // Sticky labels: « 4 paires » / « Bordeaux · 2 offertes » (pack), or
+        // « 1 paire » / « Bordeaux · S/M » (single). Mixed pair colours read as such.
+        function stickyLabels(){
+          var sb = sticky();
+          if (sb.pack) sb.pack.textContent = state.qty > 1 ? (state.qty + ' paires') : '1 paire';
+          if (sb.color){
+            var c = state.c;
+            if (bundleSize > 1 && pairs.length){
+              c = pairs[0].c || state.c;
+              for (var i = 1; i < pairs.length; i++){ if (pairs[i].c && pairs[i].c !== c){ c = 'Coloris mixtes'; break; } }
+            }
+            sb.color.textContent = c;
+          }
+          if (sb.size){
+            if (state.qty > 1) { sb.size.textContent = (state.qty / 2) + ' offertes'; }
+            else {
+              var as = root.querySelector('[data-aura-sizes] .size.active');
+              sb.size.textContent = as ? as.querySelector('.sz').textContent : 'taille à choisir';
+            }
+          }
+        }
         var sizeRow = root.querySelector('[data-aura-size-row]');
         var sizeHint = root.querySelector('[data-aura-size-hint]');
         // No size pre-selected — the customer must choose deliberately (s = null).
@@ -390,7 +414,7 @@
         if (thumbRail && tprev) tprev.addEventListener('click', function(){ thumbRail.scrollBy({left:-180,behavior:'smooth'}); });
         if (thumbRail && tnext) tnext.addEventListener('click', function(){ thumbRail.scrollBy({left: 180,behavior:'smooth'}); });
 
-        function fmt(cents){ return (cents/100).toLocaleString('fr-FR',{minimumFractionDigits:0,maximumFractionDigits:2}) + ' €'; }
+        function fmt(cents){ return (cents/100).toLocaleString('fr-FR',{minimumFractionDigits:0,maximumFractionDigits:2}) + '\u00a0€'; }
         function find(){ return state.s ? data.find(function(v){ return v.c===state.c && v.s===state.s; }) : null; }
         // A representative variant for pricing before a size is chosen (all sizes share a price).
         function priceRef(){ return find() || data.find(function(v){ return v.c===state.c; }) || data[0]; }
@@ -415,11 +439,7 @@
           });
           if (colorName) colorName.textContent = state.c;
           var sb = sticky();
-          if (sb.color) sb.color.textContent = state.c;
-          if (sb.size) {
-            var as = root.querySelector('[data-aura-sizes] .size.active');
-            sb.size.textContent = as ? (as.querySelector('.sz').textContent + ' · ' + as.querySelector('.eu').textContent.replace('EU ','')) : 'à choisir';
-          }
+          stickyLabels();
           // When the colour has a tagged gallery, the thumbnail rail owns the main
           // image (so size/pack changes don't reset the chosen photo). Fall back to
           // the variant image only when no gallery exists for this colour.
@@ -432,6 +452,12 @@
           var total = ref ? Math.round(ref.price * state.qty * (1 - state.disc/100)) : 0;
           totalEl.textContent = fmt(total);
           if (sb.price) sb.price.textContent = fmt(total);
+          // Struck-through full price under the sticky total while a pack discount applies.
+          if (sb.was) {
+            var fullTotal = ref ? ref.price * state.qty : 0;
+            sb.was.textContent = state.disc > 0 && fullTotal ? fmt(fullTotal) : '';
+            sb.was.hidden = !(state.disc > 0 && fullTotal);
+          }
           // Only a real, in-stock, size-selected variant can be added to cart.
           if (v && v.available) {
             idInput.value = v.id; qtyInput.value = state.qty;
@@ -490,6 +516,7 @@
               selectRadio(row.querySelectorAll('.bp-swatches .swatch'), b);
               pairs[idx].c = b.getAttribute('data-color-value');
               syncBundleInput();
+              stickyLabels();   // « Coloris mixtes » once the pairs differ
             });
           });
           row.querySelectorAll('.bp-sizes .size').forEach(function(b){
@@ -538,19 +565,24 @@
         function hideBundle(){
           if (bundleWrap) bundleWrap.hidden = true;
           if (pairsWrap) pairsWrap.innerHTML = '';
+          // Forget the old per-pair picks: re-entering a pack must start from the
+          // colour/size chosen on « 1 paire », not from stale pairs.
+          pairs = [];
           root.querySelectorAll('[data-aura-packs] .pack.is-expanded').forEach(function(p){ p.classList.remove('is-expanded'); });
           if (bundleInput){ bundleInput.dataset.size = 0; bundleInput.value = ''; }
         }
         // Quick-fill: the buy-box colour/size applies to every pair. The rows update
         // in view, so it reads as a shortcut rather than a surprise.
-        function applyToAllPairs(){
+        // what = 'c' (top colour clicked) or 's' (top size clicked): only that
+        // attribute is copied, so picking a size keeps a mixed-colour pack intact.
+        function applyToAllPairs(what){
           if (bundleSize < 2) return;
           for (var i = 0; i < bundleSize; i++){
-            pairs[i].c = state.c;
-            if (state.s) pairs[i].s = state.s;
+            if (what !== 's') pairs[i].c = state.c;
+            if (what !== 'c' && state.s) pairs[i].s = state.s;
           }
           pairRows().forEach(function(r){ r.classList.remove('size-missing'); });
-          syncBundleUI(); syncBundleInput();
+          syncBundleUI(); syncBundleInput(); stickyLabels();
         }
         // aura-cart.js fires this when ATC is hit but the pack isn't fully sized —
         // highlight the first unsized pair and scroll it into view.
@@ -567,6 +599,16 @@
           }
         }
         document.addEventListener('aura:bundleincomplete', flagIncompletePair);
+        // The pack CTA advertises a colour mix (e.g. Bordeaux ×2 · Noir ×2 · Gris ×2):
+        // apply it to the freshly opened pairs so the cart matches the card.
+        document.addEventListener('aura:packmix', function(e){
+          var mix = (e.detail && e.detail.mix) || [];
+          if (bundleSize < 2 || mix.length !== bundleSize) return;
+          var known = {};
+          root.querySelectorAll('[data-aura-swatches] .swatch').forEach(function(b){ known[b.getAttribute('data-color-value')] = true; });
+          for (var i = 0; i < bundleSize; i++){ if (known[mix[i]]) pairs[i].c = mix[i]; }
+          syncBundleUI(); syncBundleInput(); stickyLabels();
+        });
 
         var swatchEls = root.querySelectorAll('[data-aura-swatches] .swatch');
         swatchEls.forEach(function(b){
@@ -575,7 +617,7 @@
             state.c = b.getAttribute('data-color-value');
             if (mainPh) mainPh.style.setProperty('--swatch', b.getAttribute('data-hex'));
             renderThumbs(state.c);
-            applyToAllPairs();   // multi-pack: the buy-box colour fills every pair
+            applyToAllPairs('c');   // multi-pack: the buy-box colour fills every pair
             update();
           });
         });
@@ -586,7 +628,7 @@
             state.s = b.getAttribute('data-size-value');
             if (sizeHint) sizeHint.hidden = true;
             if (sizeRow) sizeRow.classList.remove('size-missing');
-            applyToAllPairs();   // multi-pack: the buy-box size fills every pair
+            applyToAllPairs('s');   // multi-pack: the buy-box size fills every pair (colours kept)
             update();
           });
         });
@@ -627,16 +669,36 @@
           document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !sgModal.hidden) sgClose(); });
         }
 
-        // Concrete delivery window ("Livré entre mer. 12 et ven. 14 juin") —
-        // computed client-side so it is always current; Sundays skipped.
+        // Concrete delivery window ("Livrée entre mer. 12 et ven. 14 juin") —
+        // computed client-side so it is always current. Counts WORKING days
+        // (Sat/Sun and French public holidays skipped) so it matches « 5 à 7
+        // jours ouvrés » everywhere else.
         var deliveryEl = document.querySelector('[data-aura-delivery]');   // ship strip sits outside the form
         if (deliveryEl) {
-          var deliveryDay = function(n){
-            var d = new Date(); d.setDate(d.getDate() + n);
-            if (d.getDay() === 0) d.setDate(d.getDate() + 1);
-            return d.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' });
+          var holidayCache = {};
+          var frHolidays = function(y){
+            if (holidayCache[y]) return holidayCache[y];
+            // Easter Sunday (anonymous Gregorian algorithm) → Easter Monday, Ascension, Whit Monday
+            var a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4,
+                f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30,
+                i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451),
+                month = Math.floor((h + l - 7 * m + 114) / 31), day = ((h + l - 7 * m + 114) % 31) + 1;
+            var easter = new Date(y, month - 1, day);
+            var plus = function(n){ var x = new Date(easter); x.setDate(x.getDate() + n); return (x.getMonth() + 1) + '-' + x.getDate(); };
+            var set = {};
+            ['1-1','5-1','5-8','7-14','8-15','11-1','11-11','12-25', plus(1), plus(39), plus(50)].forEach(function(k){ set[k] = true; });
+            return (holidayCache[y] = set);
           };
-          deliveryEl.textContent = 'Livré entre ' + deliveryDay(parseInt(deliveryEl.dataset.min, 10) || 2)
+          var isWorkingDay = function(d){
+            var wd = d.getDay();
+            return wd !== 0 && wd !== 6 && !frHolidays(d.getFullYear())[(d.getMonth() + 1) + '-' + d.getDate()];
+          };
+          var deliveryDay = function(n){
+            var d = new Date();
+            while (n > 0) { d.setDate(d.getDate() + 1); if (isWorkingDay(d)) n--; }
+            return d.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' }).replace(/ /g, '\u00a0');   // keep « ven. 23 oct. » on one line
+          };
+          deliveryEl.textContent = 'livrée entre ' + deliveryDay(parseInt(deliveryEl.dataset.min, 10) || 2)
                                  + ' et ' + deliveryDay(parseInt(deliveryEl.dataset.max, 10) || 4);
         }
 
@@ -682,7 +744,7 @@
     { "type": "text", "id": "benefit_4", "label": "Benefit 4", "default": "Facile à enfiler" },
     { "type": "header", "content": "Size guide (modal)" },
     { "type": "text", "id": "size_guide_title", "label": "Size guide — title", "default": "Guide des tailles" },
-    { "type": "html", "id": "size_guide", "label": "Size guide — content (table)", "default": "<table><thead><tr><th>Taille</th><th>Pointure (EU)</th><th>Largeur cheville*</th><th>Longueur jambe</th><th>Longueur pied*</th></tr></thead><tbody><tr><td>S/M</td><td>35–39</td><td>11 cm</td><td>32 cm</td><td>16,5 cm</td></tr><tr><td>L/XL</td><td>40–44</td><td>12 cm</td><td>33 cm</td><td>18,5 cm</td></tr><tr><td>XXL</td><td>45–48</td><td>13 cm</td><td>35 cm</td><td>20,5 cm</td></tr></tbody></table><p>*Mesures du bas posé à plat — la maille s'étire. Hauteur du bord : 2,5 cm. Entre deux tailles, choisissez la plus grande.</p>" },
+    { "type": "html", "id": "size_guide", "label": "Size guide — content (table)", "default": "<table><thead><tr><th>Taille</th><th>Pointure (EU)</th><th>Largeur cheville*</th><th>Longueur jambe</th><th>Longueur pied*</th></tr></thead><tbody><tr><td>S/M</td><td>35–39</td><td>11 cm</td><td>32 cm</td><td>16,5 cm</td></tr><tr><td>L/XL</td><td>40–44</td><td>12 cm</td><td>33 cm</td><td>18,5 cm</td></tr><tr><td>XXL</td><td>45–48</td><td>13 cm</td><td>35 cm</td><td>20,5 cm</td></tr></tbody></table><p>*Mesures de la chaussette posée à plat : la maille s'étire. Hauteur du bord : 2,5 cm. Entre deux tailles, choisissez la plus grande.</p>" },
     { "type": "header", "content": "Social proof & CTA" },
     { "type": "text", "id": "rating", "label": "Rating", "default": "4,8" },
     { "type": "text", "id": "reviews_count", "label": "Reviews count", "default": "150+ avis d'infirmières" },
@@ -692,13 +754,13 @@
     { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Ajouter au panier" },
     { "type": "text", "id": "savings_badge", "label": "Savings chip (next to Quantité)", "default": "−50 %" },
     { "type": "header", "content": "Bandeau livraison · garantie · promo" },
-    { "type": "text", "id": "ship_left", "label": "Bandeau livraison — texte gauche (ex. « Expédié sous 24 h »)", "default": "Expédié sous 24 h" },
+    { "type": "text", "id": "ship_left", "label": "Bandeau livraison — texte gauche (ex. « Commande expédiée sous 24 h »)", "default": "Commande expédiée sous 24 h" },
     { "type": "text", "id": "ship_right", "label": "Bandeau livraison — texte droite (remplacé par les dates de livraison)", "default": "Livraison France & Europe" },
-    { "type": "range", "id": "ship_min_days", "label": "Livraison — délai min (jours)", "min": 1, "max": 10, "step": 1, "default": 5 },
-    { "type": "range", "id": "ship_max_days", "label": "Livraison — délai max (jours)", "min": 1, "max": 14, "step": 1, "default": 7 },
-    { "type": "text", "id": "guarantee_days", "label": "Guarantee — days (seal)", "default": "30" },
-    { "type": "text", "id": "guarantee_text", "label": "Guarantee — title", "default": "30 jours satisfait ou remboursé" },
-    { "type": "text", "id": "guarantee_body", "label": "Guarantee — body", "default": "Si la paire ne vous convient pas, même portée une garde, on la reprend sans question." },
+    { "type": "range", "id": "ship_min_days", "label": "Livraison — délai min (jours ouvrés)", "min": 1, "max": 10, "step": 1, "default": 5 },
+    { "type": "range", "id": "ship_max_days", "label": "Livraison — délai max (jours ouvrés)", "min": 1, "max": 14, "step": 1, "default": 7 },
+    { "type": "text", "id": "guarantee_days", "label": "Guarantee — days (seal)", "default": "60" },
+    { "type": "text", "id": "guarantee_text", "label": "Guarantee — title", "default": "60 jours satisfaite ou remboursée" },
+    { "type": "text", "id": "guarantee_body", "label": "Guarantee — body", "default": "Même portée en garde, si la paire ne vous convient pas, on vous rembourse." },
     { "type": "text", "id": "promo_heading", "label": "Promo card — line 1", "default": "Achetez 2 paires" },
     { "type": "text", "id": "promo_strong", "label": "Promo card — highlight", "default": "2 paires offertes" },
     { "type": "text", "id": "promo_sub", "label": "Promo card — subtext", "default": "Mélangez les coloris au paiement" },

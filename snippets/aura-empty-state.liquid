@@ -1,0 +1,36 @@
+{%- comment -%}
+  ----------------------------------------------------------------------------
+  Snippet: aura-empty-state
+  ----------------------------------------------------------------------------
+  The "next step" block for dead-end pages (404, search with no results, empty
+  /cart): one line of text, a button to the product (the store sells one
+  product, so that's always the way forward) and an optional secondary link.
+  Mirrors the cart drawer's empty state (aura-drawer-empty). Styles:
+  .aura-empty in assets/aura-v2.css.
+
+  @param {string} [text] - one sentence under the page's own title
+  @param {string} button_label - primary button
+  @param {string} [button_url] - defaults to the Aura product page
+  @param {string} [link_label] - optional secondary link
+  @param {string} [link_url]
+  ----------------------------------------------------------------------------
+{%- endcomment -%}
+{%- liquid
+  if button_url == blank
+    assign es_product = all_products['aura-chaussettes-de-compression']
+    if es_product != blank
+      assign button_url = es_product.url
+    else
+      assign button_url = routes.root_url | append: '/products/aura-chaussettes-de-compression' | replace: '//', '/'
+    endif
+  endif
+-%}
+<div class="aura-empty">
+  {%- if text != blank -%}<p class="aura-empty-d">{{ text | escape }}</p>{%- endif -%}
+  <div class="aura-empty-actions">
+    <a class="btn btn-primary" href="{{ button_url }}">{{ button_label | escape }} <span class="arrow">→</span></a>
+    {%- if link_label != blank and link_url != blank -%}
+      <a class="aura-empty-link" href="{{ link_url }}">{{ link_label | escape }}</a>
+    {%- endif -%}
+  </div>
+</div>

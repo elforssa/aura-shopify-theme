@@ -1,0 +1,22 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Snippet: aura-drawer-empty
+  ----------------------------------------------------------------------------
+  Empty-cart state for the drawer (server render + the <template> aura-cart.js
+  clones when the last item is removed): a way back to the product instead of
+  a dead end over a 0 € checkout. Styles: .drawer-empty in aura-v2.css.
+  ----------------------------------------------------------------------------
+{% endcomment %}
+{%- liquid
+  assign empty_product = all_products['aura-chaussettes-de-compression']
+  if empty_product != blank
+    assign empty_url = empty_product.url
+  else
+    assign empty_url = routes.root_url | append: '/products/aura-chaussettes-de-compression' | replace: '//', '/'
+  endif
+-%}
+<div class="drawer-empty">
+  <p class="drawer-empty-t">Votre panier est vide.</p>
+  <p class="drawer-empty-d">Une paire pour chaque jour de garde&nbsp;: jusqu'à −50&nbsp;% avec les packs.</p>
+  <a class="btn btn-primary" href="{{ empty_url }}">Découvrir Aura <span class="arrow">→</span></a>
+</div>

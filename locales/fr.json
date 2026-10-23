@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "general": {
     "password_page": {
@@ -222,7 +231,7 @@
   },
   "templates": {
     "search": {
-      "no_results": "Aucun résultat trouvé pour « {{ terms }} ». Vérifiez l'orthographe ou utilisez un autre mot ou une autre expression.",
+      "no_results": "Aucun résultat pour « {{ terms }} ». Aura fait une seule chose : des chaussettes de compression pour les longues gardes.",
       "results_with_count": {
         "one": "{{ count }} résultat",
         "other": "{{ count }} résultats",
@@ -291,7 +300,7 @@
       "remove_title": "Supprimer {{ title }}",
       "note": "Instructions spéciales concernant la commande",
       "checkout": "Procéder au paiement",
-      "empty": "Votre panier est vide",
+      "empty": "Votre panier est vide.",
       "cart_error": "Une erreur est survenue lors de l’actualisation de votre panier. Veuillez réessayer.",
       "cart_quantity_error_html": "Vous ne pouvez pas ajouter plus de {{ quantity }} de ce produit à votre panier.",
       "headings": {
@@ -303,7 +312,7 @@
       },
       "update": "Mise à jour",
       "login": {
-        "title": "Vous possédez un compte ?",
+        "title": "Déjà cliente ?",
         "paragraph_html": "<a href=\"{{ link }}\" class=\"link underlined-link\">Connectez-vous</a> pour payer plus vite."
       },
       "estimated_total": "Total estimé",

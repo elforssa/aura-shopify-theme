@@ -10,16 +10,17 @@
   ----------------------------------------------------------------------------
 {% endcomment %}
 
+{%- comment -%} Separator dots go only BETWEEN rendered items (no trailing dot). {%- endcomment -%}
 <div class="announce" data-section="announcement-bar">
   {%- if section.settings.shipping_text != blank -%}
     <span class="announce-msg is-active">{{ section.settings.shipping_text | escape }}</span>
-    <span class="dot"></span>
   {%- endif -%}
   {%- if section.settings.sale_text != blank -%}
+    {%- if section.settings.shipping_text != blank -%}<span class="dot"></span>{%- endif -%}
     <span class="announce-msg sale">{{ section.settings.sale_text | escape }}</span>
-    <span class="dot"></span>
   {%- endif -%}
   {%- if section.settings.lang_text != blank -%}
+    {%- if section.settings.shipping_text != blank or section.settings.sale_text != blank -%}<span class="dot"></span>{%- endif -%}
     <span class="lang">{{ section.settings.lang_text }}</span>
   {%- endif -%}
 </div>
@@ -38,13 +39,13 @@
       "type": "text",
       "id": "sale_text",
       "label": "Promo text",
-      "default": "Offre packs : jusqu'à −22 %"
+      "default": "Offre packs : jusqu'à −50 %"
     },
     {
       "type": "text",
       "id": "lang_text",
       "label": "Language selector",
-      "default": "🇫🇷 FR <span style=\"opacity:0.4\">/</span> EN"
+      "info": "Laisser vide : la boutique est 100 % en français."
     }
   ]
 }

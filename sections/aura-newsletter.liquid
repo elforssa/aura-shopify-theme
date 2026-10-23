@@ -5,7 +5,8 @@
   @description
     "Shift letter" newsletter band from the Aura v2 design. Styles in
     assets/aura-v2.css (.newsletter). Uses Shopify's customer form so signups
-    are captured. Renders via footer-group.json.
+    are captured, and says so after the redirect (success / error lines,
+    announced to screen readers). Renders via footer-group.json.
   ----------------------------------------------------------------------------
 {% endcomment %}
 
@@ -13,15 +14,30 @@
   <div class="newsletter-inner">
     <h3>{{ section.settings.heading }}</h3>
     {%- if section.settings.body != blank -%}<p>{{ section.settings.body | escape }}</p>{%- endif -%}
-    {%- form 'customer' -%}
-      <input type="hidden" name="contact[tags]" value="newsletter">
-      <input
-        type="email"
-        name="contact[email]"
-        placeholder="{{ section.settings.placeholder | escape }}"
-        required
-      >
-      <button type="submit" class="btn btn-light">{{ section.settings.button_label | escape }}</button>
+    {%- form 'customer', id: 'aura-newsletter-form' -%}
+      {%- if form.posted_successfully? -%}
+        <p class="newsletter-msg ok" role="status">{{ section.settings.success_text | escape }}</p>
+      {%- else -%}
+        {%- if form.errors -%}
+          {%- if form.errors.messages['email'] contains 'déjà' or form.errors.messages['email'] contains 'taken' -%}
+            <p class="newsletter-msg err" role="alert">{{ section.settings.taken_text | escape }}</p>
+          {%- else -%}
+            <p class="newsletter-msg err" role="alert">{{ section.settings.error_text | escape }}</p>
+          {%- endif -%}
+        {%- endif -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <label class="aura-sr" for="aura-newsletter-email">{{ section.settings.label | escape }}</label>
+        <input
+          type="email"
+          id="aura-newsletter-email"
+          name="contact[email]"
+          autocomplete="email"
+          placeholder="{{ section.settings.placeholder | escape }}"
+          {% if form.errors %}aria-invalid="true"{% endif %}
+          required
+        >
+        <button type="submit" class="btn btn-light">{{ section.settings.button_label | escape }}</button>
+      {%- endif -%}
     {%- endform -%}
     {%- if section.settings.legal != blank -%}<div class="legal">{{ section.settings.legal | escape }}</div>{%- endif -%}
   </div>
@@ -45,6 +61,12 @@
     },
     {
       "type": "text",
+      "id": "label",
+      "label": "Field label (screen readers)",
+      "default": "Votre adresse e-mail"
+    },
+    {
+      "type": "text",
       "id": "placeholder",
       "label": "Email placeholder",
       "default": "vous@hôpital.fr"
@@ -54,6 +76,24 @@
       "id": "button_label",
       "label": "Button",
       "default": "S'inscrire"
+    },
+    {
+      "type": "text",
+      "id": "success_text",
+      "label": "Message after signing up",
+      "default": "Merci, c'est noté. La prochaine lettre de garde arrive dans votre boîte mail."
+    },
+    {
+      "type": "text",
+      "id": "error_text",
+      "label": "Message if the address is invalid",
+      "default": "Cette adresse e-mail ne semble pas valide. Vérifiez-la, puis réessayez."
+    },
+    {
+      "type": "text",
+      "id": "taken_text",
+      "label": "Message if already subscribed",
+      "default": "Vous êtes déjà inscrite : la prochaine lettre de garde arrive bientôt."
     },
     {
       "type": "text",

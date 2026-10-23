@@ -1,0 +1,23 @@
+{%- comment -%}
+  ----------------------------------------------------------------------------
+  Snippet: aura-copy-mask
+  ----------------------------------------------------------------------------
+  Rewrites stale promises in ADMIN-owned text that the theme can't edit at the
+  source — today only the homepage meta description (Online Store ›
+  Preferences, not reachable through the Admin API): « 30 jours » is now
+  « 60 jours », and the sock's parts use the product copy's words
+  (« bord-côte », « pointe »). The product description was fixed in admin
+  (Oct 2026). Also adds French non-breaking spaces before
+  : ; ? !. Remove a line once the admin text is fixed. Plain text only (meta
+  descriptions, strip_html output), never raw HTML.
+
+  @param {string} text - plain text to clean
+  ----------------------------------------------------------------------------
+{%- endcomment -%}
+{%- liquid
+  assign t = text
+  assign t = t | replace: 'Satisfaite ou remboursée 30 jours', 'Satisfaite ou remboursée 60 jours'
+  assign t = t | replace: 'manchette élargie zéro marque, orteil anatomique sans couture', 'bord-côte élargi sans marque, pointe sans couture'
+  assign t = t | replace: ' :', ' :' | replace: ' ;', ' ;' | replace: ' ?', ' ?' | replace: ' !', ' !'
+  echo t
+-%}

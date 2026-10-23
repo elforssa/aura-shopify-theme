@@ -19,11 +19,23 @@
     {%- for block in section.blocks -%}
       <a class="ugc-tile" {% if block.settings.url != blank %}href="{{ block.settings.url }}" target="_blank" rel="noopener"{% endif %} style="--c:{{ block.settings.color }}" {{ block.shopify_attributes }}>
         {%- if block.settings.image != blank -%}
-          <div class="ph" style="background-image:url({{ block.settings.image | image_url: width: 640 }});background-size:cover;background-position:center;"></div>
+          {%- liquid
+            assign ugc_alt = block.settings.alt
+            if ugc_alt == blank
+              assign ugc_alt = 'Cliente portant ses chaussettes de compression Aura'
+              assign ugc_handle = block.settings.handle | strip
+              if ugc_handle.size > 1 and ugc_handle != '@compte'
+                assign ugc_alt = ugc_alt | append: ' (photo de ' | append: ugc_handle | append: ')'
+              endif
+            endif
+          -%}
+          <div class="ph" role="img" aria-label="{{ ugc_alt | escape }}" style="background-image:url({{ block.settings.image | image_url: width: 800 }});{% case block.settings.focus %}{% when 'top' %}background-size:125%;background-position:center top;{% when 'bottom' %}background-size:125%;background-position:center bottom;{% else %}background-size:cover;background-position:center;{% endcase %}"></div>
         {%- else -%}
           <div class="ph"></div>
         {%- endif -%}
-        {%- if block.settings.handle != blank -%}<div class="handle">{{ block.settings.handle | escape }}</div>{%- endif -%}
+        {%- comment -%} A bare « @ » (or the « @compte » default) is a placeholder: show the chip only with a real handle. {%- endcomment -%}
+        {%- assign ugc_chip = block.settings.handle | strip -%}
+        {%- if ugc_chip.size > 1 and ugc_chip != '@compte' -%}<div class="handle">{{ ugc_chip | escape }}</div>{%- endif -%}
       </a>
     {%- endfor -%}
   </div>
@@ -49,7 +61,7 @@
       "type": "text",
       "id": "lead",
       "label": "Subheading",
-      "default": "Identifiées par des infirmières, sages-femmes, ambulanciers et voyageuses, en France et au-delà."
+      "default": "Partagées par des infirmières, sages-femmes et ambulanciers avec #AuraEnGarde."
     }
   ],
   "blocks": [
@@ -61,6 +73,24 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image"
+        },
+        {
+          "type": "select",
+          "id": "focus",
+          "label": "Cadrage de la photo",
+          "info": "« Haut » zoome légèrement et garde le haut de la photo (masque une date en bas) ; « Bas » fait l'inverse.",
+          "options": [
+            { "value": "center", "label": "Centre" },
+            { "value": "top", "label": "Haut (recadré)" },
+            { "value": "bottom", "label": "Bas (recadré)" }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Description de la photo",
+          "info": "Lue par les lecteurs d'écran. Vide = description générique."
         },
         {
           "type": "text",

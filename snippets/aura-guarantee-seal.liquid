@@ -1,0 +1,35 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Snippet: aura-guarantee-seal
+  ----------------------------------------------------------------------------
+  The « N JOURS · SATISFAITE OU REMBOURSÉE » seal, drawn inline so the number
+  always matches the guarantee setting (the original artwork,
+  assets/aura-guarantee-seal.svg, had « 30 » baked in — kept in the theme for
+  reference / one-line revert). Same composition as the artwork: navy ring,
+  shield, burgundy side arcs + check, arc caption. Typography uses the brand
+  fonts (Instrument Serif number, Geist caps); styles in aura-v2.css
+  (.aura-seal).
+
+  @param {string} days - Number of days shown on the seal (default « 60 »)
+  ----------------------------------------------------------------------------
+{% endcomment %}
+{%- liquid
+  assign seal_days = days | default: '60' | strip
+  assign seal_label = 'Garantie ' | append: seal_days | append: ' jours satisfaite ou remboursée'
+-%}
+<svg class="aura-seal" viewBox="0 0 1024 1024" role="img" aria-label="{{ seal_label | escape }}" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <path id="aura-seal-arc-{{ seal_days }}" d="M140,512 A372,372 0 0,0 884,512" fill="none"/>
+  </defs>
+  <circle cx="512" cy="512" r="418" fill="none" stroke="#0E1B33" stroke-width="12"/>
+  <path d="M211 279 A375 375 0 0 0 143 486" fill="none" stroke="#6E2C36" stroke-width="6" stroke-linecap="round"/>
+  <path d="M813 279 A375 375 0 0 1 881 486" fill="none" stroke="#6E2C36" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="151" cy="527" r="8" fill="#0E1B33"/>
+  <circle cx="873" cy="527" r="8" fill="#0E1B33"/>
+  <path d="M268 232 C376 234 452 204 512 140 C572 204 648 234 756 232 L756 510 C756 640 650 724 512 766 C374 724 268 640 268 510 Z"
+        fill="none" stroke="#0E1B33" stroke-width="12" stroke-linejoin="round"/>
+  <text class="aura-seal-n" x="512" y="470" text-anchor="middle">{{ seal_days | escape }}</text>
+  <text class="aura-seal-j" x="512" y="582" text-anchor="middle">JOURS</text>
+  <path d="M462 652 L500 688 L574 610" fill="none" stroke="#6E2C36" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="aura-seal-c"><textPath href="#aura-seal-arc-{{ seal_days }}" startOffset="50%" text-anchor="middle">SATISFAITE OU REMBOURSÉE</textPath></text>
+</svg>

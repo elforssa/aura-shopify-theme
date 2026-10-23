@@ -36,9 +36,8 @@
 
     <div class="cart__warnings">
       <h1 class="cart__empty-text">{{ 'sections.cart.empty' | t }}</h1>
-      <a href="{{ routes.all_products_collection_url }}" class="button">
-        {{ 'general.continue_shopping' | t }}
-      </a>
+      {%- comment -%} Aura: same words and next step as the drawer's empty state. {%- endcomment -%}
+      {%- render 'aura-empty-state', text: section.settings.empty_text, button_label: section.settings.empty_button_label -%}
 
       {%- if shop.customer_accounts_enabled and customer == null -%}
         <h2 class="cart__login-title">{{ 'sections.cart.login.title' | t }}</h2>
@@ -377,7 +376,7 @@
                                 <ul class="list-unstyled">
                                   <li>
                                     <span>{{ item.variant.quantity_rule.min }}+</span>
-                                    {%- assign price = item.variant.price | money_with_currency -%}
+                                    {%- if settings.currency_code_enabled -%}{%- assign price = item.variant.price | money_with_currency -%}{%- else -%}{%- assign price = item.variant.price | money -%}{%- endif -%}
                                     <span> {{ 'sections.quick_order_list.each' | t: money: price }}</span>
                                   </li>
                                   {%- for price_break in item.variant.quantity_price_breaks -%}
@@ -386,7 +385,7 @@
                                         {{- price_break.minimum_quantity -}}
                                         <span aria-hidden="true">+</span></span
                                       >
-                                      {%- assign price = price_break.price | money_with_currency -%}
+                                      {%- if settings.currency_code_enabled -%}{%- assign price = price_break.price | money_with_currency -%}{%- else -%}{%- assign price = price_break.price | money -%}{%- endif -%}
                                       <span> {{ 'sections.quick_order_list.each' | t: money: price }}</span>
                                     </li>
                                   {%- endfor -%}
@@ -490,6 +489,22 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Panier vide"
+    },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "label": "Texte",
+      "default": "Une paire pour chaque jour de garde : jusqu'à −50 % avec les packs."
+    },
+    {
+      "type": "text",
+      "id": "empty_button_label",
+      "label": "Bouton vers la fiche produit",
+      "default": "Découvrir Aura"
     }
   ]
 }

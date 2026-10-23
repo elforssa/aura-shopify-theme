@@ -79,6 +79,24 @@ internal theme links (CTAs, `featured_product`, nav) were updated to the new han
   1/3/6 −13/−22 % quantity tiers. Perks shown: k2 = « Livraison offerte », k3 =
   « Livraison offerte + cadeau surprise » (so k3 reads as best value — same per-pair
   price as k2 without the gift). Free shipping applies on orders ≥ 60 €.
+- RETURNS (owner rule, Oct 2026): refund within **60 days, even worn**; return
+  shipping is paid by the customer (free only if defective / our error). Never write
+  « retour gratuit », « sans frais », « échange gratuit » or « 30 jours ». Shipping:
+  « Commande expédiée sous 24 h », delivered in 5–7 jours ouvrés (the buy-box date
+  counts working days + French public holidays). The seal is drawn by
+  snippets/aura-guarantee-seal.liquid from the « days » setting (not the old
+  assets/aura-guarantee-seal.svg, which has « 30 » baked in).
+- PAYMENT METHODS (Oct 2026): Klarna is NOT enabled — never advertise it. Footer
+  badges + cart note render snippets/aura-payment-methods.liquid from
+  shop.enabled_payment_types (curated FR order: CB, Visa, Mastercard, Amex, PayPal,
+  Apple Pay, Google Pay, Shop Pay). Keep any hand-written payment copy to that list.
+- PACK CTA: #pack-cta-btn links to the product with ?pack=6 and carries
+  data-pack-mix (Bordeaux×2 · Noir×2 · Gris×2, matching the card); aura-cart.js
+  selects the tier + fires aura:packmix, the buy box pre-fills the pairs. The top
+  SIZE copies only sizes to the pairs (colours kept); the top COLOUR copies colours.
+  ⚠️ The admin refund POLICY page still says 30 days / unworn until the owner pastes
+  docs/politique-remboursement-60-jours.md. « Garantie 12 mois » was REMOVED from the
+  whole site (Oct 2026, owner) — not in any policy/CGV; never reintroduce it.
 - Manufactured in China, stocked in France. NOTE (June 2026): all made-in-France
   origin claims have been REMOVED from customer-facing copy — the theme no longer
   states where the product is made. Do NOT reintroduce "tricoté/fabriqué en France
@@ -99,6 +117,8 @@ Colors:
   --muted:      #6F6657  (secondary text)
   --line:       rgba(14,27,51,0.10)  (hairline dividers)
   --green:      #4A7C59  (verified / confirmations)
+  --eyebrow:    #A3503A  (SMALL coral text — eyebrows, save-lines, chips: passes
+                WCAG AA on cream/paper. Never use --coral-deep for text < 18px.)
   Coral allowlist (owner rule): eyebrows, star ratings, discount chips,
   purchase CTAs, the science gradient bars. Everything else (icon circles,
   badges, chart labels, dots) is navy/neutral — icon circles are navy-tint
@@ -164,10 +184,12 @@ Background chapters (deliberate, not random):
 
 ## Running & previewing locally
 One-time setup — ALREADY DONE on this machine, do NOT repeat each session:
-  - Shopify CLI installed globally: `shopify` v3.92+ at /usr/local/bin/shopify.
-    (Only if ever missing: `brew install shopify-cli`, or `npm i -g @shopify/cli`.)
+  - Shopify CLI installed globally via npm (Oct 2026, new Mac): `shopify` v4.9+ at
+    /opt/homebrew/bin/shopify. (Only if ever missing: `npm i -g @shopify/cli` —
+    Homebrew's shopify/shopify tap now needs `brew trust shopify/shopify` first.)
   - Authenticated to the store — login PERSISTS across sessions/tabs.
-  - Node v18+ required (this machine has v25). No other plugins/extensions needed —
+  - Node v18+ required (this machine has v22, Homebrew node@22). git + GitHub CLI
+    (`gh`, logged in as elforssa) installed. No other plugins/extensions needed —
     theme dev/check/push are built into the CLI.
 
 Each new session, just start the dev server (one command):
@@ -238,7 +260,7 @@ Real section order (all `aura-*`, each editable in the customizer):
     to the page `product` (leave the featured_product setting blank); on the
     homepage it uses the picked product. Gallery (hero image + thumbnails,
     swipeable on touch) + Couleur swatches + Taille sizes (+ pointure note) +
-    bundle/quantity rows + ATC + Klarna 3× line + price anchor («À partir de
+    bundle/quantity rows + ATC + price anchor («À partir de
     17 €/paire», BOGO 3+3) + shipping strip (JS rewrites the right item to a live
     "Livré entre …" date range, Sundays skipped) + 30-day guarantee. NO size
     pre-selected (forced choice; guarded in assets/aura-cart.js). Variants read
@@ -333,9 +355,11 @@ Do NOT present these as verified fact without the owner's sign-off:
   the theme no longer states where the product is made. Do not reintroduce them.
 - CE marking + LPP/ordonnance eligibility ("éligibles LPP à partir de juin 2026").
 - Review/customer counts (150+, 3 124 avis, 28 000+, 4,9★ / 92% recommend).
-- Survey stats (94% / 8h / 0 / 92% "oublient qu'elles les portent", "mesuré sur 1 200 infirmières").
+- ✅ RESOLVED (Oct 2026): survey stats (94 % / 8 h / 92 %, « 1 200 infirmières »)
+  replaced on the PDP by guaranteed facts (18–25 mmHg · 30 nuits · 12 mois · 0
+  couture); hero card « … dans 7 hôpitaux » → « pensées pour des gardes de 12 heures ».
+  Don't reintroduce them without real data + a method link.
 - Dr. Camille Roussel endorsement (real person, or disclose as illustrative?).
-- Hero card: "testés en pression … dans 7 hôpitaux".
 - Product admin meta description still says "compression médicale" (theme copy
   was switched to "graduée/vérifiée" — fix the admin product description too).
 

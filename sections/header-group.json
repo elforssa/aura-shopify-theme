@@ -14,9 +14,8 @@
     "aura_announcement": {
       "type": "aura-announcement",
       "settings": {
-        "shipping_text": "Livraison offerte dès 60 €",
-        "sale_text": "Offre packs : jusqu'à −50 %",
-        "lang_text": "🇫🇷 FR <span style=\"opacity:0.4\">/</span> EN"
+        "shipping_text": "Livraison offerte dès 60 €",
+        "sale_text": "Offre packs : jusqu'à −50 %"
       }
     },
     "aura_header": {

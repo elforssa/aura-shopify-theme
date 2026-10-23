@@ -137,10 +137,21 @@ auraCarousel('personas', 'personas-prev', 'personas-next', 360);
   const footer = document.querySelector('footer');
   if (!atc || !trigger) return;
 
+  // Desktop: the buy box is tall (pair picker open), so the main « Ajouter » can
+  // start below the fold — show the bar whenever that button is off-screen
+  // (above OR below). Phone: unchanged — only once the buy box has scrolled past.
+  const mainAtc = document.querySelector('[data-aura-atc]');
+  const desktop = window.matchMedia('(min-width: 750px)');
+  function atcOffscreen() {
+    if (!mainAtc) return false;
+    const r = mainAtc.getBoundingClientRect();
+    return r.top > window.innerHeight || r.bottom < 0;
+  }
   function inZone() {
     const vh = window.innerHeight;
-    const pastBuyBox = trigger.getBoundingClientRect().bottom < vh * 0.4;
     const beforeFooter = footer ? footer.getBoundingClientRect().top > vh * 0.95 : true;
+    if (desktop.matches) return atcOffscreen() && beforeFooter;
+    const pastBuyBox = trigger.getBoundingClientRect().bottom < vh * 0.4;
     return pastBuyBox && beforeFooter;
   }
 

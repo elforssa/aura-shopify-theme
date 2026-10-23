@@ -41,16 +41,20 @@
         if request.page_type == 'index'
           assign meta_desc = 'Des jambes légères après 12 h de garde. Compression graduée 18–25 mmHg vérifiée, sans marques rouges, pensée pour les infirmières. Livraison offerte dès 60 €.'
         elsif request.page_type == 'page' and page.handle == 'guide-des-tailles'
-          assign meta_desc = 'Trouvez votre taille Aura en 30 secondes : pointure (EU 35–48) et mesures pour choisir S/M, L/XL ou XXL. Échange gratuit pendant 30 jours.'
+          assign meta_desc = 'Trouvez votre taille Aura en 30 secondes : pointure EU 35–48 et mesures pour choisir S/M, L/XL ou XXL. Satisfaite ou remboursée 60 jours.'
         elsif request.page_type == 'page' and page.handle == 'contact'
-          assign meta_desc = 'Une question sur votre taille ou votre commande Aura ? Écrivez-nous à contact@auralegs.com — réponse rapide, échange gratuit sous 30 jours.'
+          assign meta_desc = "Une question sur votre taille ou votre commande ? Écrivez à contact@auralegs.com : une personne de l'équipe vous répond sous 48 h ouvrées."
         elsif request.page_type == 'page' and page.handle == 'livraison-retours'
-          assign meta_desc = 'Expédié sous 24 h, livré en 5 à 7 jours ouvrés en France et en Europe. Livraison offerte dès 60 €, retours et échanges gratuits sous 30 jours.'
+          assign meta_desc = 'Expédiée sous 24 h, livrée en 5 à 7 jours ouvrés en France et en Europe. Livraison offerte dès 60 €. Satisfaite ou remboursée 60 jours, même portées.'
         elsif request.page_type == 'page' and page.handle == 'notre-histoire'
           assign meta_desc = 'Pourquoi Aura existe : des chaussettes de compression pensées pour les infirmières en garde de 12 h — jambes légères, zéro marque rouge, compression graduée 18–25 mmHg.'
         endif
       endif
       assign meta_desc = meta_desc | replace: 'compression médicale graduée', 'compression graduée' | replace: 'compression médicale', 'compression graduée' | replace: 'Bas de contention', 'Chaussettes de compression' | replace: 'bas de contention', 'chaussettes de compression'
+      # Stale admin promises (30 days, free exchange) → current returns rule.
+      capture meta_desc
+        render 'aura-copy-mask', text: meta_desc
+      endcapture
     -%}
     <title>
       {{ meta_title }}
@@ -63,7 +67,7 @@
       <meta name="description" content="{{ meta_desc | escape }}">
     {%- endif -%}
 
-    {% render 'meta-tags' %}
+    {% render 'meta-tags', meta_desc: meta_desc %}
 
     <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>

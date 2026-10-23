@@ -26,9 +26,16 @@
   assign price_min = product.price_min
   assign price_max = product.price_max
   assign available = target.available | default: false
-  assign money_price = price | money
-  assign money_price_min = price_min | money
-  assign money_price_max = price_max | money
+  # Aura: « 34 € » like the rest of the site (snippets/aura-money), whatever the store's money format.
+  capture money_price
+    render 'aura-money', cents: price
+  endcapture
+  capture money_price_min
+    render 'aura-money', cents: price_min
+  endcapture
+  capture money_price_max
+    render 'aura-money', cents: price_max
+  endcapture
   if settings.currency_code_enabled
     assign money_price = price | money_with_currency
     assign money_price_min = price_min | money_with_currency
@@ -70,7 +77,7 @@
                   {% if settings.currency_code_enabled %}
                     {{ compare_at_price | money_with_currency }}
                   {% else %}
-                    {{ compare_at_price | money }}
+                    {% render 'aura-money', cents: compare_at_price %}
                   {% endif %}
                 </s>
               </span>
@@ -98,7 +105,7 @@
               {% if settings.currency_code_enabled %}
                 {{ compare_at_price | money_with_currency }}
               {% else %}
-                {{ compare_at_price | money }}
+                {% render 'aura-money', cents: compare_at_price %}
               {% endif %}
             </s>
           </span>

@@ -22,7 +22,13 @@
     {%- for block in section.blocks -%}
       <div class="persona" style="--p-bg:{{ block.settings.bg }}" {{ block.shopify_attributes }}>
         {%- if block.settings.image != blank -%}
-          <div class="ph" style="background-image:url({{ block.settings.image | image_url: width: 560 }});background-size:cover;background-position:center;"></div>
+          {%- liquid
+            assign persona_alt = block.settings.alt
+            if persona_alt == blank
+              assign persona_alt = 'Portrait : ' | append: block.settings.name
+            endif
+          -%}
+          <div class="ph" role="img" aria-label="{{ persona_alt | escape }}" style="background-image:url({{ block.settings.image | image_url: width: 560 }});background-size:cover;background-position:center;"></div>
         {%- else -%}
           <div class="ph"></div>
         {%- endif -%}
@@ -66,6 +72,12 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Description de la photo",
+          "info": "Lue par les lecteurs d'écran. Vide = « Portrait : » + le titre de la carte."
         },
         {
           "type": "text",

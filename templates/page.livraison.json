@@ -17,7 +17,7 @@
           "settings": {
             "title": "France métropolitaine",
             "delay": "5–7 jours ouvrés",
-            "body": "Expédiée sous 24 h ouvrées, avec numéro de suivi de bout en bout."
+            "body": "Expédiée sous 24 h ouvrées, avec numéro de suivi de bout en bout."
           }
         },
         "s2": {
@@ -32,7 +32,7 @@
           "type": "ship",
           "settings": {
             "title": "Livraison offerte",
-            "delay": "dès 60 €",
+            "delay": "dès 60 €",
             "body": "En dessous, le tarif exact s'affiche au paiement avant toute validation."
           }
         }
@@ -44,28 +44,28 @@
       ],
       "settings": {
         "eyebrow": "Livraison & retours",
-        "heading": "Expédié sous 24h, sans surprise.",
+        "heading": "Expédiée sous 24 h, sans surprise.",
         "lead": "Commande préparée avec soin et suivie de bout en bout. Voici exactement ce qui se passe après votre paiement.",
         "returns_eyebrow": "Retours & échanges",
-        "returns_heading": "Changer d'avis est gratuit pendant 30 jours.",
-        "r1_title": "Écrivez-nous sous 30 jours",
+        "returns_heading": "60 jours pour changer d'avis, même portées.",
+        "r1_title": "Écrivez-nous sous 60 jours",
         "r1_body": "Un e-mail suffit, avec votre numéro de commande. Pas de formulaire, pas de justification demandée.",
-        "r2_title": "Recevez votre étiquette de retour",
-        "r2_body": "On vous l'envoie par e-mail. Déposez le colis en point relais ou en bureau de poste.",
-        "r3_title": "Remboursement ou échange",
-        "r3_body": "Dès réception du colis : remboursement intégral ou nouvelle taille, au choix.",
-        "guarantee_title": "30 jours satisfait ou remboursé",
-        "guarantee_body": "Même portée une garde, on la reprend sans question. C'est la condition pour juger une compression : une vraie journée de travail.",
+        "r2_title": "Recevez l'adresse de retour",
+        "r2_body": "On vous l'envoie par e-mail sous 48 h ouvrées. Déposez le colis en point relais ou en bureau de poste ; les frais de retour sont à votre charge.",
+        "r3_title": "Remboursement intégral",
+        "r3_body": "Dès réception du colis, sur votre moyen de paiement. Pour une autre taille, repassez simplement commande.",
+        "guarantee_title": "60 jours satisfaite ou remboursée",
+        "guarantee_body": "Même portée en garde, on vous rembourse. C'est la condition pour juger une compression : une vraie journée de travail.",
         "legal_title": "Les détails complets",
         "legal_body": "Délais, conditions et droit de rétractation sont décrits dans notre politique de remboursement.",
         "legal_link_label": "La consulter →",
         "legal_url": "/policies/refund-policy",
-        "close_eyebrow": "Le risque est pour nous",
+        "close_eyebrow": "60 jours pour changer d'avis",
         "close_heading": "Commandez pour votre prochaine garde.",
-        "close_lead": "Expédiée demain, jugée sur une vraie journée de travail, reprise sans question si elle ne vous convient pas.",
+        "close_lead": "Expédiée sous 24 h, jugée sur une vraie journée de travail, remboursée si elle ne vous convient pas.",
         "cta_label": "Découvrir Aura",
         "cta_url": "/products/aura-chaussettes-de-compression",
-        "cta_note": "Livraison offerte dès 60 € d'achat."
+        "cta_note": "Livraison offerte dès 60 € d'achat."
       }
     }
   },

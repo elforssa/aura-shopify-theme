@@ -20,7 +20,9 @@
         <p class="lead">{{ section.settings.lead | escape }}</p>
 
         <div class="pg-team">
-          <span class="av">A</span>
+          {%- if section.settings.team_image != blank -%}
+            {{ section.settings.team_image | image_url: width: 96 | image_tag: class: 'av', width: 48, height: 48, alt: section.settings.team_image.alt, loading: 'lazy' }}
+          {%- endif -%}
           <span class="d">{{ section.settings.team_line | escape }}</span>
         </div>
 
@@ -108,18 +110,19 @@
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Contact" },
     { "type": "text", "id": "heading", "label": "Titre", "default": "Écrivez-nous comme à une collègue." },
-    { "type": "textarea", "id": "lead", "label": "Sous-titre", "default": "Taille, échange, commande : posez la question telle qu'elle vous vient. On répond en général en moins d'une heure, du lundi au samedi." },
-    { "type": "text", "id": "team_line", "label": "Ligne équipe", "default": "Une équipe en grande partie composée d'infirmières vous répond, en français comme en anglais." },
+    { "type": "textarea", "id": "lead", "label": "Sous-titre", "default": "Taille, retour, commande : posez la question telle qu'elle vous vient. Une personne de l'équipe vous répond sous 48 h ouvrées, du lundi au vendredi." },
+    { "type": "image_picker", "id": "team_image", "label": "Photo équipe (ronde, à côté de la ligne équipe)" },
+    { "type": "text", "id": "team_line", "label": "Ligne équipe", "default": "Une équipe en grande partie composée d'infirmières vous répond." },
     { "type": "text", "id": "email", "label": "E-mail de contact", "default": "contact@auralegs.com" },
     { "type": "text", "id": "phone", "label": "Téléphone (laisser vide pour masquer)" },
     { "type": "text", "id": "subjects", "label": "Sujets (séparés par des virgules)", "default": "Taille & échange, Ma commande, Équipes & hôpitaux, Autre question" },
     { "type": "text", "id": "button_label", "label": "Bouton", "default": "Envoyer le message" },
     { "type": "text", "id": "privacy_note", "label": "Note sous le bouton", "default": "Votre e-mail ne sert qu'à vous répondre. Jamais de liste, jamais de spam." },
-    { "type": "text", "id": "success_text", "label": "Message envoyé", "default": "Message bien reçu. On vous répond très vite." },
+    { "type": "text", "id": "success_text", "label": "Message envoyé", "default": "Message bien reçu. Une personne de l'équipe vous répond sous 48 h ouvrées." },
     { "type": "text", "id": "error_text", "label": "Message d'erreur", "default": "Une information manque ou est invalide. Vérifiez les champs ci-dessous." },
     { "type": "header", "content": "Colonne gauche" },
-    { "type": "text", "id": "card1_title", "label": "Carte 1 — titre", "default": "En direct" },
-    { "type": "textarea", "id": "card1_body", "label": "Carte 1 — texte", "default": "Pour une réponse encore plus rapide, écrivez-nous directement :" },
+    { "type": "text", "id": "card1_title", "label": "Carte 1 — titre", "default": "Par e-mail" },
+    { "type": "textarea", "id": "card1_body", "label": "Carte 1 — texte", "default": "Vous préférez votre messagerie ? Écrivez-nous directement :" },
     { "type": "text", "id": "card2_title", "label": "Carte 2 — titre", "default": "Équipes & hôpitaux" },
     { "type": "textarea", "id": "card2_body", "label": "Carte 2 — texte", "default": "Commande groupée pour un service ou un établissement ? Choisissez le sujet « Équipes & hôpitaux », on vous prépare un devis sous 48 h." },
     { "type": "text", "id": "address", "label": "Adresse", "default": "AURALEGION LLC · 2403 Rooks Ave, Cheyenne, WY 82007, USA" },
@@ -135,7 +138,7 @@
     { "type": "text", "id": "q2_link", "label": "Q2 — lien (libellé)", "default": "Délais détaillés →" },
     { "type": "text", "id": "q2_url", "label": "Q2 — lien (URL)", "default": "/pages/livraison-retours" },
     { "type": "text", "id": "q3_title", "label": "Q3 — titre", "default": "Retour ou échange ?" },
-    { "type": "textarea", "id": "q3_body", "label": "Q3 — texte", "default": "30 jours, même portée une garde. La marche à suivre tient en trois étapes." },
+    { "type": "textarea", "id": "q3_body", "label": "Q3 — texte", "default": "60 jours pour changer d'avis, même portées en garde. La marche à suivre tient en trois étapes." },
     { "type": "text", "id": "q3_link", "label": "Q3 — lien (libellé)", "default": "Voir comment faire →" },
     { "type": "text", "id": "q3_url", "label": "Q3 — lien (URL)", "default": "/pages/livraison-retours" }
   ],

@@ -8,8 +8,9 @@
     (buy 3 get 3: 204 € → 102 €, −50 %, 17 €/paire + livraison offerte +
     cadeau surprise). Styles in assets/aura-v2.css
     (.pack-cta). The button (#pack-cta-btn) scrolls to the buy box and selects
-    the 6-pair tier (falls back to opening the cart drawer when no buy box is on
-    the page, e.g. the homepage). Checklist items are editable blocks.
+    the 6-pair tier. With no buy box on the page (e.g. the homepage) it is a
+    plain link to the product with ?pack=6, which aura-cart.js reads on arrival
+    to preselect the tier. Checklist items are editable blocks.
   ----------------------------------------------------------------------------
 {% endcomment %}
 
@@ -43,7 +44,15 @@
         <span class="per">{{ section.settings.per | escape }}</span>
       </div>
       <div class="save-line">{{ section.settings.save_line | escape }}</div>
-      <button class="btn btn-coral" id="pack-cta-btn">{{ section.settings.button_label | escape }} <span class="arrow">→</span></button>
+      {%- liquid
+        if section.settings.product != blank
+          assign pack_url = section.settings.product.url
+        else
+          assign pack_url = routes.root_url | append: '/products/aura-chaussettes-de-compression' | replace: '//', '/'
+        endif
+      -%}
+      {%- comment -%} data-pack-mix = the colours shown in .includes above; the buy box pre-fills the 6 pairs with it. {%- endcomment -%}
+      <a class="btn btn-coral" id="pack-cta-btn" href="{{ pack_url }}?pack=6" data-pack-mix="Bordeaux,Bordeaux,Noir,Noir,Gris,Gris">{{ section.settings.button_label | escape }} <span class="arrow">→</span></a>
       <div class="ship">{{ section.settings.ship | escape }}</div>
     </div>
   </div>
@@ -120,6 +129,12 @@
       "default": "Composer mon pack 6 paires"
     },
     {
+      "type": "product",
+      "id": "product",
+      "label": "Produit du bouton",
+      "info": "Sur une page sans bloc d'achat (ex. accueil), le bouton mène à ce produit avec le pack 6 paires présélectionné. Vide = Aura."
+    },
+    {
       "type": "text",
       "id": "ship",
       "label": "Shipping",
@@ -160,7 +175,7 @@
         {
           "type": "item",
           "settings": {
-            "text": "30 jours pour juger, sur de vraies gardes",
+            "text": "60 jours pour juger, sur de vraies gardes",
             "meta": "Inclus"
           }
         },
@@ -181,7 +196,7 @@
         {
           "type": "item",
           "settings": {
-            "text": "Garantie de remplacement 12 mois",
+            "text": "60 jours satisfaite ou remboursée, même portées",
             "meta": "Inclus"
           }
         },

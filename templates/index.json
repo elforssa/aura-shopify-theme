@@ -16,7 +16,7 @@
           "type": "proof",
           "settings": {
             "icon": "check",
-            "label": "18–25 mmHg vérifié"
+            "label": "18–25 mmHg vérifié"
           }
         },
         "b2": {
@@ -54,10 +54,10 @@
         "padding_top": 40,
         "padding_x": 0,
         "padding_bottom": 48,
-        "rating_text": "<strong>4,8</strong> · 150+ avis vérifiés d'infirmières",
+        "rating_text": "<strong>4,8</strong> · 150+ avis d'infirmières",
         "heading": "Conçus pour les gardes de 12 heures.",
-        "lead": "Chaussettes de compression Aura : compression graduée 18–25 mmHg, tricotées sans couture. La paire qu'on garde enfin avec plaisir après la dixième heure.",
-        "cta1_label": "Acheter maintenant",
+        "lead": "Chaussettes de compression Aura : compression graduée 18–25 mmHg, tricotées sans couture. La paire qu'on garde enfin avec plaisir après la dixième heure.",
+        "cta1_label": "Choisir mes chaussettes",
         "cta1_url": "/products/aura-chaussettes-de-compression",
         "cta2_label": "",
         "cta2_url": "#science",
@@ -65,7 +65,7 @@
         "image_label": "Hero · Infirmière tenant 3 paires, lumière douce",
         "tag": "Nouveau",
         "shift_number": "12h",
-        "shift_text": "conçus et testés en pression sur des gardes de 12 heures dans 7 hôpitaux"
+        "shift_text": "de garde, du premier au dernier patient"
       }
     },
     "aura_science": {
@@ -76,7 +76,7 @@
         "para1": "<p>La vraie compression est <strong>graduée</strong>, pas uniforme : plus ferme à la cheville, plus souple vers le mollet. Cette fermeté à la cheville est voulue. C'est ce gradient qui ramène réellement le sang vers le cœur, au lieu de simplement comprimer la jambe.</p>",
         "para2": "",
         "bars_label": "Aura · compression graduée",
-        "bars_value": "18–25 mmHg",
+        "bars_value": "18–25 mmHg",
         "zone1": "Cheville",
         "zone2": "Mollet",
         "zone3": "Haut du mollet",
@@ -95,7 +95,7 @@
             "level": "Rigide",
             "name": "Polyester",
             "dots": 1,
-            "stretch": "Bon marché, étouffant, qui gratte. Le réflexe en dessous de 15 €.",
+            "stretch": "Bon marché, étouffant, qui gratte. Le réflexe en dessous de 15 €.",
             "best": false,
             "flag": "Ce qu'on utilise"
           }
@@ -106,7 +106,7 @@
             "level": "Assez douce",
             "name": "Coton",
             "dots": 2,
-            "stretch": "Respirant mais se détend, ne tient pas la compression au-delà de 10 h.",
+            "stretch": "Respirant mais se détend, ne tient pas la compression au-delà de 10 h.",
             "best": false,
             "flag": "Ce qu'on utilise"
           }
@@ -142,8 +142,8 @@
       ],
       "settings": {
         "eyebrow": "Douceur de la matière",
-        "heading": "Douce ? Plus douce que ce qu'on imagine d'une chaussette.",
-        "lead": "Nous avons choisi notre tricot 2 fils sur un comparatif comme celui-ci. Les références des autres, classées de gauche à droite."
+        "heading": "Douce ? Plus douce que ce qu'on imagine d'une chaussette.",
+        "lead": "Les matières les plus courantes, de la plus rigide à la plus douce, et celle que nous avons choisie."
       }
     },
     "aura_personas": {
@@ -209,7 +209,7 @@
       ],
       "settings": {
         "eyebrow": "Qui porte Aura",
-        "heading": "Pensés pour les gardes. Adoptés bien au-delà.",
+        "heading": "Pensées pour les gardes. Adoptées bien au-delà.",
         "lead": "Cinq métiers, cinq routines. Aura a été testée sur chacune avant d'expédier une seule paire."
       }
     },
@@ -221,7 +221,7 @@
           "settings": {
             "feature": "Pression graduée",
             "other": "Plate ou non vérifiée",
-            "brand": "18–25 mmHg, cheville-mollet"
+            "brand": "18–25 mmHg, cheville-mollet"
           }
         },
         "v2": {
@@ -253,7 +253,7 @@
           "settings": {
             "feature": "Après 100 lavages",
             "other": "Pression perdue, trous",
-            "brand": "Compression intacte, garantie"
+            "brand": "Compression intacte"
           }
         },
         "v6": {
@@ -304,7 +304,8 @@
             "color": "#D9CFBC",
             "handle": "@",
             "url": "",
-            "size": "normal"
+            "size": "normal",
+            "focus": "top"
           }
         },
         "u3": {
@@ -359,7 +360,7 @@
       "settings": {
         "hashtag": "#AuraEnGarde",
         "heading": "De vraies gardes. De vraies chaussettes.",
-        "lead": "Identifiées par des infirmières, sages-femmes, ambulanciers et voyageuses, en France et au-delà."
+        "lead": "Partagées par des infirmières, sages-femmes et ambulanciers avec #AuraEnGarde."
       }
     },
     "aura_reviews": {
@@ -370,8 +371,8 @@
           "settings": {
             "featured": true,
             "half": false,
-            "verified_label": "Acheteuse vérifiée",
-            "title": "« Rentrée à la maison, et j'ai cuisiné le dîner. »",
+            "verified_label": "Achat vérifié",
+            "title": "« Rentrée à la maison, et j'ai cuisiné le dîner. »",
             "body": "Avant, je posais mon sac à la porte et je m'allongeais par terre, jambes contre le mur. Après trois mois en Aura, je rentre et je cuisine. C'est tout l'avis.",
             "initials": "CL",
             "name": "Camille L.",
@@ -383,9 +384,9 @@
           "settings": {
             "featured": false,
             "half": false,
-            "verified_label": "Acheteuse vérifiée",
+            "verified_label": "Achat vérifié",
             "title": "M'a portée pendant la semaine d'intégration.",
-            "body": "La pointe sans couture est la seule raison qui m'a fait tenir. La paire d'avant m'avait donné une ampoule au 3ᵉ jour ; Aura a tenu toute la rotation sans une seule.",
+            "body": "La pointe sans couture est la seule raison qui m'a fait tenir. La paire d'avant m'avait donné une ampoule au 3ᵉ jour ; Aura a tenu toute la rotation sans une seule.",
             "initials": "MD",
             "name": "Marion D.",
             "role": "IDE Gériatrie · Bordeaux"
@@ -396,7 +397,7 @@
           "settings": {
             "featured": false,
             "half": false,
-            "verified_label": "Acheteuse vérifiée",
+            "verified_label": "Achat vérifié",
             "title": "Lavage à 60°, 18 mois après.",
             "body": "Bordeaux le lundi, Gris le jeudi. Je lave chaud, je sèche tiède. La compression est comme au premier jour. J'avais usé quatre marques moins chères avant.",
             "initials": "JR",
@@ -409,7 +410,7 @@
           "settings": {
             "featured": false,
             "half": false,
-            "verified_label": "Acheteuse vérifiée",
+            "verified_label": "Achat vérifié",
             "title": "J'en ai racheté 4 le dimanche.",
             "body": "Sceptique. Portées 14 heures d'affilée un samedi. Commandé quatre paires de plus le soir même. Les mollets ne brûlent plus à la dixième heure.",
             "initials": "TB",
@@ -422,8 +423,8 @@
           "settings": {
             "featured": false,
             "half": false,
-            "verified_label": "Acheteuse vérifiée",
-            "title": "Valent leurs 34 €, et je suis exigeante.",
+            "verified_label": "Achat vérifié",
+            "title": "Valent leurs 34 €, et je suis exigeante.",
             "body": "J'ai testé quatre marques au même prix. Aura est la seule avec un bord-côte qui ne roule pas, une couture de pointe qu'on ne sent pas, et une pression qui semble pensée.",
             "initials": "SO",
             "name": "Sophie O.",
@@ -435,7 +436,7 @@
           "settings": {
             "featured": false,
             "half": true,
-            "verified_label": "Acheteuse vérifiée",
+            "verified_label": "Achat vérifié",
             "title": "Pris une taille au-dessus : parfait.",
             "body": "Conseil : j'ai pris une taille au-dessus du guide et elles sont idéales. Sinon, des chaussettes brillantes. Le tableau de mesure du mollet vaut de l'or.",
             "initials": "LE",
@@ -456,7 +457,7 @@
         "eyebrow": "Vrais avis · vérifiés",
         "heading": "Portées par des infirmières dans toute la France.",
         "score": "4,8",
-        "meta": "150+ avis vérifiés d'infirmières"
+        "meta": "150+ avis d'infirmières"
       }
     },
     "aura_faq": {
@@ -465,56 +466,56 @@
         "q1": {
           "type": "qa",
           "settings": {
-            "question": "S'agit-il de chaussettes de compression de qualité médicale ?",
-            "answer": "<p>Aura délivre une compression graduée 18–25 mmHg vérifiée — le niveau reconnu pour soulager les jambes lourdes lors des longues stations debout. C'est une compression de confort pensée pour les gardes de 12 heures ; ce n'est pas un dispositif médical délivré sur ordonnance. En cas de trouble veineux diagnostiqué, parlez-en à votre médecin.</p>",
+            "question": "S'agit-il de chaussettes de compression de qualité médicale ?",
+            "answer": "<p>Aura délivre une compression graduée 18–25 mmHg vérifiée — le niveau reconnu pour soulager les jambes lourdes lors des longues stations debout. C'est une compression de confort pensée pour les gardes de 12 heures ; ce n'est pas un dispositif médical délivré sur ordonnance. En cas de trouble veineux diagnostiqué, parlez-en à votre médecin.</p>",
             "open": true
           }
         },
         "q2": {
           "type": "qa",
           "settings": {
-            "question": "Comment trouver ma taille ?",
-            "answer": "<p>Prenez votre pointure habituelle et repérez votre taille dans notre <a href=\"#\">guide des tailles</a>. Entre deux tailles, prenez la plus grande : la maille se détend, elle ne rétrécit pas.</p>",
+            "question": "Comment trouver ma taille ?",
+            "answer": "<p>Prenez votre pointure habituelle et repérez votre taille dans notre <a href=\"/pages/guide-des-tailles\">guide des tailles</a>. Entre deux tailles, prenez la plus grande : la maille se détend, elle ne rétrécit pas.</p>",
             "open": false
           }
         },
         "q3": {
           "type": "qa",
           "settings": {
-            "question": "Combien de temps durent-elles ?",
-            "answer": "<p>La compression tient au-delà de 100 cycles de lavage à 60°. Tricot 2 fils — léger comme une seconde peau, résistant au lavage quotidien. Si votre paire perd sa pression sous 12 mois, nous la remplaçons gratuitement.</p>",
+            "question": "Combien de temps durent-elles ?",
+            "answer": "<p>En suivant ces consignes, la compression tient au-delà de 100 lavages. Alternez deux ou trois paires pour les faire durer.</p>",
             "open": false
           }
         },
         "q4": {
           "type": "qa",
           "settings": {
-            "question": "Puis-je les laver en machine ?",
-            "answer": "<p>Oui. Lavage en machine à 60°, séchage tambour doux. Pas d'adoucissant. Sur l'envers c'est plus délicat, mais pas obligatoire.</p>",
+            "question": "Puis-je les laver en machine ?",
+            "answer": "<p>Oui : en machine à 30 °C, sur l'envers, en cycle délicat. Séchage à l'air libre, sans sèche-linge ni adoucissant : la compression tient plus longtemps.</p>",
             "open": false
           }
         },
         "q5": {
           "type": "qa",
           "settings": {
-            "question": "Et si elles ne me conviennent pas ?",
-            "answer": "<p>Portez-les un mois complet de gardes. Si ce ne sont pas les chaussettes les plus confortables que vous possédez, renvoyez-les — nous prenons en charge le retour et vous remboursons intégralement. Sans question, sans frais.</p>",
+            "question": "Et si elles ne me conviennent pas ?",
+            "answer": "<p>Vous avez 60 jours pour les juger en garde. Si ce ne sont pas les chaussettes les plus confortables que vous possédez, renvoyez-les, même portées : nous vous remboursons intégralement. Seuls les frais de retour restent à votre charge.</p>",
             "open": false
           }
         },
         "q6": {
           "type": "qa",
           "settings": {
-            "question": "Proposez-vous des commandes pour équipes et hôpitaux ?",
-            "answer": "<p>Oui — dès 6 paires : tarif équipe, monogrammes brodés, essayages sur site (Île-de-France & Rhône-Alpes) et facturation. <a href=\"#\">Écrivez à notre pôle équipes →</a></p>",
+            "question": "Proposez-vous des commandes pour équipes et hôpitaux ?",
+            "answer": "<p>Oui, dès 6 paires : tarif équipe et facture au nom de votre service. <a href=\"/pages/contact\">Demander un devis équipe →</a></p>",
             "open": false
           }
         },
         "q7": {
           "type": "qa",
           "settings": {
-            "question": "Quand verrai-je des résultats ?",
-            "answer": "<p>La plupart des clientes constatent moins de gonflement du mollet et de fatigue en fin de garde dès la première garde de 12 heures. Les bénéfices à long terme (meilleur retour veineux, moins de varicosités) s'installent au fil des semaines.</p>",
+            "question": "Quand verrai-je des résultats ?",
+            "answer": "<p>La plupart des clientes sentent leurs jambes plus légères et leurs mollets moins gonflés dès la première garde de 12 heures.</p>",
             "open": false
           }
         }
@@ -531,8 +532,8 @@
       "settings": {
         "eyebrow": "Vos questions, nos réponses",
         "heading": "Ce que les infirmières nous demandent.",
-        "lead": "Ou écrivez-nous directement. Nous répondons en général en moins d'une heure, en français comme en anglais.",
-        "contact_title": "Encore une question ?",
+        "lead": "Les questions qu'on nous pose le plus, de la taille au lavage.",
+        "contact_title": "Encore une question ?",
         "contact_desc": "Notre équipe est en grande partie composée d'infirmières. On comprend.",
         "contact_email": "contact@auralegs.com"
       }
@@ -543,33 +544,33 @@
         "m1": {
           "type": "promise",
           "settings": {
-            "icon": "star",
-            "title": "Essai 30 nuits",
-            "desc": "Portez-les un mois complet. Pas conquise ? Retour gratuit."
+            "icon": "calendar",
+            "title": "60 jours pour juger",
+            "desc": "Même portées en garde. Pas conquise ? On vous rembourse."
           }
         },
         "m2": {
           "type": "promise",
           "settings": {
             "icon": "shield",
-            "title": "Garantie 12 mois",
-            "desc": "Perte de pression ou couture lâchée ? On remplace, sans question."
+            "title": "Paiement sécurisé",
+            "desc": "CB, PayPal, Apple Pay ou Google Pay, via le paiement chiffré de Shopify."
           }
         },
         "m3": {
           "type": "promise",
           "settings": {
             "icon": "globe",
-            "title": "Conçu avec des soignantes",
-            "desc": "Pensé et testé en garde réelle avant d'être validé."
+            "title": "Conçues avec des soignantes",
+            "desc": "Testées en garde réelle avant d'être validées."
           }
         },
         "m4": {
           "type": "promise",
           "settings": {
             "icon": "ship",
-            "title": "Livraison offerte dès 60 €",
-            "desc": "Sur chaque commande de plus de 60 € · expédié sous 24 h."
+            "title": "Livraison offerte dès 60 €",
+            "desc": "Dès 60 € d'achat. Commande expédiée sous 24 h."
           }
         }
       },
@@ -588,7 +589,7 @@
           "type": "item",
           "settings": {
             "text": "6 paires d'Aura, vos coloris au choix",
-            "meta": "valeur 204 €"
+            "meta": "valeur 204 €"
           }
         },
         "i2": {
@@ -601,22 +602,22 @@
         "i3": {
           "type": "item",
           "settings": {
-            "text": "Livraison offerte — 5 à 7 jours ouvrés",
+            "text": "Livraison en 5 à 7 jours ouvrés",
             "meta": "Offerte"
           }
         },
         "i4": {
           "type": "item",
           "settings": {
-            "text": "Garantie de remplacement 12 mois",
+            "text": "60 jours satisfaite ou remboursée, même portées",
             "meta": "Inclus"
           }
         },
         "i5": {
           "type": "item",
           "settings": {
-            "text": "−10 % pour vous et une collègue, prochaine commande",
-            "meta": "Les deux"
+            "text": "Un code −10 % pour vous et une collègue, sur simple demande",
+            "meta": "Par e-mail"
           }
         }
       },
@@ -632,14 +633,14 @@
         "heading": "Une paire par <span class=\"ser\">jour de garde.</span>",
         "lead": "Six paires d'Aura, une pour chaque jour de garde. Composez vos coloris, recevez la garde-robe complète — l'offre que nos clientes auraient voulu prendre dès le premier jour.",
         "card_name": "Le pack 6 paires",
-        "strike": "204 €",
+        "strike": "204 €",
         "card_desc": "Six paires, vos coloris au choix. La garde-robe Aura complète, en une commande.",
         "price": "102",
-        "per": "17 € / paire · TTC",
-        "save_line": "Vous économisez 102 € — livraison et cadeau surprise inclus",
-        "flag": "Économisez 102 € · meilleure offre",
+        "per": "17 € / paire · TTC",
+        "save_line": "Vous économisez 102 € — livraison et cadeau surprise inclus",
+        "flag": "Économisez 102 € · meilleure offre",
         "button_label": "Composer mon pack 6 paires",
-        "ship": "Livraison express offerte · expédié sous 24 h"
+        "ship": "Commande expédiée sous 24 h · livrée en 5 à 7 jours ouvrés"
       }
     }
   },

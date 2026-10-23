@@ -1,0 +1,60 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Snippet: aura-payment-methods
+  ----------------------------------------------------------------------------
+  ONE source for « how can I pay »: the payment methods actually enabled in
+  Shopify (shop.enabled_payment_types), so the footer badges and the cart note
+  can't drift apart again (Klarna was advertised but is not enabled, Oct 2026). Falls back to `fallback` (comma list) if Shopify
+  returns nothing.
+
+  @param {string} style     - 'badges' (footer pills) or 'text' (« CB · PayPal … »)
+  @param {string} fallback  - comma-separated labels used when the list is empty
+  ----------------------------------------------------------------------------
+{% endcomment %}
+{%- liquid
+  comment
+    Curated for French shoppers, in this order. Only methods Shopify reports as
+    enabled are listed (US-only networks like Diners/Discover are left out).
+    « CB »: French bank cards run on the Visa/Mastercard networks, so they are
+    accepted whenever Visa or Mastercard is enabled.
+  endcomment
+  assign pm = shop.enabled_payment_types
+  assign pm_labels = ''
+  if pm contains 'visa' or pm contains 'master' or pm contains 'cartes_bancaires'
+    assign pm_labels = pm_labels | append: 'CB,'
+  endif
+  if pm contains 'visa'
+    assign pm_labels = pm_labels | append: 'Visa,'
+  endif
+  if pm contains 'master'
+    assign pm_labels = pm_labels | append: 'Mastercard,'
+  endif
+  if pm contains 'american_express'
+    assign pm_labels = pm_labels | append: 'Amex,'
+  endif
+  if pm contains 'paypal'
+    assign pm_labels = pm_labels | append: 'PayPal,'
+  endif
+  if pm contains 'apple_pay'
+    assign pm_labels = pm_labels | append: 'Apple Pay,'
+  endif
+  if pm contains 'google_pay'
+    assign pm_labels = pm_labels | append: 'Google Pay,'
+  endif
+  if pm contains 'shopify_pay'
+    assign pm_labels = pm_labels | append: 'Shop Pay,'
+  endif
+  if pm contains 'klarna'
+    assign pm_labels = pm_labels | append: 'Klarna,'
+  endif
+  if pm_labels == blank
+    assign pm_labels = fallback | default: 'CB,Visa,Mastercard,PayPal,Apple Pay'
+  endif
+  assign pm_list = pm_labels | split: ','
+-%}
+{%- if style == 'badges' -%}
+  {%- for l in pm_list -%}{%- assign lt = l | strip -%}{%- if lt != blank -%}<span class="pay-badge">{{ lt | escape }}</span>{%- endif -%}{%- endfor -%}
+{%- else -%}
+  {%- capture pm_text -%}{%- for l in pm_list -%}{%- assign lt = l | strip -%}{%- if lt != blank -%}{{ lt | escape }}|{%- endif -%}{%- endfor -%}{%- endcapture -%}
+  {{- pm_text | split: '|' | join: ' · ' -}}
+{%- endif -%}

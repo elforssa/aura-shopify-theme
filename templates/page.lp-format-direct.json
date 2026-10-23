@@ -1,25 +1,34 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "advertorial": {
       "type": "aura-lp-advertorial",
       "blocks": {
-        "b1": { "type": "raison", "settings": { "numbered": false, "title": "« C'est le métier qui veut ça »", "body": "<p>Au début, je ne me posais même pas la question. On finit la garde, on a les jambes lourdes, les chevilles qui ont gonflé dans les sabots, deux traces rouges là où la chaussette a serré. Toutes mes collègues vivaient la même chose. Alors je me disais : c'est normal, c'est le métier.</p>" } },
-        "b2": { "type": "raison", "settings": { "numbered": false, "title": "Le soir où je n'ai pas réussi à dormir", "body": "<p>Et puis il y a eu cette garde de nuit interminable. Rentrée à 8 h du matin, je me suis allongée — et impossible de trouver le sommeil tellement mes jambes tiraient. Les marques du bord-côte étaient encore là le lendemain midi. C'est ce jour-là que j'ai compris : ce n'était pas « normal ». C'était un signal.</p>" } },
+        "b1": { "type": "raison", "settings": { "numbered": false, "title": "« C'est le métier qui veut ça »", "body": "<p>Au début, je ne me posais même pas la question. On finit la garde, on a les jambes lourdes, les chevilles qui ont gonflé dans les sabots, deux traces rouges là où la chaussette a serré. Toutes mes collègues vivaient la même chose. Alors je me disais : c'est normal, c'est le métier.</p>" } },
+        "b2": { "type": "raison", "settings": { "numbered": false, "title": "Le soir où je n'ai pas réussi à dormir", "body": "<p>Et puis il y a eu cette garde de nuit interminable. Rentrée à 8 h du matin, je me suis allongée — et impossible de trouver le sommeil tellement mes jambes tiraient. Les marques du bord-côte étaient encore là le lendemain midi. C'est ce jour-là que j'ai compris : ce n'était pas « normal ». C'était un signal.</p>" } },
         "b3": { "type": "raison", "settings": { "numbered": false, "title": "Les bas de pharmacie m'ont découragée", "body": "<p>J'ai essayé des chaussettes de compression classiques. Trop dures à enfiler le matin, une couture à l'orteil qui m'a donné une ampoule dès le troisième jour, et un bord-côte qui roulait sous le genou avant midi. J'avais l'impression de porter un garrot. J'ai abandonné au bout d'une semaine.</p>" } },
-        "b4": { "type": "raison", "settings": { "numbered": false, "title": "Ce qui change tout : une compression vraiment graduée", "body": "<p>Une consœur m'a parlé d'Aura. La différence, c'est la pression graduée 18–25 mmHg, vérifiée : plus ferme à la cheville, plus douce vers le mollet, pour vraiment relancer le retour veineux. Une pointe sans couture — zéro point de pression sur les orteils. Et un bord-côte large qui ne laisse aucune marque. Pensé et testé avec des soignantes, pour de vraies gardes de 12 heures.</p>" } },
-        "midcta": { "type": "cta", "settings": { "text": "<p>C'est exactement la paire que j'aurais voulu trouver dès le début.</p>", "label": "Voir Aura — 2 paires achetées, 2 offertes", "link": "/products/aura-chaussettes-de-compression", "proof": "4,8 ★ · 150+ avis d'infirmières · Livraison offerte dès 60 €" } },
+        "b4": { "type": "raison", "settings": { "numbered": false, "title": "Ce qui change tout : une compression vraiment graduée", "body": "<p>Une consœur m'a parlé d'Aura. La différence, c'est la pression graduée 18–25 mmHg, vérifiée : plus ferme à la cheville, plus douce vers le mollet, pour vraiment relancer le retour veineux. Une pointe sans couture — zéro point de pression sur les orteils. Et un bord-côte large qui ne laisse aucune marque. Pensé et testé avec des soignantes, pour de vraies gardes de 12 heures.</p>" } },
+        "midcta": { "type": "cta", "settings": { "text": "<p>C'est exactement la paire que j'aurais voulu trouver dès le début.</p>", "label": "Voir Aura — 2 paires achetées, 2 offertes", "link": "/products/aura-chaussettes-de-compression", "proof": "4,8 ★ · 150+ avis d'infirmières · Livraison offerte dès 60 €" } },
         "b5": { "type": "raison", "settings": { "numbered": false, "title": "Aujourd'hui, je rentre et je vis ma soirée", "body": "<p>Trois mois plus tard, je ne pose plus mon sac à la porte pour m'allonger jambes contre le mur. Je rentre, je cuisine, je vis ma soirée. Mes chevilles ne gonflent plus, et je n'ai plus une seule marque rouge en fin de garde. J'en ai même racheté pour mes consœurs de l'équipe.</p>" } }
       },
       "block_order": ["b1", "b2", "b3", "b4", "midcta", "b5"],
       "settings": {
         "eyebrow": "Histoire vécue",
-        "headline": "« Je croyais que des jambes lourdes après douze heures de garde, c'était simplement le prix du métier. »",
+        "headline": "« Je croyais que des jambes lourdes après douze heures de garde, c'était simplement le prix du métier. »",
         "byline": "Le témoignage d'Hélène, infirmière · recueilli par la rédaction Aura · 4 min de lecture",
         "lead": "<p>Hélène a 34 ans et douze ans de réanimation derrière elle. Comme des milliers d'infirmières, elle a longtemps cru qu'avoir mal aux jambes en fin de garde faisait partie du contrat. Voici comment elle a découvert que non — et ce qui a changé.</p>",
         "close_text": "<p>Des milliers d'infirmières ont déjà fait le test, sur de vraies gardes de 12 heures.<br>La vôtre commence par une simple paire — et avec l'offre « 2 paires achetées, 2 offertes », autant en avoir une pour chaque jour.</p>",
         "close_label": "J'essaie Aura — 2 achetées, 2 offertes",
         "close_link": "/products/aura-chaussettes-de-compression",
-        "close_proof": "Essai 30 jours · satisfaite ou remboursée · livraison offerte dès 60 €"
+        "close_proof": "60 jours satisfaite ou remboursée · livraison offerte dès 60 €"
       }
     }
   },

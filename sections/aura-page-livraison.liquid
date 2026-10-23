@@ -48,7 +48,9 @@
       <div>
         <div class="guarantee-block" style="margin-top:0">
           <div class="guarantee-seal">
-            <img src="{{ 'aura-guarantee-seal.svg' | asset_url }}" alt="Garantie {{ section.settings.guarantee_title | default: '30 jours satisfait ou remboursé' | escape }}" width="72" height="72" loading="lazy" decoding="async">
+            {%- comment -%} Seal number = the leading number of the guarantee title (« 60 jours… »). {%- endcomment -%}
+            {%- assign seal_days = section.settings.guarantee_title | split: ' ' | first -%}
+            {%- render 'aura-guarantee-seal', days: seal_days -%}
           </div>
           <div>
             <div class="guarantee-title">{{ section.settings.guarantee_title | escape }}</div>
@@ -82,15 +84,15 @@
     { "type": "textarea", "id": "lead", "label": "Sous-titre", "default": "Votre commande est suivie de bout en bout. Voici exactement ce qui se passe après votre paiement." },
     { "type": "header", "content": "Retours" },
     { "type": "text", "id": "returns_eyebrow", "label": "Retours — eyebrow", "default": "Retours & échanges" },
-    { "type": "text", "id": "returns_heading", "label": "Retours — titre", "default": "Changer d'avis est gratuit pendant 30 jours." },
-    { "type": "text", "id": "r1_title", "label": "Étape 1 — titre", "default": "Écrivez-nous sous 30 jours" },
+    { "type": "text", "id": "returns_heading", "label": "Retours — titre", "default": "60 jours pour changer d'avis, même portées." },
+    { "type": "text", "id": "r1_title", "label": "Étape 1 — titre", "default": "Écrivez-nous sous 60 jours" },
     { "type": "textarea", "id": "r1_body", "label": "Étape 1 — texte", "default": "Un e-mail suffit, avec votre numéro de commande. Pas de formulaire, pas de justification demandée." },
     { "type": "text", "id": "r2_title", "label": "Étape 2 — titre", "default": "Recevez votre étiquette de retour" },
     { "type": "textarea", "id": "r2_body", "label": "Étape 2 — texte", "default": "On vous l'envoie par e-mail. Déposez le colis en point relais ou en bureau de poste." },
     { "type": "text", "id": "r3_title", "label": "Étape 3 — titre", "default": "Remboursement ou échange" },
     { "type": "textarea", "id": "r3_body", "label": "Étape 3 — texte", "default": "Dès réception du colis : remboursement intégral ou nouvelle taille, au choix." },
-    { "type": "text", "id": "guarantee_title", "label": "Garantie — titre", "default": "30 jours satisfait ou remboursé" },
-    { "type": "textarea", "id": "guarantee_body", "label": "Garantie — texte", "default": "Même portée une garde, on la reprend sans question. C'est la condition pour juger une compression : une vraie journée de travail." },
+    { "type": "text", "id": "guarantee_title", "label": "Garantie — titre", "default": "60 jours satisfaite ou remboursée" },
+    { "type": "textarea", "id": "guarantee_body", "label": "Garantie — texte", "default": "Même portée en garde, on vous rembourse. C'est la condition pour juger une compression : une vraie journée de travail." },
     { "type": "text", "id": "legal_title", "label": "Carte légale — titre", "default": "Les détails complets" },
     { "type": "textarea", "id": "legal_body", "label": "Carte légale — texte", "default": "Délais, conditions et droit de rétractation sont décrits dans notre politique de remboursement." },
     { "type": "text", "id": "legal_link_label", "label": "Lien — libellé", "default": "La consulter →" },

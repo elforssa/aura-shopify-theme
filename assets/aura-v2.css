@@ -12,7 +12,8 @@
     --coral:       #E89379;
     --coral-soft:  #F2B8A4;
     --coral-deep:  #C76D54;
-    --ink:         #161B26;
+    --eyebrow:     #A3503A;  /* small coral text (eyebrows, chips): 4.87:1 on cream, 5.26:1 on paper — WCAG AA. --coral-deep stays for large serif accents + hovers */
+    --ink:        #161B26;
     --muted:       #6F6657;
     --line:        rgba(14,27,51,0.10);
     --line-soft:   rgba(14,27,51,0.06);
@@ -54,7 +55,7 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--coral-deep);
+    color: var(--eyebrow);
   }
   .h-display {
     font-family: var(--f-sans);
@@ -68,8 +69,13 @@
   .h-section { font-size: clamp(26px, 5.2vw, 58px); }   /* gentler floor on phones — long headings no longer dominate */
 
   .stars { color: var(--coral); letter-spacing: 1px; font-size: 13px; }
-  /* honest 4,8: the fifth star renders faded at aggregate ratings */
-  .stars .star-off { opacity: 0.3; }
+  /* honest 4,8: the fifth star is filled to 80 % (4,8 / 5) — a faded full star
+     read as « 4 sur 5 ». */
+  .stars .star-off {
+    color: transparent;
+    background: linear-gradient(90deg, var(--coral) 80%, rgba(232,147,121,0.28) 80%);
+    -webkit-background-clip: text; background-clip: text;
+  }
   .rating-row { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); }
   .rating-row strong { color: var(--navy); }
 
@@ -87,6 +93,7 @@
     transition: all 0.22s ease;
     border: 1px solid transparent;
     white-space: nowrap;
+    text-decoration: none;
   }
   .btn .arrow { transition: transform 0.25s; display: inline-block; }
   .btn:hover .arrow { transform: translateX(4px); }
@@ -372,7 +379,7 @@
   }
 
   /* Buy column order: eyebrow → title → offer → subtitle → rating → CTA → selectors */
-  .buy > .eyebrow { color: var(--coral-deep); letter-spacing: 0.14em; margin-bottom: 8px; }
+  .buy > .eyebrow { color: var(--eyebrow); letter-spacing: 0.14em; margin-bottom: 8px; }
   .buy-title {
     font-family: var(--f-sans); font-weight: 800;
     font-size: clamp(30px, 3.2vw, 42px); line-height: 1.04;
@@ -581,7 +588,7 @@
   }
   .buy-gift {
     margin-top: 8px; padding: 11px 14px; border-radius: 10px;
-    background: rgba(232,147,121,0.12); color: var(--coral-deep);
+    background: rgba(232,147,121,0.12); color: var(--eyebrow);
     font-size: 13px; font-weight: 600; text-align: center;
   }
 
@@ -799,6 +806,11 @@
     background: var(--green); color: #fff;
     display: grid; place-items: center; font-size: 12px; font-weight: 700;
   }
+  /* Refused add / quantity change (stock, network) — same toast, warning dot,
+     text may wrap to two lines */
+  .aura-toast.is-error { border-radius: 18px; white-space: normal; }
+  .aura-toast.is-error .tick { background: var(--eyebrow); }
+  [data-aura-atc][aria-busy="true"], #sticky-btn[aria-busy="true"] { opacity: 0.7; cursor: progress; }
 
   .drawer-discount-row[hidden] { display: none; }
 
@@ -1021,11 +1033,15 @@
   .rung.best .dots i { background: rgba(255,255,255,0.15); }
   .rung .dots i.on { background: rgba(14,27,51,0.45); }
   .rung.best .dots i.on { background: rgba(244,239,231,0.8); }
+  /* Ribbon on the card's top edge — same treatment as the buy-box tier ribbons.
+     (Was a navy pill INSIDE the card: on the navy « best » rung it sat on top of
+     the level label, reading « LA P▮ CE QU'ON UTILISE ».) */
   .rung .corner-flag {
-    position: absolute; top: 16px; right: 16px;
-    background: var(--navy); color: var(--cream);
-    font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-    padding: 4px 9px; border-radius: 999px;
+    position: absolute; top: -15px; left: 14px; right: auto; z-index: 1;   /* sits ABOVE the card's padding so the level label stays clear */
+    background: var(--coral); color: var(--navy-deep);
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.2;
+    padding: 3px 9px; border-radius: 999px; white-space: nowrap;
+    box-shadow: 0 0 0 3px var(--cream);       /* halo clears the cream section bg */
   }
 
   /* ============================================================
@@ -1189,7 +1205,7 @@
   .pack-cta-card .euro { font-size: 30px; color: var(--navy); font-weight: 700; letter-spacing: -0.02em; }
   .pack-cta-card .num { font-size: 56px; font-weight: 700; color: var(--navy); line-height: 1; letter-spacing: -0.03em; }
   .pack-cta-card .per { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-left: auto; }
-  .pack-cta-card .save-line { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--coral-deep); margin-bottom: 22px; }
+  .pack-cta-card .save-line { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--eyebrow); margin-bottom: 22px; }
   .pack-cta-card .btn-coral { width: 100%; padding: 18px; font-size: 15px; }
   .pack-cta-card .ship { text-align: center; font-size: 12px; color: var(--muted); margin-top: 12px; }
 
@@ -1298,6 +1314,10 @@
     .newsletter form button { width: 100%; }
   }
   .newsletter .legal { font-size: 11.5px; color: rgba(244,239,231,0.5); margin-top: 16px; }
+  .newsletter-msg { flex-basis: 100%; margin: 0 0 4px; font-size: 14.5px; line-height: 1.5; color: var(--paper); }
+  .newsletter-msg.ok { font-size: 16px; }
+  .newsletter-msg.err { color: var(--coral-soft); }
+  .newsletter form:has(.newsletter-msg) { flex-wrap: wrap; justify-content: center; }
 
   footer { background: var(--paper); padding: 64px 32px 32px; border-top: 1px solid var(--line-soft); }
   .footer-inner { max-width: 1440px; margin: 0 auto; }
@@ -1425,7 +1445,7 @@
     .product-grid { gap: 24px; }
     .pills-row { grid-template-columns: 1fr 1fr; gap: 12px; }
     .pill { border-right: none; padding: 6px 0; }
-    .ladder { grid-template-columns: 1fr 1fr; }
+    .ladder { grid-template-columns: 1fr 1fr; row-gap: 24px; }   /* clears the « best » rung's edge ribbon */
     /* versus keeps its multi-column grid down to the phone breakpoint */
     .ugc-grid { grid-template-columns: repeat(3, 1fr); }
     .footer-top { grid-template-columns: 1fr 1fr; }
@@ -1617,7 +1637,7 @@
     /* ───────── SOFTNESS / LADDER ───────── */
     .softness .head { grid-template-columns: 1fr; gap: 12px; }
     .softness .lead { justify-self: start; max-width: none; }
-    .ladder { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .ladder { grid-template-columns: 1fr 1fr; gap: 24px 10px; }   /* row gap clears the « best » rung's edge ribbon */
     .rung .level { margin-bottom: 18px; }
 
     /* ───────── UGC ───────── */
@@ -1893,7 +1913,7 @@
   .ugc .head .hashtag {
     border: 0; padding: 0; border-radius: 0;
     font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--coral-deep); margin-bottom: 9px;
+    color: var(--eyebrow); margin-bottom: 9px;
   }
 
   /* ============================================================
@@ -1911,7 +1931,7 @@
      reading measure even though the reason rows use the full 2-col width. */
   .lp-adv-head, .lp-adv-lead, .lp-adv-hero { max-width: 760px; }
   .lp-adv-head { margin-bottom: 24px; }
-  .lp-adv .eyebrow { color: var(--coral-deep); margin-bottom: 12px; }
+  .lp-adv .eyebrow { color: var(--eyebrow); margin-bottom: 12px; }
   .lp-adv-h1 {
     font-family: var(--f-sans); font-weight: 800;
     font-size: clamp(30px, 4.4vw, 46px); line-height: 1.06; letter-spacing: -0.025em;
@@ -1992,7 +2012,7 @@
 
   /* TL;DR / note callout */
   .lp-callout { margin: 24px 0; padding: 20px 22px; background: var(--cream); border-radius: var(--card-radius); border: 1px solid var(--line); }
-  .lp-callout-tag { display: inline-block; font-family: var(--f-sans); font-weight: 800; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--coral-deep); margin-bottom: 8px; }
+  .lp-callout-tag { display: inline-block; font-family: var(--f-sans); font-weight: 800; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--eyebrow); margin-bottom: 8px; }
   .lp-callout-body { font-size: 16px; line-height: 1.55; color: var(--ink); }
   .lp-callout-body p { margin: 0 0 10px; }
   .lp-callout-body p:last-child { margin-bottom: 0; }
@@ -2566,6 +2586,10 @@
     .pg-quote { margin: 28px auto; }
     .pg-table { margin-top: 24px; padding: 6px 14px 10px; }
     .pg-table th, .pg-table td { padding: 10px 6px; font-size: 13.5px; }
+    /* Size tables on a phone: tighter header tracking so the five columns fit,
+       and ranges/measures (« 35–39 », « 16,5 cm ») never split over two lines. */
+    .pg-table th, .sg-body th { padding-left: 4px; padding-right: 4px; letter-spacing: 0.02em; }
+    .pg-table td, .sg-body td { padding-left: 4px; padding-right: 4px; white-space: nowrap; }
     .pg-cta { margin-top: 28px; }
     .pg-cta .btn { width: 100%; }
   }
@@ -2582,6 +2606,7 @@
     background: var(--cream-warm); border: 1px solid var(--line);
     display: grid; place-items: center;
     font-family: var(--f-serif); font-size: 18px; color: var(--navy);
+    object-fit: cover;
   }
   .pg-team .d { font-size: 13px; color: var(--muted); line-height: 1.5; }
   .pg-addr { font-size: 12.5px; color: var(--muted); margin-top: 14px; }
@@ -2603,7 +2628,7 @@
   }
   .pg-form select:focus { border-color: var(--navy); }
   .pg-form-note { font-size: 12px; color: var(--muted); text-align: center; margin-top: 12px; }
-  .pg-num { display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: var(--coral-deep); margin-bottom: 8px; }
+  .pg-num { display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: var(--eyebrow); margin-bottom: 8px; }
   .pg-table .cap {
     display: flex; justify-content: space-between; align-items: center;
     padding: 12px 8px 4px;
@@ -2619,4 +2644,181 @@
     .pg-head-left .lead { max-width: none; }
     .pg-form-card { padding: 20px 16px; }
     .pg-ship .big { font-size: 20px; }
+  }
+
+  /* ============================================================
+     DESIGN-CRITIQUE FIXES — October 2026 (owner-approved)
+     Kept together and LAST so they win on source order over the
+     blocks above. Each rule is tagged with its critique id.
+     ============================================================ */
+
+  /* [5] Homepage hero — price / offer line under the CTA (setting: price_note) */
+  .hero-price { flex-basis: 100%; margin: 12px 0 0; font-size: 14px; line-height: 1.4; color: var(--muted); }
+  .hero-price strong { color: var(--navy); font-weight: 700; }
+
+  /* [H3] stat numbers like « 18–25 » never break at the dash */
+  .stat-num { white-space: nowrap; }
+
+  /* [4] Sticky bar — total + struck-through full price stacked on the right */
+  .sticky-atc .price { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.1; flex-shrink: 0; }
+  .sticky-atc .price .was { margin: 2px 0 0; font-size: 12px; }
+  .sticky-atc .price .was[hidden] { display: none; }
+
+  /* [H1] Homepage: the science section now follows the HERO (the homepage buy
+     box was removed), so it opens the education chapter — chapter-start air +
+     full-size heading. Placement-aware like the `:has(> .product)` rule above,
+     so it stays inert on the PDP. */
+  .shopify-section:has(> .hero) + .shopify-section .science h2 {
+    font-size: clamp(34px, 3.6vw, 48px); line-height: 1.08; letter-spacing: -0.02em;
+  }
+  @media screen and (min-width: 750px) {
+    .shopify-section:has(> .hero) + .shopify-section .science { padding-top: 88px; padding-bottom: 48px; }
+  }
+
+  @media screen and (max-width: 749px) {
+    /* [H1] mobile chapter start: 48px air, 26px h2, full-size eyebrow */
+    .shopify-section:has(> .hero) + .shopify-section .science { padding-top: 48px; }
+    .shopify-section:has(> .hero) + .shopify-section .science h2 { font-size: 26px; line-height: 1.12; margin-bottom: 12px; }
+    .shopify-section:has(> .hero) + .shopify-section .science .eyebrow { font-size: 12px; letter-spacing: 0.08em; margin-bottom: var(--pdp-eyebrow-gap); }
+
+    /* [H2] Every section head on ONE left edge on the phone (owner call, Oct 2026 —
+       supersedes the earlier "centred heads" rule for ≤749px; desktop unchanged). */
+    .stats-head, .benefits-alt-head, .vreviews-head, .prod-details-head,
+    .reviews-head, .versus .head, .ugc .head, .softness .head, .faq-head, .personas-head {
+      text-align: left; align-items: flex-start;
+    }
+    .stats-head .lead, .benefits-alt-head .lead, .vreviews-head .lead, .versus .head .lead,
+    .ugc .head .lead, .softness .head .lead, .faq-head .lead, .personas-head .lead {
+      margin-left: 0; margin-right: 0; text-align: left;
+    }
+    .reviews-head .summary { justify-content: flex-start; }
+    .personas-head { padding-left: var(--pdp-gutter); padding-right: var(--pdp-gutter); }
+    .personas-track { padding-left: var(--pdp-gutter); padding-right: var(--pdp-gutter); }
+
+    /* [4] Sticky bar on the phone: pack on line 1, colour + free pairs on line 2,
+       shorter button label so nothing truncates. */
+    .sticky-atc { gap: 12px; }
+    .sticky-atc .info { flex: 1 1 auto; }
+    .sticky-atc .info .v { display: block; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sticky-btn-long { display: none; }
+    .hero-price { text-align: center; }
+
+    /* [A2] Legibility floor — no customer-facing text under 12px on the phone */
+    .hero-tag, .gallery-badge, .size .eu, .pack .ribbon, .pack .per, .pack .save, .pack-save-chip,
+    .packs--rows .pack-perk, .packs--rows .save, .packs--rows .pack .ribbon, .packs--rows .pack-tag,
+    .sg-body th, .persona .badge, .vt-h .lab, .rung .level, .rung .corner-flag, .ugc-tile .handle,
+    .review-card .verified, .pack-cta ul li .meta, .pack-cta-card .flag, .pack-cta-card .inc-item .label,
+    .newsletter .legal, .pay-badge, .drawer-item .m, .drawer-foot .note, .buy > .eyebrow, .pill .t .s,
+    .fg-key, .lp-adv-badge-t, .lp-compare-row--head .lp-compare-v, .pg-form label, .pg-table th,
+    .pg-table .cap, .pg-ship .z,
+    .science .eyebrow, .benefits-alt-head .eyebrow, .softness .head .eyebrow,
+    .reviews-head .eyebrow, .expert .eyebrow { font-size: 12px; }
+    .hero-shift-bar .d { font-size: 12px; max-width: 150px; }
+    .vt-cell { font-size: 12.5px; }
+    .vt-cell.feature { font-size: 13px; }
+
+    /* [A3] Tap targets ≥ 44px: footer links, legal row, FAQ contact link */
+    .footer-col a { display: flex; align-items: center; min-height: 44px; padding: 0; }
+    .faq .contact-card a { display: inline-flex; align-items: center; min-height: 44px; }
+  }
+
+  /* [A3] Legal row: each link gets a 44px-tall hit area and never wraps mid-label;
+     a wrapping flex row (gap, not margin-left) so a wrapped link starts flush left. */
+  .footer-bottom .small { display: flex; flex-wrap: wrap; align-items: center; column-gap: 18px; }
+  .footer-bottom .small a { display: inline-flex; align-items: center; min-height: 44px; white-space: nowrap; margin-left: 0; }
+
+  /* ── Review follow-ups (Oct 2026) ── */
+
+  /* Guarantee seal, drawn inline (snippets/aura-guarantee-seal.liquid) so the
+     number follows the « days » setting. Same box as the old <img>. */
+  .guarantee-seal .aura-seal { width: 100%; height: 100%; display: block; }
+  .aura-seal-n { font-family: var(--f-serif); font-size: 300px; fill: #0E1B33; stroke: #0E1B33; stroke-width: 6px; paint-order: stroke; }
+  .aura-seal-j { font-family: var(--f-sans); font-weight: 500; font-size: 64px; letter-spacing: 0.06em; fill: #0E1B33; }
+  .aura-seal-c { font-family: var(--f-sans); font-weight: 700; font-size: 50px; letter-spacing: 0.04em; fill: #0E1B33; }
+
+  /* [C2] the 80 % fill is measured on the glyph alone — the inherited 1px
+     letter-spacing pushed the stop past the star's ink */
+  .stars .star-off { letter-spacing: 0; }
+
+  @media screen and (max-width: 749px) {
+    /* [7] first persona card snaps to the 16px gutter, not the screen edge */
+    .personas-track { scroll-padding-inline: var(--pdp-gutter); }
+
+    /* [14] content pages (guide, livraison, contact, histoire): same left edge */
+    .pg-head, .pg-close, .pg-cta { text-align: left; }
+    .pg-head .lead, .pg-close p { margin-left: 0; margin-right: 0; }
+
+    /* [15] sticky « Ajouter » ≥ 44px tall */
+    .sticky-atc .btn { min-height: 44px; }
+
+    /* No sticky bar on this page → no reserved space under the footer */
+    body:not(:has(.product)) { padding-bottom: 0; }
+    body:not(:has(.product)) footer { padding-bottom: 32px; }
+  }
+
+  /* ══════════ Second critique pass (Oct 2026) ══════════ */
+
+  /* Screen-reader-only live regions (aura-cart.js announcements) */
+  .aura-sr { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  /* Error/confirmation toast clears the sticky bar instead of covering « Ajouter » */
+  body:has(.sticky-atc.show) .aura-toast { bottom: 96px; }
+
+  /* Footer payment badges come from Shopify now (8 methods): let the row wrap
+     instead of pushing the phone layout wider than the screen */
+  .footer-pay { flex-wrap: wrap; }
+
+  /* Buy box — sizes: one column per size (3 today), no empty 4th slot */
+  .sizes[data-aura-sizes] { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 1fr; }
+
+  /* Buy box — per-pair picker: thumb-sized targets. Dots 28px with a 44px
+     invisible hit area; size buttons ≥ 44px wide. */
+  .bp-swatches { gap: 14px; }
+  .bp-swatches .swatch { width: 28px; height: 28px; }
+  .bp-swatches .swatch::before { content: ''; position: absolute; inset: -8px; border-radius: 50%; }
+  .bp-sizes .size { min-width: 44px; min-height: 40px; }
+
+  /* Buy box — ONE delivery sentence with one dot (was two differently styled lines) */
+  .ship-strip.ship-line { display: block; font-size: 13px; line-height: 1.5; padding: 10px 2px; }
+  .ship-line .ship-dot { display: inline-block; vertical-align: 1px; margin-right: 8px; }
+
+  /* « MEILLEURE OFFRE » ribbon: white on green = 4.86:1 (cream was 4.25:1) */
+  .packs--rows .pack .ribbon--value { color: #fff; }
+
+  /* Small inline links in the buy box get a 44px-tall hit area, same look */
+  .buy a[href="#reviews"], .link-like[data-size-guide-open] { display: inline-block; padding: 11px 0; margin: -11px 0; }
+
+  /* Cart drawer: a hidden discount row really hides; empty state replaces the
+     0 € totals + « Paiement »; shipping row turns green once it's free */
+  .drawer-foot .row.drawer-discount-row[hidden] { display: none; }
+  .drawer.is-empty .drawer-foot { display: none; }
+  .drawer-empty { display: flex; flex-direction: column; align-items: stretch; gap: 8px; padding: 28px 0; }
+  .drawer-empty-t { font-family: var(--f-sans); font-weight: 700; font-size: 18px; color: var(--navy); }
+  .drawer-empty-d { font-size: 14px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
+  .drawer-empty .btn { width: 100%; }
+
+  /* Dead-end pages (404, search with no results, empty /cart): one line + the way
+     back to the product (snippets/aura-empty-state.liquid). */
+  .aura-empty { display: flex; flex-direction: column; align-items: center; gap: 14px; max-width: 460px; margin: 18px auto 0; text-align: center; }
+  .aura-empty-d { margin: 0; font-size: 15.5px; line-height: 1.55; color: var(--muted); }
+  .aura-empty-actions { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .aura-empty-link { padding: 10px 4px; font-size: 14.5px; color: var(--navy); text-decoration: underline; text-underline-offset: 3px; }
+  .drawer-shipping { font-weight: 600; color: var(--muted); }
+  .drawer-shipping.is-free { color: var(--green); }
+
+  /* Desktop: the sticky add-to-cart bar now shows there too (the buy box is
+     long when a pack is open, so « Ajouter » ended up below the fold) */
+  @media screen and (min-width: 750px) {
+    body:has(.product) .sticky-atc { display: flex; max-width: 760px; }
+    #sticky-thumb { display: none; }   /* legacy colour square: empty on this buy box */
+    .sticky-atc .info { flex: 1 1 auto; }
+    .sticky-atc .info .v { display: block; }
+  }
+
+  @media screen and (max-width: 749px) {
+    /* Per-pair picker on the phone: label + colours on line 1, three
+       full-width size buttons on line 2 */
+    .bundle-pair { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 10px 12px; padding: 12px 0; }
+    .bp-swatches { justify-content: flex-start; }
+    .bp-sizes { grid-column: 1 / -1; margin-left: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .bp-sizes .size { min-height: 44px; min-width: 0; }
   }

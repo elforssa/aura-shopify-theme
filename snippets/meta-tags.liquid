@@ -5,7 +5,13 @@
   assign og_title = page_title | default: shop.name | replace: 'Bas de contention', 'Chaussettes de compression'
   assign og_url = canonical_url | default: request.origin
   assign og_type = 'website'
-  assign og_description = page_description | default: shop.description | default: shop.name | replace: 'Bas de contention', 'Chaussettes de compression' | replace: 'bas de contention', 'chaussettes de compression' | replace: 'compression médicale graduée', 'compression graduée' | replace: 'compression médicale', 'compression graduée'
+  # meta_desc (passed by layout/theme.liquid) already carries the per-page
+  # fallback text, so share previews match the Google snippet instead of
+  # repeating the homepage description on every page.
+  assign og_description = meta_desc | default: page_description | default: shop.description | default: shop.name | replace: 'Bas de contention', 'Chaussettes de compression' | replace: 'bas de contention', 'chaussettes de compression' | replace: 'compression médicale graduée', 'compression graduée' | replace: 'compression médicale', 'compression graduée'
+  capture og_description
+    render 'aura-copy-mask', text: og_description
+  endcapture
 
   if request.page_type == 'product'
     assign og_type = 'product'

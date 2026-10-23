@@ -75,6 +75,9 @@
         {%- if section.settings.cta2_label != blank -%}
           <a href="{{ section.settings.cta2_url | default: '#science' }}" class="btn btn-ghost">{{ section.settings.cta2_label | escape }}</a>
         {%- endif -%}
+        {%- if section.settings.price_note != blank -%}
+          <p class="hero-price">{{ section.settings.price_note }}</p>
+        {%- endif -%}
       </div>
       {%- if section.blocks.size > 0 -%}
         <div class="hero-proof">
@@ -94,7 +97,13 @@
 
     <div class="hero-visual">
       {%- if section.settings.image != blank -%}
-        {{ section.settings.image | image_url: width: 1200 | image_tag: widths: '375,550,750,1100,1200', sizes: '(min-width: 980px) 45vw, 100vw', fetchpriority: 'high', loading: 'eager', style: 'width:100%;height:100%;object-fit:cover;' }}
+        {%- liquid
+          assign hero_alt = section.settings.image.alt
+          if hero_alt == blank
+            assign hero_alt = section.settings.image_alt
+          endif
+        -%}
+        {{ section.settings.image | image_url: width: 1200 | image_tag: widths: '375,550,750,1100,1200', sizes: '(min-width: 980px) 45vw, 100vw', fetchpriority: 'high', loading: 'eager', alt: hero_alt, style: 'width:100%;height:100%;object-fit:cover;' }}
       {%- else -%}
         <div class="ph"><span class="ph-label">{{ section.settings.image_label | escape }}</span></div>
       {%- endif -%}
@@ -176,7 +185,7 @@
       "type": "html",
       "id": "rating_text",
       "label": "Rating text",
-      "default": "<strong>4,8</strong> · 150+ avis vérifiés d'infirmières"
+      "default": "<strong>4,8</strong> · 150+ avis d'infirmières"
     },
     {
       "type": "html",
@@ -213,6 +222,13 @@
       "label": "Secondary CTA link"
     },
     {
+      "type": "html",
+      "id": "price_note",
+      "label": "Ligne prix sous le bouton",
+      "info": "Même prix d'ancrage que la fiche produit. Laisser vide pour masquer.",
+      "default": "À partir de <strong>17&nbsp;€</strong> / paire · jusqu'à −50&nbsp;% avec les packs"
+    },
+    {
       "type": "header",
       "content": "Visual"
     },
@@ -220,6 +236,13 @@
       "type": "image_picker",
       "id": "image",
       "label": "Lifestyle image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Texte alternatif de l'image",
+      "info": "Utilisé si l'image n'a pas déjà un texte alternatif dans Fichiers. Décrivez la photo pour les lecteurs d'écran.",
+      "default": "Infirmière assise portant les chaussettes de compression Aura bordeaux"
     },
     {
       "type": "text",
@@ -302,7 +325,7 @@
           "type": "proof",
           "settings": {
             "icon": "shield",
-            "label": "Satisfait ou remboursé 30 jours"
+            "label": "Satisfaite ou remboursée 60 jours"
           }
         }
       ]

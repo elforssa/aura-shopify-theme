@@ -15,11 +15,14 @@
       <div class="footer-brand">
         <div class="logo">{{ section.settings.logo_text | escape }}</div>
         {%- if section.settings.tagline != blank -%}<p>{{ section.settings.tagline | escape }}</p>{%- endif -%}
+        {%- comment -%} Only networks with a real URL are shown (blank → no dead « # » link). {%- endcomment -%}
+        {%- if section.settings.instagram != blank or section.settings.tiktok != blank or section.settings.facebook != blank -%}
         <div class="socials">
-          <a href="{{ section.settings.instagram | default: '#' }}" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2" width="12" height="12" rx="3"/><circle cx="8" cy="8" r="2.5"/><circle cx="11.5" cy="4.5" r="0.5" fill="currentColor"/></svg></a>
-          <a href="{{ section.settings.tiktok | default: '#' }}" aria-label="TikTok"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M9 2v8.5a2.5 2.5 0 1 1-2.5-2.5"/><path d="M9 2c.5 2 2 3 4 3"/></svg></a>
-          <a href="{{ section.settings.facebook | default: '#' }}" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M10 5h-1.5a1 1 0 0 0-1 1V8m0 0v6m0-6H6m1.5 0H10"/></svg></a>
+          {%- if section.settings.instagram != blank -%}<a href="{{ section.settings.instagram }}" target="_blank" rel="noopener" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2" width="12" height="12" rx="3"/><circle cx="8" cy="8" r="2.5"/><circle cx="11.5" cy="4.5" r="0.5" fill="currentColor"/></svg></a>{%- endif -%}
+          {%- if section.settings.tiktok != blank -%}<a href="{{ section.settings.tiktok }}" target="_blank" rel="noopener" aria-label="TikTok"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M9 2v8.5a2.5 2.5 0 1 1-2.5-2.5"/><path d="M9 2c.5 2 2 3 4 3"/></svg></a>{%- endif -%}
+          {%- if section.settings.facebook != blank -%}<a href="{{ section.settings.facebook }}" target="_blank" rel="noopener" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M10 5h-1.5a1 1 0 0 0-1 1V8m0 0v6m0-6H6m1.5 0H10"/></svg></a>{%- endif -%}
         </div>
+        {%- endif -%}
       </div>
 
       {%- for block in section.blocks -%}
@@ -44,8 +47,8 @@
     <div class="footer-bottom">
       <div class="small">{{ section.settings.legal_line }}</div>
       <div class="footer-pay">
-        {%- assign badges = section.settings.pay_badges | split: ',' -%}
-        {%- for b in badges -%}<span class="pay-badge">{{ b | strip | escape }}</span>{%- endfor -%}
+        {%- comment -%} Badges = the methods actually enabled in Shopify (same source as the cart note); the setting is only a fallback. {%- endcomment -%}
+        {%- render 'aura-payment-methods', style: 'badges', fallback: section.settings.pay_badges -%}
       </div>
     </div>
   </div>
@@ -91,8 +94,8 @@
     {
       "type": "text",
       "id": "pay_badges",
-      "label": "Payment badges (comma-separated)",
-      "default": "VISA, MC, CB, PayPal, Apple Pay, Klarna"
+      "label": "Moyens de paiement (secours)", "info": "Les badges affichent automatiquement les moyens activés dans Shopify. Cette liste ne sert que si Shopify n'en renvoie aucun.",
+      "default": "CB, Visa, Mastercard, PayPal, Apple Pay"
     }
   ],
   "blocks": [

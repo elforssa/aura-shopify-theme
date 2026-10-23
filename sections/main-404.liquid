@@ -1,3 +1,13 @@
+{% comment %}
+  ----------------------------------------------------------------------------
+  Section: main-404 (Aura)
+  ----------------------------------------------------------------------------
+  @description
+    Page-not-found with a way back to the product instead of Dawn's generic
+    « Continuer les achats ». Copy is editable in the theme editor; the button
+    and link come from snippets/aura-empty-state.liquid.
+  ----------------------------------------------------------------------------
+{% endcomment %}
 <style type="text/css">
   .template-404 .title + * {
     margin-top: 1rem;
@@ -15,9 +25,26 @@
     {{ 'templates.404.subtext' | t }}
   </p>
   <h1 class="title">
-    {{ 'templates.404.title' | t }}
+    {{ section.settings.heading | escape }}
   </h1>
-  <a href="{{ routes.all_products_collection_url }}" class="button">
-    {{ 'general.continue_shopping' | t }}
-  </a>
+  {%- assign link_url = section.settings.link_url | default: '/pages/contact' -%}
+  {%- render 'aura-empty-state',
+    text: section.settings.text,
+    button_label: section.settings.button_label,
+    link_label: section.settings.link_label,
+    link_url: link_url
+  -%}
 </div>
+
+{% schema %}
+{
+  "name": "Page 404",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Cette page est introuvable." },
+    { "type": "textarea", "id": "text", "label": "Texte", "default": "Le lien est peut-être ancien ou mal saisi. Nos chaussettes de compression, elles, sont toujours là." },
+    { "type": "text", "id": "button_label", "label": "Bouton (vers la fiche produit)", "default": "Découvrir Aura" },
+    { "type": "text", "id": "link_label", "label": "Lien secondaire — libellé", "default": "Nous écrire" },
+    { "type": "url", "id": "link_url", "label": "Lien secondaire — URL (contact par défaut)" }
+  ]
+}
+{% endschema %}

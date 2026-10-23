@@ -1,0 +1,17 @@
+{%- comment -%}
+  ----------------------------------------------------------------------------
+  Snippet: aura-money
+  ----------------------------------------------------------------------------
+  Server-side twin of money() in assets/aura-cart.js: « 68 € », « 34,50 € »
+  (French order, no « ,00 »), so the drawer reads the same before and after
+  the cart script re-renders it, whatever the store's money format.
+
+  @param {number} cents - amount in cents
+  ----------------------------------------------------------------------------
+{%- endcomment -%}
+{%- liquid
+  unless cents == blank
+    assign aura_amount = cents | money_without_currency | remove: ',00'
+    echo aura_amount | append: ' €'
+  endunless
+-%}

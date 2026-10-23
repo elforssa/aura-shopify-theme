@@ -10,19 +10,24 @@
 
 <div class="sticky-atc" id="sticky-atc">
   <div class="thumb" id="sticky-thumb" style="background:#F4EFE7"></div>
+  {%- comment -%}
+    Line 1 = the chosen pack, line 2 = colour + free pairs (or size for a single
+    pair) — short enough never to truncate on a phone. The buy box
+    (aura-featured-product) keeps these in sync.
+  {%- endcomment -%}
   <div class="info">
-    <div class="n">Aura — <span id="sticky-color">Bordeaux</span></div>
-    <div class="v">Taille <span id="sticky-size">à choisir</span></div>
+    <div class="n" id="sticky-pack">1 paire</div>
+    <div class="v"><span id="sticky-color">Bordeaux</span> · <span id="sticky-size">taille à choisir</span></div>
   </div>
-  <div class="price"><span id="sticky-price">34 €</span></div>
-  <button class="btn btn-coral" id="sticky-btn">Ajouter au panier <span class="arrow">→</span></button>
+  <div class="price"><span id="sticky-price">34 €</span><s class="was" id="sticky-was" hidden></s></div>
+  <button class="btn btn-coral" id="sticky-btn" aria-label="Ajouter au panier">Ajouter<span class="sticky-btn-long"> au panier</span> <span class="arrow">→</span></button>
 </div>
 
 <div class="drawer-overlay" id="drawer-overlay"></div>
-<aside class="drawer" id="drawer" aria-label="Panier">
+<aside class="drawer{% if cart.item_count == 0 %} is-empty{% endif %}" id="drawer" aria-label="Panier" data-free-shipping="6000">
   <div class="drawer-head">
     <div class="h">Votre panier <span class="count" id="drawer-count">{{ cart.item_count }} {% if cart.item_count == 1 %}article{% else %}articles{% endif %}</span></div>
-    <button class="drawer-close" id="drawer-close" aria-label="Fermer">
+    <button class="drawer-close" id="drawer-close" aria-label="Fermer le panier">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 3l8 8M11 3l-8 8"/></svg>
     </button>
   </div>
@@ -34,22 +39,24 @@
         <div>
           <div class="n">{{ it.product.title | default: it.title | replace: 'Bas de contention', 'Chaussettes de compression' }}</div>
           <div class="m">{{ it.variant.title }}</div>
-          <div class="qty"><button data-dec>−</button><span>{{ it.quantity }}</span><button data-inc>+</button></div>
+          <div class="qty"><button type="button" data-dec aria-label="Retirer une paire">−</button><span>{{ it.quantity }}</span><button type="button" data-inc aria-label="Ajouter une paire">+</button></div>
         </div>
-        <div class="p">{{ it.final_line_price | money }}</div>
+        <div class="p">{% render 'aura-money', cents: it.final_line_price %}</div>
       </div>
     {%- else -%}
-      <p style="padding:24px 0;color:var(--muted);font-size:14px;">Votre panier est vide.</p>
+      {%- render 'aura-drawer-empty' -%}
     {%- endfor -%}
   </div>
+  {%- comment -%} Re-used by aura-cart.js whenever the cart becomes empty. {%- endcomment -%}
+  <template id="drawer-empty-tpl">{%- render 'aura-drawer-empty' -%}</template>
 
   <div class="drawer-foot">
-    <div class="row"><span>Sous-total</span><span id="drawer-subtotal">{{ cart.total_price | money }}</span></div>
-    <div class="row drawer-discount-row" id="drawer-discount-row"{% if cart.total_discount <= 0 %} hidden{% endif %}><span>Réduction</span><span id="drawer-discount" style="color:var(--green);font-weight:600">−{{ cart.total_discount | money }}</span></div>
-    <div class="row"><span>Livraison</span><span style="color:var(--coral-deep);font-weight:600">Calculée au paiement</span></div>
-    <div class="row total"><span>Total</span><span id="drawer-total">{{ cart.total_price | money }}</span></div>
-    <button class="btn btn-coral" id="drawer-checkout">Paiement <span class="arrow">→</span></button>
-    <div class="note">Paiement sécurisé · CB · Apple Pay · PayPal · Klarna</div>
+    <div class="row"><span>Sous-total</span><span id="drawer-subtotal">{% render 'aura-money', cents: cart.total_price %}</span></div>
+    <div class="row drawer-discount-row" id="drawer-discount-row"{% if cart.total_discount <= 0 %} hidden{% endif %}><span>Réduction</span><span id="drawer-discount" style="color:var(--green);font-weight:600">−{% render 'aura-money', cents: cart.total_discount %}</span></div>
+    <div class="row"><span>Livraison</span><span id="drawer-shipping" class="drawer-shipping{% if cart.total_price >= 6000 %} is-free{% endif %}">{% if cart.total_price >= 6000 %}Offerte{% else %}Offerte dès 60&nbsp;€{% endif %}</span></div>
+    <div class="row total"><span>Total</span><span id="drawer-total">{% render 'aura-money', cents: cart.total_price %}</span></div>
+    <button class="btn btn-coral" id="drawer-checkout">Passer au paiement <span class="arrow">→</span></button>
+    <div class="note">Paiement sécurisé · {% render 'aura-payment-methods', style: 'text' %}</div>
   </div>
 </aside>
 

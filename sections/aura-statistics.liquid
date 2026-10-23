@@ -3,7 +3,7 @@
   Section: Aura Statistics (FR)
   ----------------------------------------------------------------------------
   @description
-    "Les vrais chiffres" — eyebrow + heading, then a row of big-number stat
+    "Ce que nous garantissons" — eyebrow + heading, then a row of big-number stat
     blocks (number + suffix + label + optional graduated bar). Styles live in
     assets/aura-v2.css (.stats). Each stat is an editable block.
   @blocks
@@ -34,18 +34,18 @@
   "tag": "section",
   "max_blocks": 4,
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Les vrais chiffres" },
-    { "type": "html", "id": "heading", "label": "Heading", "default": "Vos fins de garde, en chiffres." },
-    { "type": "text", "id": "lead", "label": "Subheading", "default": "D'après les retours des infirmières qui portent Aura en garde." }
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Ce que nous garantissons" },
+    { "type": "html", "id": "heading", "label": "Heading", "default": "Des chiffres que l'on tient." },
+    { "type": "text", "id": "lead", "label": "Subheading", "default": "Uniquement des engagements vérifiables : la pression mesurée, l'expédition et le remboursement." }
   ],
   "blocks": [
     {
       "type": "stat",
       "name": "Stat",
       "settings": [
-        { "type": "text", "id": "number", "label": "Number", "default": "94" },
-        { "type": "text", "id": "suffix", "label": "Suffix", "default": "%" },
-        { "type": "textarea", "id": "label", "label": "Label", "default": "ressentent moins de jambes lourdes" },
+        { "type": "text", "id": "number", "label": "Number", "default": "18–25" },
+        { "type": "text", "id": "suffix", "label": "Suffix" },
+        { "type": "textarea", "id": "label", "label": "Label", "default": "mmHg de compression graduée, vérifiée en pression" },
         { "type": "checkbox", "id": "highlight", "label": "Highlight this stat", "default": false }
       ]
     }
@@ -54,10 +54,10 @@
     {
       "name": "Aura Statistics",
       "blocks": [
-        { "type": "stat", "settings": { "number": "94", "suffix": "%", "label": "ressentent moins de jambes lourdes" } },
-        { "type": "stat", "settings": { "number": "8", "suffix": "h", "label": "de maintien sans glisser, garde après garde", "highlight": true } },
-        { "type": "stat", "settings": { "number": "0", "suffix": "", "label": "marque rouge en fin de journée" } },
-        { "type": "stat", "settings": { "number": "100", "suffix": "%", "label": "testés en garde réelle avant d'être validés" } }
+        { "type": "stat", "settings": { "number": "18–25", "suffix": "", "label": "mmHg de compression graduée, vérifiée en pression" } },
+        { "type": "stat", "settings": { "number": "60", "suffix": "jours", "label": "pour être remboursée, même après les avoir portées", "highlight": true } },
+        { "type": "stat", "settings": { "number": "24", "suffix": "h", "label": "pour expédier votre commande" } },
+        { "type": "stat", "settings": { "number": "0", "suffix": "", "label": "couture à la pointe, aucun point de pression" } }
       ]
     }
   ]

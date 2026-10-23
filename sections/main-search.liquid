@@ -142,6 +142,8 @@
         {%- endunless -%}
         {%- if search.results_count == 0 and search.filters == empty -%}
           <p role="status">{{ 'templates.search.no_results' | t: terms: search.terms }}</p>
+          {%- comment -%} Aura: one product, so a no-result search always leads back to it. {%- endcomment -%}
+          {%- render 'aura-empty-state', button_label: section.settings.no_results_button_label -%}
         {%- endif -%}
       {%- endif -%}
     </div>
@@ -523,6 +525,16 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Aucun résultat"
+    },
+    {
+      "type": "text",
+      "id": "no_results_button_label",
+      "label": "Bouton vers la fiche produit",
+      "default": "Voir les chaussettes Aura"
     }
   ]
 }

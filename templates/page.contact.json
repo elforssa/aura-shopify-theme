@@ -13,7 +13,12 @@
       "type": "aura-page-contact",
       "settings": {
         "email": "contact@auralegs.com",
-        "address": "AURALEGION LLC · 2403 Rooks Ave, Cheyenne, WY 82007, USA"
+        "address": "AURALEGION LLC · 2403 Rooks Ave, Cheyenne, WY 82007, USA",
+        "lead": "Taille, retour, commande : posez la question telle qu'elle vous vient. Une personne de l'équipe vous répond sous 48 h ouvrées, du lundi au vendredi.",
+        "card1_title": "Par e-mail",
+        "card1_body": "Vous préférez votre messagerie ? Écrivez-nous directement :",
+        "success_text": "Message bien reçu. Une personne de l'équipe vous répond sous 48 h ouvrées.",
+        "q3_body": "60 jours pour changer d'avis, même portées en garde. La marche à suivre tient en trois étapes."
       }
     }
   },

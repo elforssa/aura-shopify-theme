@@ -20,7 +20,11 @@
     {%- endif -%}
 
     {%- assign desc = section.settings.description -%}
-    {%- if product != blank and product.description != blank -%}{%- assign desc = product.description | strip_html -%}{%- endif -%}
+    {%- if product != blank and product.description != blank -%}
+      {%- comment -%} aura-copy-mask adds French non-breaking spaces to the admin description. {%- endcomment -%}
+      {%- assign desc_plain = product.description | strip_html -%}
+      {%- capture desc -%}{%- render 'aura-copy-mask', text: desc_plain -%}{%- endcapture -%}
+    {%- endif -%}
 
     <div class="buy-accordions">
       {%- if desc != blank -%}<details class="product-accordion"><summary>{{ section.settings.desc_label | default: 'Description' | escape }}<span class="acc-plus"></span></summary><div class="acc-body">{{ desc }}</div></details>{%- endif -%}
@@ -44,7 +48,7 @@
     { "type": "text", "id": "shipping_label", "label": "Shipping label", "default": "Livraison" },
     { "type": "richtext", "id": "shipping_text", "label": "Livraison", "default": "<p>Livraison offerte dès 60 € (France et Europe), en 5 à 7 jours ouvrés. Expédié sous 24 h, suivi par e-mail.</p>" },
     { "type": "text", "id": "returns_label", "label": "Returns label", "default": "Retours & échanges" },
-    { "type": "richtext", "id": "returns_text", "label": "Retours & échanges", "default": "<p>30 jours pour changer d'avis. Retours et échanges gratuits, même portées une garde.</p>" }
+    { "type": "richtext", "id": "returns_text", "label": "Retours & échanges", "default": "<p>60 jours pour changer d'avis, même portées en garde : remboursement intégral. Les frais de retour sont à votre charge, sauf article défectueux ou erreur de notre part.</p>" }
   ],
   "presets": [
     { "name": "Aura Product Details" }
